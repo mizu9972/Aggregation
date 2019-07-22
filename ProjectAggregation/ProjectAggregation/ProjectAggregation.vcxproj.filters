@@ -26,5 +26,11 @@
     <ClInclude Include="Souce\WindowSetting.h">
       <Filter>ヘッダー ファイル\config</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\CCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\definer.h">
+      <Filter>ヘッダー ファイル\config</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

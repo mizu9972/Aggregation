@@ -84,6 +84,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,6 +119,8 @@
     <ClCompile Include="Souce\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Souce\CCamera.h" />
+    <ClInclude Include="Souce\definer.h" />
     <ClInclude Include="Souce\WindowSetting.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
