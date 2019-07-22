@@ -116,12 +116,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Souce\CDirectXGraphics.cpp" />
+    <ClCompile Include="Souce\CGameMain.cpp" />
+    <ClCompile Include="Souce\DDSTextureLoader.cpp" />
+    <ClCompile Include="Souce\dx11mathutil.cpp" />
+    <ClCompile Include="Souce\dx11util.cpp" />
     <ClCompile Include="Souce\main.cpp" />
+    <ClCompile Include="Souce\Shader.cpp" />
+    <ClCompile Include="Souce\WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\CCamera.h" />
+    <ClInclude Include="Souce\CDirectInput.h" />
+    <ClInclude Include="Souce\CDirectxGraphics.h" />
+    <ClInclude Include="Souce\CGameMain.h" />
+    <ClInclude Include="Souce\CLight.h" />
     <ClInclude Include="Souce\definer.h" />
+    <ClInclude Include="Souce\dx11mathutil.h" />
+    <ClInclude Include="Souce\DX11Settransform.h" />
+    <ClInclude Include="Souce\DX11util.h" />
+    <ClInclude Include="Souce\Shader.h" />
     <ClInclude Include="Souce\WindowSetting.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

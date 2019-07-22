@@ -12,6 +12,7 @@
 #include <thread>
 #include <crtdbg.h>
 
+#include "CGameMain.h"
 #include "WindowSetting.h"
 //-----------------------------------------------------------------------------
 // マクロの定義
@@ -137,11 +138,11 @@ int APIENTRY WinMain(HINSTANCE 	hInstance, 		// アプリケーションのハンドル
 	UpdateWindow(hwnd);
 
 	//// ゲームの初期処理
-	//if (!CGameMain::GetInstance()->GameInit(hInstance, hwnd, SCREEN_X, SCREEN_Y, FULLSCREEN)) {
-	//	CGameMain::GetInstance()->GameExit();
-	//	MessageBox(hwnd, "ERROR!", "GameInit Error", MB_OK);
-	//	return false;
-	//}
+	if (!CGameMain::GetInstance()->Init(hInstance, hwnd, SCREEN_X, SCREEN_Y, FULLSCREEN)) {
+		CGameMain::GetInstance()->Exit();
+		MessageBox(hwnd, "ERROR!", "GameInit Error", MB_OK);
+		return false;
+	}
 
 	// メッセージループ
 	while (1)
@@ -184,6 +185,8 @@ int APIENTRY WinMain(HINSTANCE 	hInstance, 		// アプリケーションのハンドル
 				// 最終実行時間に現在時間をセット
 				dwExecLastTime = dwCurrentTime;
 
+				//ゲーム処理
+				CGameMain::GetInstance()->Main();
 
 				// フレーム数をインクリメント
 				dwFrameCount++;

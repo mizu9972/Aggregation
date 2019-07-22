@@ -16,21 +16,93 @@
     <Filter Include="ヘッダー ファイル\config">
       <UniqueIdentifier>{313970fc-7d0c-4a49-89ad-4e0505c65b55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\class">
+      <UniqueIdentifier>{75a668d3-af9f-4d15-a49f-ac1f73e5028f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\class\main">
+      <UniqueIdentifier>{91aa1edf-9679-408b-b73e-f045f89be08c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\class">
+      <UniqueIdentifier>{84b3b556-fde1-4085-8d9e-f91051eb0209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\class\main">
+      <UniqueIdentifier>{76ea1f36-5810-4609-b402-7aca5e84c56b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\DirectXUtil">
+      <UniqueIdentifier>{e8045fdc-329a-405b-bf70-96b56faf9324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\DirectXUtil">
+      <UniqueIdentifier>{f61d3c37-6139-4222-85bc-46cf6130ac90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\class\light">
+      <UniqueIdentifier>{4729af79-9f8d-49c0-b603-acd4ce2f1215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\FileLoader">
+      <UniqueIdentifier>{434734bc-3515-4524-9657-fed34c99a2f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Souce\main.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\CGameMain.cpp">
+      <Filter>ソース ファイル\class\main</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\dx11mathutil.cpp">
+      <Filter>ソース ファイル\DirectXUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\dx11util.cpp">
+      <Filter>ソース ファイル\DirectXUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\CDirectXGraphics.cpp">
+      <Filter>ソース ファイル\DirectXUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\Shader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\WICTextureLoader.cpp">
+      <Filter>ヘッダー ファイル\FileLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\DDSTextureLoader.cpp">
+      <Filter>ヘッダー ファイル\FileLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
       <Filter>ヘッダー ファイル\config</Filter>
     </ClInclude>
-    <ClInclude Include="Souce\CCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Souce\definer.h">
       <Filter>ヘッダー ファイル\config</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\CCamera.h">
+      <Filter>ヘッダー ファイル\class\main</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CGameMain.h">
+      <Filter>ヘッダー ファイル\class\main</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\dx11mathutil.h">
+      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\DX11Settransform.h">
+      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\DX11util.h">
+      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CDirectInput.h">
+      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CDirectxGraphics.h">
+      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CLight.h">
+      <Filter>ヘッダー ファイル\class\light</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\Shader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

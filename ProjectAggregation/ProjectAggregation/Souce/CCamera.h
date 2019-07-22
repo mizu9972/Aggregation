@@ -1,6 +1,8 @@
 #pragma once
 #include	<directxmath.h>
 #include    "definer.h"
+
+using namespace DirectX;
 //カメラシングルトンクラス
 class CCamera {
 private:
@@ -14,7 +16,7 @@ public:
 	CCamera operator = (CCamera&&) = delete;
 
 	static CCamera* GetInstance() {
-		CCamera instance;
+		static CCamera instance;
 		return &instance;
 	}
 
