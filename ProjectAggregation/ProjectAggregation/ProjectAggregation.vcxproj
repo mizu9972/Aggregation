@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\directxtex\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\directxtex\lib\Win32\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -121,7 +124,9 @@
     <ClCompile Include="Souce\DDSTextureLoader.cpp" />
     <ClCompile Include="Souce\dx11mathutil.cpp" />
     <ClCompile Include="Souce\dx11util.cpp" />
+    <ClCompile Include="Souce\FileLoader.cpp" />
     <ClCompile Include="Souce\main.cpp" />
+    <ClCompile Include="Souce\PmdLoader.cpp" />
     <ClCompile Include="Souce\Shader.cpp" />
     <ClCompile Include="Souce\WICTextureLoader.cpp" />
   </ItemGroup>
@@ -135,11 +140,16 @@
     <ClInclude Include="Souce\dx11mathutil.h" />
     <ClInclude Include="Souce\DX11Settransform.h" />
     <ClInclude Include="Souce\DX11util.h" />
+    <ClInclude Include="Souce\FileLoader.h" />
+    <ClInclude Include="Souce\PmdLoader.h" />
     <ClInclude Include="Souce\Shader.h" />
     <ClInclude Include="Souce\WindowSetting.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Text\PMX仕様.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

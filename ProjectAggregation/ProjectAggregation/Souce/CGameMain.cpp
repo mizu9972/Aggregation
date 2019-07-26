@@ -6,9 +6,7 @@
 #include "definer.h"
 #include "DX11Settransform.h"
 
-#include <DirectXMath.h>
 
-using namespace DirectX;
 //-----------------------------------------------
 //ゲームメイン処理クラス
 //-----------------------------------------------

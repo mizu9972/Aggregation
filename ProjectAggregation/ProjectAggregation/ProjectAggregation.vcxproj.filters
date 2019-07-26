@@ -40,6 +40,21 @@
     <Filter Include="ヘッダー ファイル\FileLoader">
       <UniqueIdentifier>{434734bc-3515-4524-9657-fed34c99a2f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Text">
+      <UniqueIdentifier>{2669a392-cd01-40bb-87a4-8cc9b8283aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\class\File">
+      <UniqueIdentifier>{9becefa3-ffd4-4abe-980d-5842f01452cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\class\File">
+      <UniqueIdentifier>{47a15b61-75ec-4cad-8c4d-708129a44865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\class\File\Pmd">
+      <UniqueIdentifier>{9b1339e4-5ec1-4b20-a65d-ab27eec0c974}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\class\File\Pmd">
+      <UniqueIdentifier>{66c34880-b551-4f9e-9b22-dd8e2be98c3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Souce\main.cpp">
@@ -65,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="Souce\DDSTextureLoader.cpp">
       <Filter>ヘッダー ファイル\FileLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\PmdLoader.cpp">
+      <Filter>ソース ファイル\class\File\Pmd</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\FileLoader.cpp">
+      <Filter>ソース ファイル\class\File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,8 +122,19 @@
     <ClInclude Include="Souce\Shader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\PmdLoader.h">
+      <Filter>ヘッダー ファイル\class\File\Pmd</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\FileLoader.h">
+      <Filter>ヘッダー ファイル\class\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Text\PMX仕様.txt">
+      <Filter>リソース ファイル\Text</Filter>
+    </Text>
   </ItemGroup>
 </Project>
