@@ -164,4 +164,4 @@ struct ModelMaterial
 	Vector4		Speqular;		//スペキュラ
 	Vector4		Ambient;		//アンビエント
 	float		Power;			//反射の強さ
-}
+};

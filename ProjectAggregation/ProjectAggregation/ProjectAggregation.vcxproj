@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{2D5F72E3-4216-4AE6-8165-14DB704D6561}</ProjectGuid>
     <RootNamespace>ProjectAggregation</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,8 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\directxtex\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\directxtex\lib\Win32\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\directxtex\include;D:\2019.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\2019.0\lib\vs2015\x86\debug;C:\directxtex\lib\Win32\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\2019.0\include;C:\directxtex\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\2019.0\lib\vs2015\x64\debug;C:\directxtex\lib\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,6 +83,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,10 +129,12 @@
     <ClCompile Include="Souce\DDSTextureLoader.cpp" />
     <ClCompile Include="Souce\dx11mathutil.cpp" />
     <ClCompile Include="Souce\dx11util.cpp" />
+    <ClCompile Include="Souce\FbxModel.cpp" />
     <ClCompile Include="Souce\FileLoader.cpp" />
     <ClCompile Include="Souce\main.cpp" />
     <ClCompile Include="Souce\PmdLoader.cpp" />
     <ClCompile Include="Souce\Shader.cpp" />
+    <ClCompile Include="Souce\Utility.cpp" />
     <ClCompile Include="Souce\WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -141,9 +148,11 @@
     <ClInclude Include="Souce\DX11Settransform.h" />
     <ClInclude Include="Souce\DX11util.h" />
     <ClInclude Include="Souce\Element.h" />
+    <ClInclude Include="Souce\FbxModel.h" />
     <ClInclude Include="Souce\FileLoader.h" />
     <ClInclude Include="Souce\PmdLoader.h" />
     <ClInclude Include="Souce\Shader.h" />
+    <ClInclude Include="Souce\Utility.h" />
     <ClInclude Include="Souce\WindowSetting.h" />
   </ItemGroup>
   <ItemGroup>

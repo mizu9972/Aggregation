@@ -28,12 +28,6 @@
     <Filter Include="ソース ファイル\class\main">
       <UniqueIdentifier>{76ea1f36-5810-4609-b402-7aca5e84c56b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\DirectXUtil">
-      <UniqueIdentifier>{e8045fdc-329a-405b-bf70-96b56faf9324}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\DirectXUtil">
-      <UniqueIdentifier>{f61d3c37-6139-4222-85bc-46cf6130ac90}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\class\light">
       <UniqueIdentifier>{4729af79-9f8d-49c0-b603-acd4ce2f1215}</UniqueIdentifier>
     </Filter>
@@ -55,6 +49,24 @@
     <Filter Include="ソース ファイル\class\File\Pmd">
       <UniqueIdentifier>{66c34880-b551-4f9e-9b22-dd8e2be98c3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\class\File\Fbx">
+      <UniqueIdentifier>{3747371d-a89e-4bdc-8e80-38bae2c6f7f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\class\File\Fbx">
+      <UniqueIdentifier>{7c793e7b-45b1-43be-9e45-9e7a4cf12e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Utility">
+      <UniqueIdentifier>{596502a8-9a5c-485c-bff2-cc59788f39c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Utility\DirectXUtil">
+      <UniqueIdentifier>{f61d3c37-6139-4222-85bc-46cf6130ac90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Utility">
+      <UniqueIdentifier>{035f35fa-4c82-4603-91da-f37cb8c8c087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Utility\DirectXUtil">
+      <UniqueIdentifier>{e8045fdc-329a-405b-bf70-96b56faf9324}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Souce\main.cpp">
@@ -64,13 +76,13 @@
       <Filter>ソース ファイル\class\main</Filter>
     </ClCompile>
     <ClCompile Include="Souce\dx11mathutil.cpp">
-      <Filter>ソース ファイル\DirectXUtil</Filter>
+      <Filter>ソース ファイル\Utility\DirectXUtil</Filter>
     </ClCompile>
     <ClCompile Include="Souce\dx11util.cpp">
-      <Filter>ソース ファイル\DirectXUtil</Filter>
+      <Filter>ソース ファイル\Utility\DirectXUtil</Filter>
     </ClCompile>
     <ClCompile Include="Souce\CDirectXGraphics.cpp">
-      <Filter>ソース ファイル\DirectXUtil</Filter>
+      <Filter>ソース ファイル\Utility\DirectXUtil</Filter>
     </ClCompile>
     <ClCompile Include="Souce\Shader.cpp">
       <Filter>ソース ファイル</Filter>
@@ -87,6 +99,12 @@
     <ClCompile Include="Souce\FileLoader.cpp">
       <Filter>ソース ファイル\class\File</Filter>
     </ClCompile>
+    <ClCompile Include="Souce\FbxModel.cpp">
+      <Filter>ソース ファイル\class\File\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\Utility.cpp">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
@@ -102,19 +120,19 @@
       <Filter>ヘッダー ファイル\class\main</Filter>
     </ClInclude>
     <ClInclude Include="Souce\dx11mathutil.h">
-      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+      <Filter>ヘッダー ファイル\Utility\DirectXUtil</Filter>
     </ClInclude>
     <ClInclude Include="Souce\DX11Settransform.h">
-      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+      <Filter>ヘッダー ファイル\Utility\DirectXUtil</Filter>
     </ClInclude>
     <ClInclude Include="Souce\DX11util.h">
-      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+      <Filter>ヘッダー ファイル\Utility\DirectXUtil</Filter>
     </ClInclude>
     <ClInclude Include="Souce\CDirectInput.h">
-      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+      <Filter>ヘッダー ファイル\Utility\DirectXUtil</Filter>
     </ClInclude>
     <ClInclude Include="Souce\CDirectxGraphics.h">
-      <Filter>ヘッダー ファイル\DirectXUtil</Filter>
+      <Filter>ヘッダー ファイル\Utility\DirectXUtil</Filter>
     </ClInclude>
     <ClInclude Include="Souce\CLight.h">
       <Filter>ヘッダー ファイル\class\light</Filter>
@@ -130,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="Souce\Element.h">
       <Filter>ヘッダー ファイル\config</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\FbxModel.h">
+      <Filter>ヘッダー ファイル\class\File\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\Utility.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
