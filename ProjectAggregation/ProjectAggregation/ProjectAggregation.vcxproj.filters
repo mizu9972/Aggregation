@@ -128,6 +128,9 @@
     <ClInclude Include="Souce\FileLoader.h">
       <Filter>ヘッダー ファイル\class\File</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\Element.h">
+      <Filter>ヘッダー ファイル\config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

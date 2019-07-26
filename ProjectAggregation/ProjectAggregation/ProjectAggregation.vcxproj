@@ -140,6 +140,7 @@
     <ClInclude Include="Souce\dx11mathutil.h" />
     <ClInclude Include="Souce\DX11Settransform.h" />
     <ClInclude Include="Souce\DX11util.h" />
+    <ClInclude Include="Souce\Element.h" />
     <ClInclude Include="Souce\FileLoader.h" />
     <ClInclude Include="Souce\PmdLoader.h" />
     <ClInclude Include="Souce\Shader.h" />
