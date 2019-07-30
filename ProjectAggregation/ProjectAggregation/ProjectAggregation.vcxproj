@@ -156,10 +156,10 @@
     <ClInclude Include="Souce\WindowSetting.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <Text Include="Text\PMX仕様.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text\PMX仕様.txt" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
