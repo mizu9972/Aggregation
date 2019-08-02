@@ -164,4 +164,9 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\fbxtest.fx">
+      <Filter>リソース ファイル\Text</Filter>
+    </FxCompile>
+  </ItemGroup>
 </Project>

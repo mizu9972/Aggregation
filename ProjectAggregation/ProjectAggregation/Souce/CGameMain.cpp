@@ -20,8 +20,11 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 		MessageBox(hwnd, "DX11 init error", "error", MB_OK);
 		return false;
 	}
+
 	// DIRECTINPUT初期化
 	CDirectInput::GetInstance().Init(hinst, hwnd, width, height);
+
+	testModel->Load("assets/model/EditStage.fbx");
 
 	// プロジェクション変換行列初期化
 	XMFLOAT3 eye = { 0,5,-5 };				// 視点
@@ -33,7 +36,8 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 	// 平行光源初期化
 	DX11LightInit(DirectX::XMFLOAT4(1, 1, -1, 0));		// 平行光源の方向をセット
 
-
+	//testModel->LoadFbxAnimation("assets/model/animation/dousakakuninn_ver01.fbx");
+	
 	return true;
 }
 
@@ -69,6 +73,8 @@ void CGameMain::Render() {
 	// プロジェクション変換行列セット
 	mat = CCamera::GetInstance()->GetProjectionMatrix();
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::PROJECTION, mat);
+
+	testModel->Draw();
 
 	// レンダリング後処理
 	DX11AfterRender();

@@ -24,7 +24,245 @@ CFbxModel::~CFbxModel() {
 };
 
 void CFbxModel::Load(const char* ModelName_) {
-	///
+	//Fbxモデル読み込み
+
+	//頂点シェーダーをコンパイル
+	ID3DBlob* pVSBlob = nullptr;
+	bool hr = CompileShaderFromFile("Shader/fbxtest.fx", "main", "vs_4_0", &pVSBlob);
+
+	if (FAILED(hr)) {
+		MessageBox(nullptr,
+			"FX file compiled error.", "Error", MB_OK);
+
+	}
+
+	//頂点シェーダー作成
+	hr = GetDX11Device()->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &m_pVertexShader);
+	if (FAILED(hr)) {
+		pVSBlob->Release();
+	}
+
+	//頂点レイアウト設定
+	D3D11_INPUT_ELEMENT_DESC layout[] = {
+
+		{ "POSITION",        0,      DXGI_FORMAT_R32G32B32_FLOAT,      0,      0,										D3D11_INPUT_PER_VERTEX_DATA, 0 },	// 頂点座標
+		{ "COLOR",           0,      DXGI_FORMAT_R32G32B32A32_FLOAT,   0,      4 * 3,									D3D11_INPUT_PER_VERTEX_DATA, 0 },	// 頂点カラー
+		{ "NORMAL",          0,      DXGI_FORMAT_R32G32B32_FLOAT,      0,      4 * 4 + 4 * 3 ,							D3D11_INPUT_PER_VERTEX_DATA, 0 },	// 法線ベクトル
+		{ "TEXCOORD",        0,      DXGI_FORMAT_R32G32_FLOAT,         0,      4 * 3 + 4 * 4 + 4 * 3,					D3D11_INPUT_PER_VERTEX_DATA, 0 },	// テクスチャ座標
+		{ "BONEINDEX",		 0,		 DXGI_FORMAT_R32G32B32A32_FLOAT,   0,	   4 * 2 + 4 * 3 + 4 * 4 + 4 * 3	,		D3D11_INPUT_PER_VERTEX_DATA, 0 },	// ボーン行列インデクッス
+		{ "BONEWEIGHT",		 0,		 DXGI_FORMAT_R32G32B32A32_FLOAT,   0,	   4 * 4 + 4 * 2 + 4 * 3 + 4 * 4 + 4 * 3,	D3D11_INPUT_PER_VERTEX_DATA, 0 },	// ボーンウェイト
+	};
+	unsigned int numElements = ARRAYSIZE(layout);
+
+	//頂点レイアウト生成
+	hr = GetDX11Device()->CreateInputLayout(
+		layout,
+		numElements,
+		pVSBlob->GetBufferPointer(),
+		pVSBlob->GetBufferSize(),
+		&m_pVertexLayout
+	);
+	if (FAILED(hr)) {
+		MessageBox(nullptr, "Create Layout Error", "error", MB_OK);
+	}
+
+	//解放
+	pVSBlob->Release();
+
+	//頂点データをデバイスにセット
+	GetDX11DeviceContext()->IASetInputLayout(m_pVertexLayout);
+
+	//ピクセルシェーダーをコンパイル
+	ID3DBlob* pPSBlob = nullptr;
+	hr = CompileShaderFromFile("Shader/fbxtest.fx", "PS", "ps_4_0", &pPSBlob);
+	if (FAILED(hr)) {
+		MessageBox(nullptr, "Pixel Shader Error", "error", MB_OK);
+
+	}
+
+	//ピクセルシェーダ生成
+	hr = GetDX11Device()->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &m_pPixelShader);
+	if (FAILED(hr)) {
+		MessageBox(nullptr, "Create Pixelshader Error", "error", MB_OK);
+
+	}
+	pPSBlob->Release();
+
+	//モデル読み込み
+	LoadModel(ModelName_);
+
+	//頂点バッファ生成
+	for (unsigned int i = 0; i < m_MeshList.size(); i++) {
+		SimpleVertex* v;
+		v = new SimpleVertex[m_MeshList[i].vertexList.size()];
+
+		for (unsigned int j = 0; j < m_MeshList[i].vertexList.size(); j++) {
+
+			//頂点座標をセット
+			v[j].Pos.x = m_MeshList[i].vertexList[j].position.x;
+			v[j].Pos.y = m_MeshList[i].vertexList[j].position.y;
+			v[j].Pos.z = m_MeshList[i].vertexList[j].position.z;
+
+			//頂点カラーをセット
+			v[j].Color.w = 1.0f;
+			v[j].Color.x = 1.0f;
+			v[j].Color.y = 1.0f;
+			v[j].Color.z = 1.0f;
+
+			//法線ベクトルをセット
+			v[j].Normal.x = m_MeshList[i].vertexList[j].normal.x;
+			v[j].Normal.y = m_MeshList[i].vertexList[j].normal.y;
+			v[j].Normal.z = m_MeshList[i].vertexList[j].normal.z;
+
+			//テクスチャ座標をセット
+			v[j].Tex.x = m_MeshList[i].vertexList[j].uv0.x;
+			v[j].Tex.y = 1.0f - m_MeshList[i].vertexList[j].uv0.y;
+
+			//ボーン行列インデックスをセット
+			v[j].BoneIndex.w = m_MeshList[i].vertexList[j].boneIndex[0];
+			v[j].BoneIndex.x = m_MeshList[i].vertexList[j].boneIndex[1];
+			v[j].BoneIndex.y = m_MeshList[i].vertexList[j].boneIndex[2];
+			v[j].BoneIndex.z = m_MeshList[i].vertexList[j].boneIndex[3];
+
+			//ボーンウェイト値をセット
+			v[j].BoneWeighs.w = m_MeshList[i].vertexList[j].boneWeight.v[0];
+			v[j].BoneWeighs.x = m_MeshList[i].vertexList[j].boneWeight.v[1];
+			v[j].BoneWeighs.y = m_MeshList[i].vertexList[j].boneWeight.v[2];
+			v[j].BoneWeighs.z = m_MeshList[i].vertexList[j].boneWeight.v[3];
+		}
+
+		//頂点バッファ生成
+		bool sts = CreateVertexBuffer(
+			m_MeshList[i].vertexList.size(),
+			v,
+			&m_pVertexBuffer[i]
+			);
+
+		if (!sts) {
+			MessageBox(nullptr, "Create Vertex Buffer Error", "error", MB_OK);
+
+		}
+		delete[] v;
+	}
+
+	//インデックスバッファ作成
+	for (unsigned int i = 0; i < m_MeshList.size(); i++) {
+		WORD* indexList;
+
+		//インデックス数取得
+		indexList = new WORD[m_MeshList[i].indexList.size()];
+
+		//インデックスデータセット
+		for (unsigned int j = 0; j < m_MeshList[i].indexList.size(); j++) {
+			indexList[j] = m_MeshList[i].indexList[j];
+		}
+
+		//インデックスバッファ作成
+		bool sts = CreateIndexBuffer(
+			m_MeshList[i].indexList.size(),
+			indexList,
+			&m_pIndexBuffer[i]
+		);
+
+		if (!sts) {
+			MessageBox(nullptr, "Create Index Buffer Error", "error", MB_OK);
+
+		}
+
+		delete[] indexList;
+	}
+
+	//シェーダーリソースビュー生成
+	for (unsigned int i = 0; i < m_MeshList.size(); i++) {
+		std::string TexturePath;
+		std::string MaterailName = m_MeshList[i].materialName;
+		if (MaterailName == "noName") {
+			TexturePath = "assets/model/texture/PBR_Free_Albedo.tga";
+		}
+		else {
+			m_Material[i] = GetMaterial(m_MeshList[i].materialName);
+		}
+		std::string Textures = ("assets/model/texture");
+		TexturePath = std::string("assets/model/texture" + m_Material[i].diffuseTextureName);
+		int PathLength = TexturePath.size() - Textures.size();
+		if (PathLength <= 0) {
+			TexturePath = "assets/model/texture/PBR_Free_Albedo.tga";
+		}
+
+		//テクスチャ読み込み
+		const char *ms = TexturePath.c_str();
+		wchar_t ws[512];
+		size_t ret;
+
+		setlocale(LC_CTYPE, "jpn");
+		mbstowcs_s(&ret, ws, 512, ms, _TRUNCATE);
+
+		DirectX::TexMetadata meta;
+		DirectX::GetMetadataFromTGAFile(ws, meta);
+
+		std::unique_ptr<DirectX::ScratchImage> image(new DirectX::ScratchImage);
+		hr = LoadFromTGAFile(ws, &meta, *image);
+		if (FAILED(hr))
+		{
+			MessageBox(nullptr, "Texture Load error", "error", MB_OK);
+		}
+
+		//シェーダーリソースビュー作成
+		hr = DirectX::CreateShaderResourceView(GetDX11Device(), image->GetImages(), image->GetImageCount(), meta, &m_Texture[i]);
+		if (FAILED(hr)) {
+			MessageBox(nullptr, "Create ShaderResouceView Error", "error", MB_OK);
+		}
+	}
+
+	//コンスタントバッファ作成
+	bool sts;
+	sts = createConstantBuffer(
+		sizeof(ConstantBuffer),
+		&m_pConstantBuffer
+	);
+	if (!sts) {
+		MessageBox(nullptr, "Create Constant Buffer Error", "error", MB_OK);
+	}
+
+	//ボーン行列用コンスタントバッファ作成
+	sts = createConstantBuffer(
+		sizeof(ConstantBuffer),
+		&m_pConstantBufferBoneMatrix
+	);
+	if (!sts) {
+		MessageBox(nullptr, "Create Constant Buffer Error", "error", MB_OK);
+	}
+
+	//ボーンマテリアル用コンスタントバッファ作成
+	sts = createConstantBuffer(
+		sizeof(ConstantBuffer),
+		&m_pConstantBufferMaterial
+	);
+	if (!sts) {
+		MessageBox(nullptr, "Create Constant Buffer Error", "error", MB_OK);
+	}
+
+	//ワールド変換行列初期化
+	g_World = XMMatrixIdentity();
+
+	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -100.0f, 0.0f);
+	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	g_View = XMMatrixLookAtLH(Eye, At, Up);
+
+	// プロジェクション変換行列初期化
+	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV2, 800 / (FLOAT)600, 0.01f, 10000.0f);
+
+	// テクスチャ用サンプラー作成
+	D3D11_SAMPLER_DESC SamplerDesc;
+	ZeroMemory(&SamplerDesc, sizeof(D3D11_SAMPLER_DESC));
+
+	SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	SamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	SamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	GetDX11Device()->CreateSamplerState(&SamplerDesc, &m_pSampleLinear);
+
 }
 
 void CFbxModel::LoadModel(const char* Modelname_) {
@@ -74,13 +312,13 @@ void CFbxModel::LoadModel(const char* Modelname_) {
 	printf("ノードの数 %d \n", NodeCount);
 
 	//ノード名を辞書に登録
-	for (int i = 0; i < NodeCount; i++) {
+	for (int i = 0; i < NodeCount; ++i) {
 		FbxNode* fbxNode = m_Scene->GetNode(i);
 		m_NodeIdDictionary.insert(std::pair<std::string, int>(fbxNode->GetName(), i));
 	}
 
 	//ノードの中身を確認
-	for (std::map<std::string, int>::iterator it = m_NodeIdDictionary.begin(); it != m_NodeIdDictionary.end(); it++) {
+	for (std::map<std::string, int>::iterator it = m_NodeIdDictionary.begin(); it != m_NodeIdDictionary.end(); ++it) {
 		//		std::cout << "key = " << (*it).first << ",value = " << (*it).second << std::endl;
 	}
 
@@ -100,7 +338,7 @@ void CFbxModel::LoadModel(const char* Modelname_) {
 	MeshCount = m_Scene->GetMemberCount<FbxMesh>();
 	m_MeshList.reserve(MeshCount);
 
-	for (int i = 0; i < MeshCount; i++) {
+	for (int i = 0; i < MeshCount; ++i) {
 		FbxMesh* fbxMesh = m_Scene->GetMember<FbxMesh>(i);
 		m_MeshList.push_back(ParseMesh(fbxMesh));
 	}
@@ -176,7 +414,7 @@ void CFbxModel::getMeshmatrix(INT64 Frame_, int MeshId_, Matrix4x4& OutMatrix_) 
 
 void CFbxModel::LoadFbxAnimation(const char* AnimationFileName_) {
 	// すでにアニメーションを読み込んでいたら
-	if (m_FbxAnimationScene != NULL)
+	if (m_FbxAnimationScene != nullptr)
 	{
 		m_FbxAnimationScene->Destroy();
 		m_FbxAnimationScene = nullptr;

@@ -2,12 +2,15 @@
 
 #include <Windows.h>
 #include "definer.h"
+#include "FbxModel.h"
 
 //ゲーム進行のメインを司るシングルトンクラス
 class CGameMain{
 private:
 	CGameMain() {};
 	~CGameMain() = default;
+
+	CFbxModel *testModel;
 public:
 	CGameMain(const CGameMain&) = delete;
 	CGameMain(CGameMain&&) = delete;

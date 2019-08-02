@@ -24,7 +24,7 @@ private:
 	//----------------------------------------------------------------------------------------------------
 
 	//アニメーション----------------------------------------------------------------------------------------
-	FbxScene* m_FbxAnimationScene;//アニメーションのシーン
+	FbxScene* m_FbxAnimationScene = nullptr;//アニメーションのシーン
 	std::map<std::string, int> m_NodeIdDictionaryAnimation;//ボーン名からノード番号を取得するためのmap
 	INT64 m_AnimationFrame_Start = 0;//アニメーション開始フレーム
 	INT64 m_AnimationFrame_End = 0;//アニメーション終了フレーム
