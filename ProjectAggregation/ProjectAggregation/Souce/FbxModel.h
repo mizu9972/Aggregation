@@ -9,7 +9,8 @@
 static FbxManager* g_pFbxManager;
 
 class CFbxModel {
-private:
+public:
+
 
 	//モデルデータ------------------------------------------------------------------------------------------
 	std::vector<ModelMesh> m_MeshList;//ModelMeshのベクターリスト
@@ -34,9 +35,6 @@ private:
 	//----------------------------------------------------------------------------------------------------
 
 	//描画------------------------------------------------------------------------------------------------
-	ID3D11VertexShader* m_pVertexShader = nullptr;//頂点シェーダ
-	ID3D11PixelShader* m_pPixelShader = nullptr;//ピクセルシェーダ
-	ID3D11InputLayout* m_pVertexLayout = nullptr;//頂点レイアウト
 
 	ID3D11Buffer* m_pVertexBuffer[23];//頂点バッファ
 	ID3D11Buffer* m_pIndexBuffer[23];//インデックスバッファ
@@ -66,11 +64,8 @@ private:
 	ModelMaterial&			GetMaterial(std::string MaterialName_);
 	bool					createConstantBuffer(unsigned int ByteSize_, ID3D11Buffer** pConstantBuffer_);
 
-
-public:
 	CFbxModel();
 	~CFbxModel();
-
 	void Load(const char* ModelName_);//モデル読み込み
 	void UnInit();//終了処理
 	void LoadFbxAnimation(const char* AnimationFileName_);

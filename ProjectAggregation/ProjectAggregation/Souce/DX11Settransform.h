@@ -3,6 +3,7 @@
 #include	"Shader.h"
 #include	"DX11util.h"
 #include	"Memory.h"
+extern CDirectXGraphics	g_DXGrobj;			// ＤＩＲＥＣＴＸ　ＧＲＡＰＨＩＣＳ　オブジェクト	
 
 class DX11SetTransform {
 	DX11SetTransform() {}
@@ -59,7 +60,7 @@ public:
 
 		// コンスタントバッファ作成
 		bool sts = CreateConstantBuffer(
-			device,			// デバイス
+			g_DXGrobj.GetDXDevice(),			// デバイス
 			sizeof(ConstantBufferWorld),	// サイズ
 			&m_pConstantBufferWorld);			// コンスタントバッファ２
 		if (!sts) {
@@ -69,7 +70,7 @@ public:
 
 		// コンスタントバッファ作成
 		sts = CreateConstantBuffer(
-			device,			// デバイス
+			g_DXGrobj.GetDXDevice(),			// デバイス
 			sizeof(ConstantBufferView),	// サイズ
 			&m_pConstantBufferView);			// コンスタントバッファ２
 		if (!sts) {
@@ -79,7 +80,7 @@ public:
 
 		// コンスタントバッファ作成
 		sts = CreateConstantBuffer(
-			device,			// デバイス
+			g_DXGrobj.GetDXDevice(),			// デバイス
 			sizeof(ConstantBufferProjection),	// サイズ
 			&m_pConstantBufferProjection);			// コンスタントバッファ２
 		if (!sts) {

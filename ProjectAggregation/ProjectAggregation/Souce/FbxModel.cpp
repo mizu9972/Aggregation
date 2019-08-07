@@ -1,8 +1,16 @@
-#include "FbxModel.h"
+
 #include "Shader.h"
 #include "DX11util.h"
 #include "Utility.h"
+#include "FbxModel.h"
+namespace FbxMaterial {
+	ID3D11VertexShader* m_pVertexShader = nullptr;//頂点シェーダ
+	ID3D11PixelShader* m_pPixelShader = nullptr;//ピクセルシェーダ
+	ID3D11InputLayout* m_pVertexLayout = nullptr;//頂点レイアウト
 
+};
+
+using namespace FbxMaterial;
 //単位行列
 Matrix4x4 Matrix4x4Identity = {
 	1.0f, 0.0f, 0.0f, 0.0f,
@@ -16,7 +24,9 @@ XMMATRIX g_View;
 XMMATRIX g_Projection;
 
 CFbxModel::CFbxModel() {
-
+	m_pVertexShader = nullptr;
+	m_pPixelShader = nullptr;
+	m_pVertexLayout = nullptr;
 };
 
 CFbxModel::~CFbxModel() {
@@ -27,20 +37,14 @@ void CFbxModel::Load(const char* ModelName_) {
 	//Fbxモデル読み込み
 
 	//頂点シェーダーをコンパイル
-	ID3DBlob* pVSBlob = nullptr;
-	bool hr = CompileShaderFromFile("Shader/fbxtest.fx", "main", "vs_4_0", &pVSBlob);
+	//ID3DBlob* pVSBlob = nullptr;
+	bool hr/* = CompileShaderFromFile("Shader/fbxtest.fx", "main", "vs_4_0", &pVSBlob)*/;
 
-	if (FAILED(hr)) {
-		MessageBox(nullptr,
-			"FX file compiled error.", "Error", MB_OK);
+	//if (FAILED(hr)) {
+	//	MessageBox(nullptr,
+	//		"FX file compiled error.", "Error", MB_OK);
 
-	}
-
-	//頂点シェーダー作成
-	hr = GetDX11Device()->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &m_pVertexShader);
-	if (FAILED(hr)) {
-		pVSBlob->Release();
-	}
+	//}
 
 	//頂点レイアウト設定
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
@@ -49,44 +53,86 @@ void CFbxModel::Load(const char* ModelName_) {
 		{ "COLOR",           0,      DXGI_FORMAT_R32G32B32A32_FLOAT,   0,      4 * 3,									D3D11_INPUT_PER_VERTEX_DATA, 0 },	// 頂点カラー
 		{ "NORMAL",          0,      DXGI_FORMAT_R32G32B32_FLOAT,      0,      4 * 4 + 4 * 3 ,							D3D11_INPUT_PER_VERTEX_DATA, 0 },	// 法線ベクトル
 		{ "TEXCOORD",        0,      DXGI_FORMAT_R32G32_FLOAT,         0,      4 * 3 + 4 * 4 + 4 * 3,					D3D11_INPUT_PER_VERTEX_DATA, 0 },	// テクスチャ座標
-		{ "BONEINDEX",		 0,		 DXGI_FORMAT_R32G32B32A32_FLOAT,   0,	   4 * 2 + 4 * 3 + 4 * 4 + 4 * 3	,		D3D11_INPUT_PER_VERTEX_DATA, 0 },	// ボーン行列インデクッス
+		{ "BONEINDEX",		 0,		 DXGI_FORMAT_R32G32B32A32_FLOAT,   0,	   4 * 2 + 4 * 3 + 4 * 4 + 4 * 3,			D3D11_INPUT_PER_VERTEX_DATA, 0 },	// ボーン行列インデクッス
 		{ "BONEWEIGHT",		 0,		 DXGI_FORMAT_R32G32B32A32_FLOAT,   0,	   4 * 4 + 4 * 2 + 4 * 3 + 4 * 4 + 4 * 3,	D3D11_INPUT_PER_VERTEX_DATA, 0 },	// ボーンウェイト
 	};
 	unsigned int numElements = ARRAYSIZE(layout);
+	//頂点シェーダー作成
 
-	//頂点レイアウト生成
-	hr = GetDX11Device()->CreateInputLayout(
+	bool sts = CreateVertexShader(
+		GetDX11Device(),
+		"Shader/fbxtest.fx",
+		"main",
+		"vs_4_0",
 		layout,
 		numElements,
-		pVSBlob->GetBufferPointer(),
-		pVSBlob->GetBufferSize(),
+		&m_pVertexShader,
 		&m_pVertexLayout
 	);
-	if (FAILED(hr)) {
-		MessageBox(nullptr, "Create Layout Error", "error", MB_OK);
+	if (!sts) {
+		MessageBox(nullptr, "CreateVertexShader error", "error", MB_OK);
+		return;
 	}
 
-	//解放
-	pVSBlob->Release();
+	//ピクセルシェーダー作成
+	sts = CreatePixelShader(
+		GetDX11Device(),
+		"Shader/fbxtest.fx",
+		"PS", 
+		"ps_4_0",
+		&m_pPixelShader
+		);
 
+	if (!sts) {
+		MessageBox(nullptr, "CreatePixelShader error", "error", MB_OK);
+		return;
+	}
 	//頂点データをデバイスにセット
 	GetDX11DeviceContext()->IASetInputLayout(m_pVertexLayout);
 
-	//ピクセルシェーダーをコンパイル
-	ID3DBlob* pPSBlob = nullptr;
-	hr = CompileShaderFromFile("Shader/fbxtest.fx", "PS", "ps_4_0", &pPSBlob);
-	if (FAILED(hr)) {
-		MessageBox(nullptr, "Pixel Shader Error", "error", MB_OK);
 
-	}
 
-	//ピクセルシェーダ生成
-	hr = GetDX11Device()->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &m_pPixelShader);
-	if (FAILED(hr)) {
-		MessageBox(nullptr, "Create Pixelshader Error", "error", MB_OK);
+	////頂点シェーダー作成
+	//hr = GetDX11Device()->CreateVertexShader(
+	//	pVSBlob->GetBufferPointer(),
+	//	pVSBlob->GetBufferSize(),
+	//	nullptr,
+	//	&m_pVertexShader
+	//);
+	//if (FAILED(hr)) {
+	//	pVSBlob->Release();
+	//}
+	////頂点レイアウト生成
+	//hr = GetDX11Device()->CreateInputLayout(
+	//	layout,
+	//	numElements,
+	//	pVSBlob->GetBufferPointer(),
+	//	pVSBlob->GetBufferSize(),
+	//	&m_pVertexLayout
+	//);
+	//if (FAILED(hr)) {
+	//	MessageBox(nullptr, "Create Layout Error", "error", MB_OK);
+	//}
 
-	}
-	pPSBlob->Release();
+	////解放
+	//pVSBlob->Release();
+
+
+	////ピクセルシェーダーをコンパイル
+	//ID3DBlob* pPSBlob = nullptr;
+	//hr = CompileShaderFromFile("Shader/fbxtest.fx", "PS", "ps_4_0", &pPSBlob);
+	//if (FAILED(hr)) {
+	//	MessageBox(nullptr, "Pixel Shader Error", "error", MB_OK);
+
+	//}
+
+	////ピクセルシェーダ生成
+	//hr = GetDX11Device()->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &m_pPixelShader);
+	//if (FAILED(hr)) {
+	//	MessageBox(nullptr, "Create Pixelshader Error", "error", MB_OK);
+
+	//}
+	//pPSBlob->Release();
 
 	//モデル読み込み
 	LoadModel(ModelName_);
@@ -215,7 +261,6 @@ void CFbxModel::Load(const char* ModelName_) {
 	}
 
 	//コンスタントバッファ作成
-	bool sts;
 	sts = createConstantBuffer(
 		sizeof(ConstantBuffer),
 		&m_pConstantBuffer
@@ -263,7 +308,7 @@ void CFbxModel::Load(const char* ModelName_) {
 	SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	GetDX11Device()->CreateSamplerState(&SamplerDesc, &m_pSampleLinear);
 
-}
+};
 
 void CFbxModel::LoadModel(const char* Modelname_) {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -278,16 +323,15 @@ void CFbxModel::LoadModel(const char* Modelname_) {
 	FbxIOSettings* ios = FbxIOSettings::Create(g_pFbxManager, IOSROOT);
 	g_pFbxManager->SetIOSettings(ios);
 
+	//インポーター作成
+	m_Importer = FbxImporter::Create(g_pFbxManager, "");
+	if (!m_Importer->Initialize(Modelname_, -1, g_pFbxManager->GetIOSettings())) {
+		exit(1);
+	}
 	//シーン作成
 	m_Scene = FbxScene::Create(g_pFbxManager, "Scene");
 	if (!m_Scene) {
 		//error
-		exit(1);
-	}
-
-	//インポーター作成
-	m_Importer = FbxImporter::Create(g_pFbxManager, "");
-	if (!m_Importer->Initialize(Modelname_, -1, g_pFbxManager->GetIOSettings())) {
 		exit(1);
 	}
 
@@ -342,11 +386,11 @@ void CFbxModel::LoadModel(const char* Modelname_) {
 		FbxMesh* fbxMesh = m_Scene->GetMember<FbxMesh>(i);
 		m_MeshList.push_back(ParseMesh(fbxMesh));
 	}
-}
+};
 
 void CFbxModel::UnInit() {
 
-}
+};
 
 void CFbxModel::getBoneMatrix(INT64 Frame_, int MeshId_, Matrix4x4* OutMatrixList, unsigned int MatrixCount_) {
 	ModelMesh& modelMesh = m_MeshList[MeshId_];

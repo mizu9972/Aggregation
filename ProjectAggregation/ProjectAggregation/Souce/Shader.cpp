@@ -77,7 +77,6 @@ bool CreateVertexShader(ID3D11Device* device,
 	if (FAILED(hr)){
 		return false;
 	}
-
 	// 頂点シェーダーを生成
 	hr = device->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, ppVertexShader);
 	if (FAILED(hr))
@@ -85,7 +84,6 @@ bool CreateVertexShader(ID3D11Device* device,
 		pBlob->Release();
 		return false;
 	}
-
 	// 頂点データ定義生成
 	hr = device->CreateInputLayout(
 		layout,

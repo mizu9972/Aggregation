@@ -23,9 +23,11 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 
 	// DIRECTINPUT初期化
 	CDirectInput::GetInstance().Init(hinst, hwnd, width, height);
-
+	testModel = new CFbxModel;
 	testModel->Load("assets/model/EditStage.fbx");
 
+	testModel->LoadFbxAnimation("assets/model/animation/dousakakuninn_ver01.fbx");
+	
 	// プロジェクション変換行列初期化
 	XMFLOAT3 eye = { 0,5,-5 };				// 視点
 	XMFLOAT3 lookat = { 0,0,0 };			// 注視点
@@ -36,8 +38,6 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 	// 平行光源初期化
 	DX11LightInit(DirectX::XMFLOAT4(1, 1, -1, 0));		// 平行光源の方向をセット
 
-	//testModel->LoadFbxAnimation("assets/model/animation/dousakakuninn_ver01.fbx");
-	
 	return true;
 }
 

@@ -1,4 +1,4 @@
-#include	"CDirectXGraphics.h"
+#include	"CDirectxGraphics.h"
 /*-------------------------------------------------------------------------------
 	DirectX Grpaphics の初期化処理
 
@@ -21,7 +21,6 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 	unsigned int numerator=60;			// 分子
 	unsigned int denominator=1;			// 分母
 	DXGI_MODE_DESC* displayModeList;
-	D3D11_BLEND_DESC blendStateDescription;
 
 	m_Width = Width;
 	m_Height = Height;
@@ -129,10 +128,12 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
     sd.SampleDesc.Quality = 0;		// マルチサンプルのクオリティ
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;	
 
-	if (fullscreen){
+	if (fullscreen)
+	{
 		sd.Windowed = false;				// ウインドウモード
 	}
-	else{
+	else
+	{
 		sd.Windowed = TRUE;				// ウインドウモード
 	}
 	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;		// モードの自動切り替え
@@ -155,7 +156,8 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
         if( SUCCEEDED( hr ) )
             break;
     }
-	if( FAILED( hr ) ){
+	if( FAILED( hr ) )
+	{
         return false;
 	}
 
@@ -194,7 +196,8 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 	depthBufferDesc.MiscFlags = 0;
 
 	hr = m_lpDevice->CreateTexture2D(&depthBufferDesc, NULL, &m_depthStencilBuffer);
-	if (FAILED(hr)){
+	if (FAILED(hr))
+	{
 		return false;
 	}
 
@@ -225,7 +228,8 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 
 	// create the depth stencil state
 	hr = m_lpDevice->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState);
-	if (FAILED(hr)){
+	if (FAILED(hr))
+	{
 		return false;
 	}
 
@@ -241,12 +245,13 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 
 	// create the depth stencil view
 	hr = m_lpDevice->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView);
-	if (FAILED(hr)){
+	if (FAILED(hr))
+	{
 		return false;
 	}
 
 	// bind the render target view and depth stencil buffer to the output render pipeline
-    m_lpImmediateContext->OMSetRenderTargets( 1, &m_lpRenderTargetView, NULL() );///m_depthStencilView => NULL()
+    m_lpImmediateContext->OMSetRenderTargets( 1, &m_lpRenderTargetView, m_depthStencilView );
 
 	// setup the raster description which will determine how and what polygons will be drawn
 	rasterDesc.AntialiasedLineEnable = false;
@@ -254,7 +259,6 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 	rasterDesc.DepthBias = 0;
 	rasterDesc.DepthBiasClamp = 0.0f;
 	rasterDesc.DepthClipEnable = true;
-//	rasterDesc.FillMode = D3D11_FILL_WIREFRAME;		// ワイヤフレームにしたいとき
 	rasterDesc.FillMode = D3D11_FILL_SOLID;
 	rasterDesc.FrontCounterClockwise = false;
 	rasterDesc.MultisampleEnable = false;
@@ -263,7 +267,8 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 
 	// create the rasterrizer state from the description we just filled out 
 	hr = m_lpDevice->CreateRasterizerState(&rasterDesc, &m_rasterState);
-	if (FAILED(hr)){
+	if (FAILED(hr))
+	{
 		return false;
 	}
 
@@ -281,46 +286,84 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
     vp.TopLeftY = 0;
     m_lpImmediateContext->RSSetViewports( 1, &vp );
 
-	//ブレンドステート初期化
-	ZeroMemory(&blendStateDescription, sizeof(D3D11_BLEND_DESC));
-
-	//ブレンドステート設定（アルファブレンド可）
-	blendStateDescription.RenderTarget[0].BlendEnable = TRUE;
-	//blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	//blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
-	blendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	blendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	blendStateDescription.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	blendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	blendStateDescription.RenderTarget[0].RenderTargetWriteMask = 0x0f;
-
-	//ブレンドステート作成
-	hr = m_lpDevice->CreateBlendState(&blendStateDescription, &m_alphaEnableBlendingState);
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	//ブレンドステート設定（アルファブレンド不可）
-	blendStateDescription.RenderTarget[0].BlendEnable = false;
-
-	//ブレンドステート作成
-	hr = m_lpDevice->CreateBlendState(&blendStateDescription, &m_alphaDisableBlendingState);
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
 	m_Height = Height;
 	m_Width  = Width;
 
 	return(true);
 }
+/*-------------------------------------------------------------------------------
+	DirectX Grpaphics の終了処理
+---------------------------------------------------------------------------------*/
+void	CDirectXGraphics::Exit()
+{
+	if (m_lpImmediateContext){
+		m_lpImmediateContext->ClearState();
+	}
+	if (m_lpSwapChain)
+	{
+		m_lpSwapChain->SetFullscreenState(false, NULL);
+	}
+	
+	if (m_rasterState)
+	{
+		m_rasterState->Release();
+		m_rasterState= 0;
+	}
 
+	if (m_depthStencilBuffer) 
+	{
+		m_depthStencilBuffer->Release();
+		m_depthStencilBuffer = 0;
+	}
+
+	if (m_depthStencilState) 
+	{
+		m_depthStencilState->Release();
+		m_depthStencilState = 0;
+	}
+	if (m_depthStencilView){
+		m_depthStencilView->Release();
+		m_depthStencilView = 0;
+	}
+
+	if (m_lpRenderTargetView)
+	{
+		m_lpRenderTargetView->Release();
+		m_lpRenderTargetView = 0;
+	}
+
+	if (m_lpImmediateContext)
+	{
+		m_lpImmediateContext->Release();
+		m_lpImmediateContext = 0;
+	}
+
+	if (m_lpDevice)
+	{
+		m_lpDevice->Release();
+		m_lpDevice = 0;
+	}
+
+	if (m_lpSwapChain)
+	{
+		m_lpSwapChain->Release();
+		m_lpSwapChain = 0;
+	}
+	return;
+}
+
+
+//アルファブレンディングの設定
+//ポリゴンを描画する前に呼び出すと設定が反映される
 void CDirectXGraphics::TurnOnAlphaBlending()
 {
+	float blendFactor[4];
+
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
 	ID3D11BlendState* pBlendState = NULL;
 	D3D11_BLEND_DESC BlendDesc;
 	ZeroMemory(&BlendDesc, sizeof(BlendDesc));
@@ -335,14 +378,8 @@ void CDirectXGraphics::TurnOnAlphaBlending()
 	BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	m_lpDevice->CreateBlendState(&BlendDesc, &pBlendState);
-	float blendFactor[4];
 
-	blendFactor[0] = 0.0f;
-	blendFactor[1] = 0.0f;
-	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;
-
+	GetDXDevice()->CreateBlendState(&BlendDesc, &pBlendState);
 	//アルファブレンドをONにする
 	m_lpImmediateContext->OMSetBlendState(m_alphaEnableBlendingState, blendFactor, 0xffffffff);
 	return;
@@ -359,58 +396,5 @@ void CDirectXGraphics::TurnOffAlphaBlending()
 
 	//アルファブレンドをOFFにする
 	m_lpImmediateContext->OMSetBlendState(m_alphaDisableBlendingState, blendFactor, 0xffffffff);
-	return;
-}
-
-/*-------------------------------------------------------------------------------
-	DirectX Grpaphics の終了処理
----------------------------------------------------------------------------------*/
-void	CDirectXGraphics::Exit()
-{
-	if (m_lpImmediateContext){
-		m_lpImmediateContext->ClearState();
-	}
-	if (m_lpSwapChain) {
-		m_lpSwapChain->SetFullscreenState(false, NULL);
-	}
-	
-	if (m_rasterState) {
-		m_rasterState->Release();
-		m_rasterState= 0;
-	}
-
-	if (m_depthStencilBuffer) {
-		m_depthStencilBuffer->Release();
-		m_depthStencilBuffer = 0;
-	}
-
-	if (m_depthStencilState) {
-		m_depthStencilState->Release();
-		m_depthStencilState = 0;
-	}
-	if (m_depthStencilView){
-		m_depthStencilView->Release();
-		m_depthStencilView = 0;
-	}
-
-	if (m_lpRenderTargetView){
-		m_lpRenderTargetView->Release();
-		m_lpRenderTargetView = 0;
-	}
-
-	if (m_lpImmediateContext){
-		m_lpImmediateContext->Release();
-		m_lpImmediateContext = 0;
-	}
-
-	if (m_lpDevice){
-		m_lpDevice->Release();
-		m_lpDevice = 0;
-	}
-
-	if (m_lpSwapChain) {
-		m_lpSwapChain->Release();
-		m_lpSwapChain = 0;
-	}
 	return;
 }

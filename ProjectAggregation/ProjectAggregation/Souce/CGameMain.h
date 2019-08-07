@@ -10,8 +10,10 @@ private:
 	CGameMain() {};
 	~CGameMain() = default;
 
-	CFbxModel *testModel;
 public:
+
+	CFbxModel *testModel;
+
 	CGameMain(const CGameMain&) = delete;
 	CGameMain(CGameMain&&) = delete;
 	CGameMain operator = (const CGameMain&) = delete;

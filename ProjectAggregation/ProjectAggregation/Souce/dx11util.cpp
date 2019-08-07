@@ -10,6 +10,8 @@
 // 定数バッファ定義
 ID3D11Buffer*       g_pConstantBuffer1 = nullptr;	// コンスタントバッファ1
 
+CDirectXGraphics	g_DXGrobj;			// ＤＩＲＥＣＴＸ　ＧＲＡＰＨＩＣＳ　オブジェクト		
+
 // 平行光源定義
 CLight				g_directionallight;
 
@@ -28,36 +30,27 @@ void DX11LightUpdate(DirectX::XMFLOAT4 lpos) {
 }
 
 CDirectXGraphics* GetDX11Obj() {
-	CDirectXGraphics* pins=nullptr;
-	pins = CDirectXGraphics::GetInstance();
-	return pins;
+	return &g_DXGrobj;
 }
 
 ID3D11Device* GetDX11Device() {
-	CDirectXGraphics* pins=nullptr;
-	pins = CDirectXGraphics::GetInstance();
-	return pins->GetDXDevice();
+	return g_DXGrobj.GetDXDevice();
 }
-
 ID3D11DeviceContext*	GetDX11DeviceContext() {
-	CDirectXGraphics* pins=nullptr;
-	pins = CDirectXGraphics::GetInstance();
-	return pins->GetImmediateContext();
+	return g_DXGrobj.GetImmediateContext();
 }
 
 bool DX11Init(HWND hwnd, int width, int height, bool fullscreen) {
 	bool sts;
-	CDirectXGraphics* pins=nullptr;
-	pins = CDirectXGraphics::GetInstance();
 
-	sts = pins->Init(hwnd, width, height, fullscreen);
+	sts = g_DXGrobj.Init(hwnd, width, height, fullscreen);
 	if (!sts) {
 		MessageBox(hwnd, "DX11 init error", "error", MB_OK);
 		return false;
 	}
 
 	// アルファブレンド有効
-	pins->TurnOnAlphaBlending();
+	g_DXGrobj.TurnOnAlphaBlending();
 
 	// ＳｅｔＴｒａｎｓｆｏｒｍ初期化
 	sts = DX11SetTransform::GetInstance()->Init();
@@ -74,26 +67,24 @@ void DX11Uninit() {
 	DX11SetTransform::GetInstance()->Uninit();
 
 	// 解放処理
-	CDirectXGraphics::GetInstance()->Exit();
+	g_DXGrobj.Exit();
 }
 
 void DX11BeforeRender(float ClearColor[]) {
 	// ターゲットバッファクリア
-	GetDX11DeviceContext()->ClearRenderTargetView(CDirectXGraphics::GetInstance()->GetRenderTargetView(), ClearColor);
+	g_DXGrobj.GetImmediateContext()->ClearRenderTargetView(g_DXGrobj.GetRenderTargetView(), ClearColor);
 	// Zバッファクリア
-	GetDX11DeviceContext()->ClearDepthStencilView(CDirectXGraphics::GetInstance()->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	g_DXGrobj.GetImmediateContext()->ClearDepthStencilView(g_DXGrobj.GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void DX11AfterRender() {
-	CDirectXGraphics* pins;
-	pins = CDirectXGraphics::GetInstance();
 
 	// ｓｗａｐ
-	pins->GetSwapChain()->Present(0, 0);
+	g_DXGrobj.GetSwapChain()->Present(0, 0);
 }
 
 ID3D11RenderTargetView* DX11GetRenderTagetView() {
-	return CDirectXGraphics::GetInstance()->GetRenderTargetView();
+	return g_DXGrobj.GetRenderTargetView();
 }
 
 // Zバッファ無効化
@@ -116,9 +107,9 @@ void TurnOnZBuffer() {
 
 	rtvtable[0] = DX11GetRenderTagetView();
 
-	CDirectXGraphics::GetInstance()->GetImmediateContext()->OMSetRenderTargets(
+	g_DXGrobj.GetImmediateContext()->OMSetRenderTargets(
 		1,										// ターゲット
 		rtvtable,								// ビューテーブル
-		CDirectXGraphics::GetInstance()->GetDepthStencilView()			// 深度バッファなし
+		g_DXGrobj.GetDepthStencilView()			// 深度バッファなし
 	);
 }
