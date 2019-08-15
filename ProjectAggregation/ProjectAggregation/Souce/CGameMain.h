@@ -4,15 +4,19 @@
 #include "definer.h"
 #include "FbxModel.h"
 
+class SceneBase;
+
 //ゲーム進行のメインを司るシングルトンクラス
 class CGameMain{
 private:
 	CGameMain() {};
 	~CGameMain() = default;
 
+	//シーン
+	SceneBase* m_NowScene;
 public:
 
-	CFbxModel *testModel;
+	//CFbxModel *testModel;
 
 	CGameMain(const CGameMain&) = delete;
 	CGameMain(CGameMain&&) = delete;

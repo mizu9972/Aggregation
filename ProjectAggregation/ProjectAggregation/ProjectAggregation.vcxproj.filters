@@ -105,6 +105,9 @@
     <ClCompile Include="Souce\Utility.cpp">
       <Filter>ソース ファイル\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Souce\CScene.cpp">
+      <Filter>ソース ファイル\class\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="Souce\Utility.h">
       <Filter>ヘッダー ファイル\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CScene.h">
+      <Filter>ヘッダー ファイル\class\main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

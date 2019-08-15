@@ -77,7 +77,7 @@ VS_OUTPUT main(	float4 Pos : POSITION,
 	output.diffuse = diffusematerial*d;
 
 	float3 V;
-	V = wpos.xyz - CameraPos;
+	V = wpos.xyz - CameraPos.xyz;
 
 	float3 H;
 	H = normalize(L + V);

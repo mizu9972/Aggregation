@@ -3,14 +3,7 @@
 #include "DX11util.h"
 #include "Utility.h"
 #include "FbxModel.h"
-namespace FbxMaterial {
-	ID3D11VertexShader* m_pVertexShader = nullptr;//頂点シェーダ
-	ID3D11PixelShader* m_pPixelShader = nullptr;//ピクセルシェーダ
-	ID3D11InputLayout* m_pVertexLayout = nullptr;//頂点レイアウト
 
-};
-
-using namespace FbxMaterial;
 //単位行列
 Matrix4x4 Matrix4x4Identity = {
 	1.0f, 0.0f, 0.0f, 0.0f,
@@ -73,6 +66,9 @@ void CFbxModel::Load(const char* ModelName_) {
 		MessageBox(nullptr, "CreateVertexShader error", "error", MB_OK);
 		return;
 	}
+	//頂点データをデバイスにセット
+	GetDX11DeviceContext()->IASetInputLayout(m_pVertexLayout);
+
 
 	//ピクセルシェーダー作成
 	sts = CreatePixelShader(
@@ -87,9 +83,6 @@ void CFbxModel::Load(const char* ModelName_) {
 		MessageBox(nullptr, "CreatePixelShader error", "error", MB_OK);
 		return;
 	}
-	//頂点データをデバイスにセット
-	GetDX11DeviceContext()->IASetInputLayout(m_pVertexLayout);
-
 
 
 	////頂点シェーダー作成
@@ -228,8 +221,8 @@ void CFbxModel::Load(const char* ModelName_) {
 		else {
 			m_Material[i] = GetMaterial(m_MeshList[i].materialName);
 		}
-		std::string Textures = ("assets/model/texture");
-		TexturePath = std::string("assets/model/texture" + m_Material[i].diffuseTextureName);
+		std::string Textures = ("assets/model/texture/");
+		TexturePath = std::string("assets/model/texture/" + m_Material[i].diffuseTextureName);
 		int PathLength = TexturePath.size() - Textures.size();
 		if (PathLength <= 0) {
 			TexturePath = "assets/model/texture/PBR_Free_Albedo.tga";
@@ -290,8 +283,8 @@ void CFbxModel::Load(const char* ModelName_) {
 	//ワールド変換行列初期化
 	g_World = XMMatrixIdentity();
 
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -100.0f, 0.0f);
-	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	XMVECTOR Eye = XMVectorSet(0.0f, 100.0f, -100.0f, 0.0f);
+	XMVECTOR At = XMVectorSet(0.0f, 0.0f, -10.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	g_View = XMMatrixLookAtLH(Eye, At, Up);
 
@@ -407,8 +400,8 @@ void CFbxModel::getBoneMatrix(INT64 Frame_, int MeshId_, Matrix4x4* OutMatrixLis
 
 	//このメッシュに含まれているボーン数分ループ
 	for (unsigned int i = 0; i < modelMesh.boneNodeNameList.size(); i++) {
-		std::string& boneNodoName = modelMesh.boneNodeNameList[i];
-		int boneNodeId = m_NodeIdDictionaryAnimation.at(boneNodoName);
+		std::string& boneNodeName = modelMesh.boneNodeNameList[i];
+		int boneNodeId = m_NodeIdDictionaryAnimation.at(boneNodeName);
 		FbxNode* boneNode = m_FbxAnimationScene->GetNode(boneNodeId);
 
 		FbxMatrix boneMatrix = boneNode->EvaluateGlobalTransform(time);		// 経過時間に応じた姿勢をあらわすボーン行列を取得
@@ -590,12 +583,6 @@ ModelMesh CFbxModel::ParseMesh(FbxMesh* Mesh_) {
 		boneWeightList,									// ボーン情報リスト（出力値）（ボーン情報へのインデックス値とウェイト値）
 		modelMesh.boneNodeNameList,						// メッシュ内のボーン名をＶＥＣＴＯＲに保存（出力）
 		modelMesh.invBoneBaseposeMatrixList);			// ボーンオフセット行列をＶＥＣＴＯＲに保存（）
-
-//// 念のためサイズチェック
-//assert(indexList.size() == positionList.size());
-//assert(indexList.size() == normalList.size());
-//assert(indexList.size() == uv0List.size());
-//assert((indexList.size() == boneWeightList.size()) || (boneWeightList.size() == 0));
 
 // テンポラリの頂点情報（ＭｏｄｅｌＶｅｒｔｅｘ）を作る
 	std::vector<ModelVertex> tmpmodelVertexList;
@@ -1211,6 +1198,9 @@ void CFbxModel::Draw() {
 	//移動----
 
 	//--------
+	XMFLOAT3 angle = { 0,0,0 };
+	XMFLOAT3 trans = { 0,0,100 };
+	MakeWorldMatrix(g_World, angle, trans);
 
 	//
 	// コンスタントバッファ内の行列を更新

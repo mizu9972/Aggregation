@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="Souce\CDirectXGraphics.cpp" />
     <ClCompile Include="Souce\CGameMain.cpp" />
+    <ClCompile Include="Souce\CScene.cpp" />
     <ClCompile Include="Souce\DDSTextureLoader.cpp" />
     <ClCompile Include="Souce\dx11mathutil.cpp" />
     <ClCompile Include="Souce\dx11util.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Souce\CDirectxGraphics.h" />
     <ClInclude Include="Souce\CGameMain.h" />
     <ClInclude Include="Souce\CLight.h" />
+    <ClInclude Include="Souce\CScene.h" />
     <ClInclude Include="Souce\definer.h" />
     <ClInclude Include="Souce\dx11mathutil.h" />
     <ClInclude Include="Souce\DX11Settransform.h" />

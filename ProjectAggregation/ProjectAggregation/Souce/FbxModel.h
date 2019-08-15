@@ -35,7 +35,9 @@ public:
 	//----------------------------------------------------------------------------------------------------
 
 	//描画------------------------------------------------------------------------------------------------
-
+	ID3D11VertexShader* m_pVertexShader = nullptr;//頂点シェーダ
+	ID3D11PixelShader* m_pPixelShader = nullptr;//ピクセルシェーダ
+	ID3D11InputLayout* m_pVertexLayout = nullptr;//頂点レイアウト
 	ID3D11Buffer* m_pVertexBuffer[23];//頂点バッファ
 	ID3D11Buffer* m_pIndexBuffer[23];//インデックスバッファ
 	ID3D11Buffer* m_pConstantBuffer = nullptr;//コンスタントバッファ
