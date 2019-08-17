@@ -27,7 +27,7 @@ bool CModel::Init(const char* filename, const char* vsfile, const char* psfile) 
 		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 	unsigned int numElements = ARRAYSIZE(layout);
-
+	
 	// 頂点シェーダーオブジェクトを生成、同時に頂点レイアウトも生成
 	sts = CreateVertexShader(GetDX11Device(),
 		vsfile,

@@ -74,7 +74,7 @@ bool DatFile::Load(const char *filename, ID3D11Device* device11, ID3D11DeviceCon
 	m_srv = new ID3D11ShaderResourceView*[m_datfile->m_MaterialSuu];//  m_xfile->m_MaterialSuu];
 
 	for (int i = 0; i < m_datfile->m_MaterialSuu; i++){
-		if (m_datfile->m_DecalTex[i] != "null"){
+		if (m_datfile->m_DecalTex[i] != "none"){
 			// テクスチャ読み込み
 			bool sts = CreatetSRVfromWICFile(m_datfile->m_DecalTex[i].c_str(),		// WICファイルからシェーダーリソースビューを作成する
 				device11,

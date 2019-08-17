@@ -73,6 +73,15 @@
     <Filter Include="ヘッダー ファイル\class\File\X">
       <UniqueIdentifier>{a405c5d3-5cd0-4292-a060-2adfcc4da09d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\VertexShader">
+      <UniqueIdentifier>{d2f55346-053d-4fb8-9150-2c56661e3f2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\PixelShader">
+      <UniqueIdentifier>{23273253-3468-4c75-ae5d-81c6e46e834d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\PreShader">
+      <UniqueIdentifier>{0f1944dc-ecf1-481f-9593-5683180590ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Souce\main.cpp">
@@ -206,6 +215,21 @@
   <ItemGroup>
     <FxCompile Include="Shader\fbxtest.fx">
       <Filter>リソース ファイル\Text</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\psvscommon.fx">
+      <Filter>リソース ファイル\PreShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\psvscommon2.fx">
+      <Filter>リソース ファイル\PreShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\ps.fx">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\vs.fx">
+      <Filter>リソース ファイル\VertexShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\MaterialColor_ps.fx">
+      <Filter>リソース ファイル\PixelShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
