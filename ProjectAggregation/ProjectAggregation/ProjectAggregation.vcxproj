@@ -126,7 +126,10 @@
   <ItemGroup>
     <ClCompile Include="Souce\CDirectXGraphics.cpp" />
     <ClCompile Include="Souce\CGameMain.cpp" />
+    <ClCompile Include="Souce\CModel.cpp" />
     <ClCompile Include="Souce\CScene.cpp" />
+    <ClCompile Include="Souce\DatFile.cpp" />
+    <ClCompile Include="Souce\DatFileLoader.cpp" />
     <ClCompile Include="Souce\DDSTextureLoader.cpp" />
     <ClCompile Include="Souce\dx11mathutil.cpp" />
     <ClCompile Include="Souce\dx11util.cpp" />
@@ -144,14 +147,20 @@
     <ClInclude Include="Souce\CDirectxGraphics.h" />
     <ClInclude Include="Souce\CGameMain.h" />
     <ClInclude Include="Souce\CLight.h" />
+    <ClInclude Include="Souce\CModel.h" />
     <ClInclude Include="Souce\CScene.h" />
+    <ClInclude Include="Souce\DatFile.h" />
+    <ClInclude Include="Souce\DatFileLoader.h" />
     <ClInclude Include="Souce\definer.h" />
     <ClInclude Include="Souce\dx11mathutil.h" />
     <ClInclude Include="Souce\DX11Settransform.h" />
     <ClInclude Include="Souce\DX11util.h" />
     <ClInclude Include="Souce\Element.h" />
+    <ClInclude Include="Souce\Exception.h" />
     <ClInclude Include="Souce\FbxModel.h" />
     <ClInclude Include="Souce\FileLoader.h" />
+    <ClInclude Include="Souce\Memory.h" />
+    <ClInclude Include="Souce\NonCopyable.h" />
     <ClInclude Include="Souce\PmdLoader.h" />
     <ClInclude Include="Souce\Shader.h" />
     <ClInclude Include="Souce\Utility.h" />

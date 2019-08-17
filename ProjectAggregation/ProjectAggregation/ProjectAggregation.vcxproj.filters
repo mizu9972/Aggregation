@@ -67,6 +67,12 @@
     <Filter Include="ヘッダー ファイル\Utility\DirectXUtil">
       <UniqueIdentifier>{e8045fdc-329a-405b-bf70-96b56faf9324}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\class\File\X">
+      <UniqueIdentifier>{85785c28-cdcb-4f0d-b031-c8b6ab8991c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\class\File\X">
+      <UniqueIdentifier>{a405c5d3-5cd0-4292-a060-2adfcc4da09d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Souce\main.cpp">
@@ -107,6 +113,15 @@
     </ClCompile>
     <ClCompile Include="Souce\CScene.cpp">
       <Filter>ソース ファイル\class\main</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\CModel.cpp">
+      <Filter>ソース ファイル\class\File\X</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\DatFile.cpp">
+      <Filter>ソース ファイル\class\File\X</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\DatFileLoader.cpp">
+      <Filter>ソース ファイル\class\File\X</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +175,24 @@
     </ClInclude>
     <ClInclude Include="Souce\CScene.h">
       <Filter>ヘッダー ファイル\class\main</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CModel.h">
+      <Filter>ヘッダー ファイル\class\File\X</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\DatFile.h">
+      <Filter>ヘッダー ファイル\class\File\X</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\DatFileLoader.h">
+      <Filter>ヘッダー ファイル\class\File\X</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\Exception.h">
+      <Filter>ヘッダー ファイル\class\File\X</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\NonCopyable.h">
+      <Filter>ヘッダー ファイル\class\File\X</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\Memory.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
