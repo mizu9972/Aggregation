@@ -8,10 +8,6 @@
 #include "DX11Settransform.h"
 #include "CScene.h"
 
-//
-#include "CModel.h"
-
-CModel teststage;
 XMFLOAT4X4 g_testmat;
 //-----------------------------------------------
 //ゲームメイン処理クラス
@@ -29,9 +25,6 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 
 	// DIRECTINPUT初期化
 	CDirectInput::GetInstance().Init(hinst, hwnd, width, height);
-
-	teststage.Init("assets/model/Ground.x.dat", "Shader/vs.fx", "Shader/MaterialColor_ps.fx");
-
 	DX11MatrixIdentity(g_testmat);
 	//testModel = new CFbxModel;
 	//testModel->Load("assets/model/unitychan.fbx");
@@ -77,7 +70,6 @@ void CGameMain::Update() {
 		m_NowScene->Init();//初期化処理
 	}
 
-	teststage.Update();
 	m_NowScene->Update();//シーン毎の更新
 }
 
@@ -101,7 +93,6 @@ void CGameMain::Render() {
 	//ワールド変換行列をセット
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, g_testmat);
 
-	teststage.Draw();///
 	m_NowScene->Render();
 	//testModel->Draw();
 

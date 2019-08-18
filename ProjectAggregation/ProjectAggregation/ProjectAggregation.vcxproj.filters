@@ -132,6 +132,9 @@
     <ClCompile Include="Souce\DatFileLoader.cpp">
       <Filter>ソース ファイル\class\File\X</Filter>
     </ClCompile>
+    <ClCompile Include="Souce\GamePlayScene.cpp">
+      <Filter>ソース ファイル\class\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
