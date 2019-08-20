@@ -1,5 +1,8 @@
 #include "CScene.h"
 #include "CDirectInput.h"
+//各シーン処理ファイル
+//ゲームメインシーン処理は"GamePlayScene"ファイル
+
 //タイトルシーン--------------------------------
 void TitleScene::Init() {
 
@@ -13,28 +16,14 @@ void TitleScene::Render() {
 
 }
 
+void TitleScene::UnInit() {
+
+}
+
 SceneBase* TitleScene::NextScene(){
 	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN)) {
 		return new GameScene;
 	}
-	return NULL;
-}
-//--------------------------------------------
-
-//ゲームシーン----------------------------------
-void GameScene::Init() {
-
-}
-
-void GameScene::Update() {
-
-}
-
-void GameScene::Render() {
-
-}
-
-SceneBase* GameScene::NextScene() {
 	return NULL;
 }
 //--------------------------------------------
@@ -49,6 +38,10 @@ void ResultScene::Update() {
 }
 
 void ResultScene::Render() {
+
+}
+
+void ResultScene::UnInit() {
 
 }
 

@@ -136,6 +136,7 @@
     <ClCompile Include="Souce\FbxModel.cpp" />
     <ClCompile Include="Souce\FeedInFunction.cpp" />
     <ClCompile Include="Souce\FileLoader.cpp" />
+    <ClCompile Include="Souce\GamePlayScene.cpp" />
     <ClCompile Include="Souce\main.cpp" />
     <ClCompile Include="Souce\PmdLoader.cpp" />
     <ClCompile Include="Souce\Shader.cpp" />
