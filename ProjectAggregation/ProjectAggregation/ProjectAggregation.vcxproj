@@ -134,6 +134,7 @@
     <ClCompile Include="Souce\dx11mathutil.cpp" />
     <ClCompile Include="Souce\dx11util.cpp" />
     <ClCompile Include="Souce\FbxModel.cpp" />
+    <ClCompile Include="Souce\FeedInFunction.cpp" />
     <ClCompile Include="Souce\FileLoader.cpp" />
     <ClCompile Include="Souce\main.cpp" />
     <ClCompile Include="Souce\PmdLoader.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Souce\CCamera.h" />
     <ClInclude Include="Souce\CDirectInput.h" />
     <ClInclude Include="Souce\CDirectxGraphics.h" />
+    <ClInclude Include="Souce\CEffectiveObject.h" />
     <ClInclude Include="Souce\CGameMain.h" />
     <ClInclude Include="Souce\CLight.h" />
     <ClInclude Include="Souce\CModel.h" />
@@ -152,6 +154,7 @@
     <ClInclude Include="Souce\DatFile.h" />
     <ClInclude Include="Souce\DatFileLoader.h" />
     <ClInclude Include="Souce\definer.h" />
+    <ClInclude Include="Souce\Draw2D.h" />
     <ClInclude Include="Souce\dx11mathutil.h" />
     <ClInclude Include="Souce\DX11Settransform.h" />
     <ClInclude Include="Souce\DX11util.h" />
@@ -182,6 +185,9 @@
     <FxCompile Include="Shader\ps.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Shader\ps2d.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Shader\psvscommon.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -189,6 +195,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Shader\vs.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\vs2d.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
