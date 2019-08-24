@@ -82,6 +82,12 @@
     <Filter Include="リソース ファイル\PreShader">
       <UniqueIdentifier>{0f1944dc-ecf1-481f-9593-5683180590ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\class\Effect">
+      <UniqueIdentifier>{5ddde399-8476-47f9-ad54-86fa9f776e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\class\Effect">
+      <UniqueIdentifier>{b1c15467-bcdf-4876-b757-c84ec9c065ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Souce\main.cpp">
@@ -134,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="Souce\GamePlayScene.cpp">
       <Filter>ソース ファイル\class\main</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\FeedInFunction.cpp">
+      <Filter>ソース ファイル\class\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +215,12 @@
     <ClInclude Include="Souce\Memory.h">
       <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\Draw2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CEffectiveObject.h">
+      <Filter>ヘッダー ファイル\class\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Text\PMX仕様.txt">
@@ -233,6 +248,12 @@
     </FxCompile>
     <FxCompile Include="Shader\MaterialColor_ps.fx">
       <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\ps2d.fx">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\vs2d.fx">
+      <Filter>リソース ファイル\VertexShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

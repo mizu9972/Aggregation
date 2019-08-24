@@ -1,4 +1,5 @@
 #include "CScene.h"
+#include "CGameMain.h"
 #include "CDirectInput.h"
 //各シーン処理ファイル
 //ゲームメインシーン処理は"GamePlayScene"ファイル
@@ -22,6 +23,7 @@ void TitleScene::UnInit() {
 
 SceneBase* TitleScene::NextScene(){
 	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN)) {
+		CGameMain::GetInstance()->FeedInStart();
 		return new GameScene;
 	}
 	return NULL;

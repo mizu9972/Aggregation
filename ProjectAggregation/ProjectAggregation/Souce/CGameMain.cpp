@@ -16,13 +16,14 @@ XMFLOAT4X4 g_testmat;
 bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool fullscreen) {
 	bool		sts;
 	m_NowScene = new TitleScene;//タイトルシーンから
+
 	// DX11初期処理
 	sts = DX11Init(hwnd, width, height, fullscreen);
 	if (!sts) {
 		MessageBox(hwnd, "DX11 init error", "error", MB_OK);
 		return false;
 	}
-
+	
 	// DIRECTINPUT初期化
 	CDirectInput::GetInstance().Init(hinst, hwnd, width, height);
 	DX11MatrixIdentity(g_testmat);
@@ -71,6 +72,10 @@ void CGameMain::Update() {
 	}
 
 	m_NowScene->Update();//シーン毎の更新
+
+	for (unsigned int EffectNo = 0; EffectNo < m_EffectList.size(); EffectNo++) {
+		m_EffectList[EffectNo]->Update();
+	}
 }
 
 void CGameMain::Render() {
@@ -94,7 +99,9 @@ void CGameMain::Render() {
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, g_testmat);
 
 	m_NowScene->Render();
-	//testModel->Draw();
+	for (unsigned int EffectNo = 0; EffectNo < m_EffectList.size();EffectNo++) {
+		m_EffectList[EffectNo]->Draw();
+	}
 
 	// レンダリング後処理
 	DX11AfterRender();
@@ -106,4 +113,12 @@ void CGameMain::Exit() {
 	//delete testModel;
 	delete m_NowScene;
 	DX11Uninit();
+}
+
+void CGameMain::FeedInStart() {
+	//フェードイン開始処理
+	CEffectiveObject *Feedin_;
+	Feedin_ = new CFeedIn;
+	Feedin_->Init(1, XMFLOAT4(0, 0, 0, 0), XMFLOAT4(1, 1, 1, 1));
+	m_EffectList.push_back(Feedin_);
 }

@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Windows.h>
+#include <vector>
 #include "definer.h"
-#include "FbxModel.h"
+#include "CEffectiveObject.h"
 
 class SceneBase;
 
@@ -14,9 +15,8 @@ private:
 
 	//シーン
 	SceneBase* m_NowScene;
+	std::vector<CEffectiveObject*> m_EffectList;
 public:
-
-	//CFbxModel *testModel;
 
 	CGameMain(const CGameMain&) = delete;
 	CGameMain(CGameMain&&) = delete;
@@ -36,5 +36,6 @@ public:
 	void Update();//更新
 	void Render();//描画
 
+	void FeedInStart();
 	void Exit();//終了処理
 };

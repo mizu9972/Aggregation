@@ -3,7 +3,7 @@
 
 class CDirectXGraphics{
 private:
-	CDirectXGraphics() {}
+	CDirectXGraphics() {};
 	ID3D11Device*				m_lpDevice=nullptr;					// DIRECT3DDEVICE11デバイス
 	ID3D11DeviceContext*		m_lpImmediateContext=nullptr;		// DIRECT3DDEVICE11デバイスコンテキスト
 	IDXGISwapChain*				m_lpSwapChain=nullptr;				// スワップチェイン
