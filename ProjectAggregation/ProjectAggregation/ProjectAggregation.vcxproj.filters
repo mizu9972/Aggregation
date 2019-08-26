@@ -144,6 +144,9 @@
     <ClCompile Include="Souce\FeedInFunction.cpp">
       <Filter>ソース ファイル\class\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Souce\Observer.cpp">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="Souce\CEffectiveObject.h">
       <Filter>ヘッダー ファイル\class\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\Observer.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

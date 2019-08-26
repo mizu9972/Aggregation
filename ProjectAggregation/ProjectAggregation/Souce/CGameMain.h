@@ -4,11 +4,12 @@
 #include <vector>
 #include "definer.h"
 #include "CEffectiveObject.h"
+#include "Observer.h"
 
 class SceneBase;
 
 //ゲーム進行のメインを司るシングルトンクラス
-class CGameMain{
+class CGameMain : public Observer ,public Subject{
 private:
 	CGameMain() {};
 	~CGameMain() = default;
@@ -36,6 +37,9 @@ public:
 	void Update();//更新
 	void Render();//描画
 
-	void FeedInStart();
+	void FeedInStart(float MaxTime, XMFLOAT4 StartColor, XMFLOAT4 EndColor);
 	void Exit();//終了処理
+
+	//オブザーバーオーバーライド
+	virtual void OnNotify();
 };

@@ -109,16 +109,30 @@ void CGameMain::Render() {
 
 void CGameMain::Exit() {
 	DX11SetTransform::GetInstance()->Uninit();
-	//testModel->UnInit();
-	//delete testModel;
 	delete m_NowScene;
 	DX11Uninit();
 }
 
-void CGameMain::FeedInStart() {
+void CGameMain::FeedInStart(float MaxTime, XMFLOAT4 StartColor, XMFLOAT4 EndColor) {
 	//フェードイン開始処理
 	CEffectiveObject *Feedin_;
 	Feedin_ = new CFeedIn;
-	Feedin_->Init(1, XMFLOAT4(0, 0, 0, 0), XMFLOAT4(1, 1, 1, 1));
-	m_EffectList.push_back(Feedin_);
+	Feedin_->Init(MaxTime, StartColor, EndColor);//初期化(時間,開始色,終了色)
+	Feedin_->AddObsever(CGameMain::GetInstance());//オブザーバリストに追加
+	m_EffectList.emplace_back(Feedin_);//エフェクトリストへ追加
+}
+
+void CGameMain::OnNotify() {
+	//エフェクト終了通知受け取り
+
+	//エフェクトリストから削除
+	for (int ListNum = 0; ListNum < m_EffectList.size(); ListNum++) {
+		if (m_EffectList[ListNum]->GetActive() == false) {
+			m_EffectList[ListNum]->RemoveObserver(CGameMain::GetInstance());//オブザーバ削除
+			m_EffectList.erase(m_EffectList.begin() + ListNum);
+			m_EffectList.shrink_to_fit();
+		}
+	}
+
+	Notify();//通知
 }

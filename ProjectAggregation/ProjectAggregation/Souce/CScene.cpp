@@ -10,7 +10,10 @@ void TitleScene::Init() {
 }
 
 void TitleScene::Update() {
-
+	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN)) {
+		CGameMain::GetInstance()->FeedInStart(1.0f, XMFLOAT4(0, 0, 0, 0), XMFLOAT4(1, 1, 1, 1));
+		CGameMain::GetInstance()->AddObsever(this);
+	}
 }
 
 void TitleScene::Render() {
@@ -22,11 +25,17 @@ void TitleScene::UnInit() {
 }
 
 SceneBase* TitleScene::NextScene(){
-	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN)) {
-		CGameMain::GetInstance()->FeedInStart();
+	if (isTitleEnd == true) {
+
 		return new GameScene;
 	}
 	return NULL;
+}
+
+void TitleScene::OnNotify() {
+	//’Ê’mŽó‚¯Žæ‚è
+	CGameMain::GetInstance()->RemoveObserver(this);
+	isTitleEnd = true;
 }
 //--------------------------------------------
 

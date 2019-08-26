@@ -138,6 +138,7 @@
     <ClCompile Include="Souce\FileLoader.cpp" />
     <ClCompile Include="Souce\GamePlayScene.cpp" />
     <ClCompile Include="Souce\main.cpp" />
+    <ClCompile Include="Souce\Observer.cpp" />
     <ClCompile Include="Souce\PmdLoader.cpp" />
     <ClCompile Include="Souce\Shader.cpp" />
     <ClCompile Include="Souce\Utility.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Souce\FileLoader.h" />
     <ClInclude Include="Souce\Memory.h" />
     <ClInclude Include="Souce\NonCopyable.h" />
+    <ClInclude Include="Souce\Observer.h" />
     <ClInclude Include="Souce\PmdLoader.h" />
     <ClInclude Include="Souce\Shader.h" />
     <ClInclude Include="Souce\Utility.h" />

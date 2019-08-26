@@ -1,4 +1,5 @@
 #pragma once
+#include "Observer.h"
 //シーン管理クラスヘッダーファイル
 
 //シーン基礎クラス
@@ -15,15 +16,17 @@ public:
 };
 
 //タイトルシーンクラス
-class TitleScene : public SceneBase {
+class TitleScene : public SceneBase ,public Observer{
 private:
+	bool isTitleEnd;
 public:
-	TitleScene() {};
+	TitleScene() { isTitleEnd = false; };
 	virtual void Init();
 	virtual void Update();
 	virtual void Render();
 	virtual void UnInit();
 	virtual SceneBase* NextScene();
+	virtual void OnNotify();//通知受け取り
 };
 
 //リザルトシーンクラス
@@ -41,9 +44,10 @@ public:
 
 class CModel;
 //ゲームシーンクラス
-class GameScene : public SceneBase {
+class GameScene : public SceneBase , public Observer {
 private:
 	CModel* StageModel;
+	bool isControlActive;
 public:
 	GameScene();
 	virtual void Init();
@@ -51,7 +55,9 @@ public:
 	virtual void Render();
 	virtual void UnInit();
 
+	virtual void OnNotify();//通知受け取り
 	virtual SceneBase* NextScene();
+
 };
 
 
