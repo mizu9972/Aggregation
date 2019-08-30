@@ -51,6 +51,8 @@ class GameScene : public SceneBase , public Observer {
 private:
 	CModel* SkyDome = nullptr;
 	CModel* StageModel = nullptr;
+	CModel* CockPit = nullptr;
+
 	bool isControlActive;
 public:
 	GameScene();

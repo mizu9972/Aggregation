@@ -33,7 +33,10 @@ cbuffer ConstantBufferLight : register(b4)
 	float4 EyePos;					// 視点位置
 }
 
-
+cbuffer ConstantBufferColor : register(b5)
+{
+    float4 ColorMaterial; //指定色
+}
 
 //--------------------------------------------------------------------------------------
 // 構造体定義

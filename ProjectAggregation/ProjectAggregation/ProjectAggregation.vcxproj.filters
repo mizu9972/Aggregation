@@ -264,6 +264,18 @@
     <FxCompile Include="Shader\vs2d.fx">
       <Filter>リソース ファイル\VertexShader</Filter>
     </FxCompile>
+    <FxCompile Include="Shader\Lightps.fx">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Lightvs.fx">
+      <Filter>リソース ファイル\VertexShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\psskydome.fx">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\psCockPit.fx">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Title.png">

@@ -29,8 +29,8 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 	DX11MatrixIdentity(g_testmat);
 
 	// プロジェクション変換行列初期化
-	XMFLOAT3 eye = { 0.0f, 5.0f, -10.0f };				// 視点
-	XMFLOAT3 lookat = { 0,0,0 };			// 注視点
+	XMFLOAT3 eye = { 0.0f, 0.0f, -3.25f };				// 視点
+	XMFLOAT3 lookat = { 0,0,10 };			// 注視点
 	XMFLOAT3 up = { 0,1,0 };					// 上向きベクトル
 
 	CCamera::GetInstance()->Init(1.0f, 10000.0f, XM_PIDIV2, SCREEN_X, SCREEN_Y, eye, lookat, up);
