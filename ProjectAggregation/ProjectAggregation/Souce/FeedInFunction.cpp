@@ -26,7 +26,7 @@ void CFeedIn::Init(float MaxTime, XMFLOAT4 StartColor, XMFLOAT4 EndColor) {
 	m_AddColor.w = (EndColor.w - StartColor.w) / (MaxTime * FPS);
 
 	//テクスチャ初期化
-	m_DrawTexture->Init(SCREEN_X / 2, SCREEN_Y / 2, 0, SCREEN_X, SCREEN_Y, m_NowColor, "assets/textures/Clear.png");
+	m_DrawTexture->Init(SCREEN_X / 2, SCREEN_Y / 2, 0, SCREEN_X, SCREEN_Y, m_NowColor, "assets/textures/FeedIn.png");
 
 	//色変化させていく定数バッファ初期化
 	bool sts = CreateConstantBuffer(

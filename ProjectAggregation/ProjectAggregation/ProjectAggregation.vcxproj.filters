@@ -88,6 +88,9 @@
     <Filter Include="ソース ファイル\class\Effect">
       <UniqueIdentifier>{b1c15467-bcdf-4876-b757-c84ec9c065ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Textures">
+      <UniqueIdentifier>{27d485e2-c7b1-43ff-a0e1-34a98de967c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Souce\main.cpp">
@@ -261,5 +264,13 @@
     <FxCompile Include="Shader\vs2d.fx">
       <Filter>リソース ファイル\VertexShader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\Title.png">
+      <Filter>リソース ファイル\Textures</Filter>
+    </Image>
+    <Image Include="assets\textures\Result.png">
+      <Filter>リソース ファイル\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

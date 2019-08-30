@@ -15,10 +15,12 @@ public:
 	virtual SceneBase* NextScene() = 0;//次のシーンへの遷移
 };
 
+class Draw2D;
 //タイトルシーンクラス
 class TitleScene : public SceneBase ,public Observer{
 private:
 	bool isTitleEnd;
+	Draw2D* m_TitleTex = nullptr;
 public:
 	TitleScene() { isTitleEnd = false; };
 	virtual void Init();
@@ -32,6 +34,7 @@ public:
 //リザルトシーンクラス
 class ResultScene : public SceneBase {
 private:
+	Draw2D* m_ResultTex = nullptr;
 public:
 	ResultScene() {};
 	virtual void Init();
@@ -46,7 +49,8 @@ class CModel;
 //ゲームシーンクラス
 class GameScene : public SceneBase , public Observer {
 private:
-	CModel* StageModel;
+	CModel* SkyDome = nullptr;
+	CModel* StageModel = nullptr;
 	bool isControlActive;
 public:
 	GameScene();
