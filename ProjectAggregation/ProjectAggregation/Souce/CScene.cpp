@@ -70,7 +70,7 @@ void ResultScene::UnInit() {
 }
 
 SceneBase* ResultScene::NextScene() {
-	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN)) {
+	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_SPACE)) {
 		return new TitleScene;
 	}
 	return NULL;

@@ -150,6 +150,18 @@
     <ClCompile Include="Souce\Observer.cpp">
       <Filter>ソース ファイル\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Souce\Character.cpp">
+      <Filter>ソース ファイル\class\main</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\Player.cpp">
+      <Filter>ヘッダー ファイル\class\main</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\Enemy.cpp">
+      <Filter>ヘッダー ファイル\class\main</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\ScreenPosJudger.cpp">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
@@ -230,6 +242,18 @@
     <ClInclude Include="Souce\Observer.h">
       <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\Character.h">
+      <Filter>ヘッダー ファイル\class\main</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\ObjectSetting.h">
+      <Filter>ヘッダー ファイル\config</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\ScreenPosJudger.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\Command.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Text\PMX仕様.txt">
@@ -282,6 +306,12 @@
       <Filter>リソース ファイル\Textures</Filter>
     </Image>
     <Image Include="assets\textures\Result.png">
+      <Filter>リソース ファイル\Textures</Filter>
+    </Image>
+    <Image Include="assets\textures\Site.png">
+      <Filter>リソース ファイル\Textures</Filter>
+    </Image>
+    <Image Include="assets\textures\ActiveSite.png">
       <Filter>リソース ファイル\Textures</Filter>
     </Image>
   </ItemGroup>

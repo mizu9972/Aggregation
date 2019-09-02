@@ -1,5 +1,7 @@
 #pragma once
+#include <vector>
 #include "Observer.h"
+#include "Character.h"
 //シーン管理クラスヘッダーファイル
 
 //シーン基礎クラス
@@ -53,6 +55,11 @@ private:
 	CModel* StageModel = nullptr;
 	CModel* CockPit = nullptr;
 
+	Draw2D* Site = nullptr;
+	Draw2D* ActiveSite = nullptr;
+
+	Player* m_Player = nullptr;
+	std::vector<Character*> m_CharacterList;
 	bool isControlActive;
 public:
 	GameScene();

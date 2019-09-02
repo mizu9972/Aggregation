@@ -7,6 +7,8 @@
 #include "definer.h"
 #include "DX11Settransform.h"
 #include "CScene.h"
+#include "FileLoader.h"
+#include <time.h>
 
 XMFLOAT4X4 g_testmat;
 //-----------------------------------------------
@@ -15,7 +17,7 @@ XMFLOAT4X4 g_testmat;
 
 bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool fullscreen) {
 	bool		sts;
-	m_NowScene = new TitleScene;//タイトルシーンから
+	m_NowScene = new TitleScene;//開始シーン設定 基本はタイトルシーンから始める
 
 	// DX11初期処理
 	sts = DX11Init(hwnd, width, height, fullscreen);
@@ -23,21 +25,26 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 		MessageBox(hwnd, "DX11 init error", "error", MB_OK);
 		return false;
 	}
+	srand((unsigned)time(NULL));
 	
 	// DIRECTINPUT初期化
 	CDirectInput::GetInstance().Init(hinst, hwnd, width, height);
 	DX11MatrixIdentity(g_testmat);
 
 	// プロジェクション変換行列初期化
-	XMFLOAT3 eye = { 0.0f, 0.0f, -3.25f };				// 視点
-	XMFLOAT3 lookat = { 0,0,10 };			// 注視点
-	XMFLOAT3 up = { 0,1,0 };					// 上向きベクトル
+	XMFLOAT3 eye    = { 0.0f, 0.0f, -3.25f };			// 視点
+	XMFLOAT3 lookat = {	0.0f, 0.0f, 10.0f };			// 注視点
+	XMFLOAT3 up     = { 0.0f, 1.0f,  0.0f };			// 上向きベクトル
 
 	CCamera::GetInstance()->Init(1.0f, 10000.0f, XM_PIDIV2, SCREEN_X, SCREEN_Y, eye, lookat, up);
 
 	// 平行光源初期化
 	DX11LightInit(DirectX::XMFLOAT4(1, 1, -1, 0));		// 平行光源の方向をセット
 
+	// ファイル管理クラス初期化
+	CFileLoader::GetInstance()->Init();
+
+	
 	m_NowScene->Init();
 	return true;
 }

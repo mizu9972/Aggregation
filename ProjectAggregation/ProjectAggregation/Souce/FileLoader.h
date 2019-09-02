@@ -1,10 +1,10 @@
 #pragma once
-#include "PmdLoader.h"
 
+#include "CModel.h"
 //外部から読み込んだデータを一括管理するクラス
 class CFileLoader {
 private:
-	//CPmdLoader* m_Stage = nullptr;
+	CModel* AirPlane;
 
 	CFileLoader() {};
 	~CFileLoader() = default;
@@ -15,11 +15,17 @@ public:
 	CFileLoader operator = (CFileLoader&&) = delete;
 
 	static CFileLoader* GetInstance() {
-		CFileLoader instance;
+		static CFileLoader instance;
 		return &instance;
 	}
 
+	enum class FileList {
+		AirPlane,
+	};
+
 	void Init();//初期化
 	void UnInit();
-	void DrawStaticObject();//動かないオブジェクトの描画
+
+	void Draw();//動かないオブジェクトの描画
+	void Draw(FileList File_);
 };
