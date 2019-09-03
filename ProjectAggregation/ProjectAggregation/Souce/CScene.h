@@ -68,6 +68,8 @@ public:
 	virtual void Render();
 	virtual void UnInit();
 
+	void ObjectHitJudge();//エネミーや障害物の当たり判定処理
+
 	virtual void OnNotify();//通知受け取り
 	virtual SceneBase* NextScene();
 

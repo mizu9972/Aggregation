@@ -9,6 +9,7 @@ public:
 	virtual void Down() = 0;
 	virtual void Right() = 0;
 	virtual void Left() = 0;
+	virtual void Act() = 0;
 };
 
 //キー操作に対応して動作させる動きのインターフェースとなる基底クラス
@@ -57,6 +58,14 @@ public:
 	}
 };
 
+class ActCommand : public Command {
+	//行動キー
+public:
+	virtual void Action(PlayerableObject* Object) {
+		Object->Act();
+	}
+};
+
 //入力情報を返すシングルトンクラス
 class InputHundler {
 private:
@@ -67,6 +76,8 @@ private:
 		S_Command = new DownCommand;
 		D_Command = new RightConmmand;
 		A_Command = new LeftCommand;
+		Q_Command = new ActCommand;
+		E_Command = new ActCommand;
 	};
 	~InputHundler() = default;
 
@@ -75,6 +86,8 @@ private:
 	Command* S_Command;
 	Command* D_Command;
 	Command* A_Command;
+	Command* Q_Command;
+	Command* E_Command;
 public:
 	InputHundler(const InputHundler&) = delete;
 	InputHundler(InputHundler&&) = delete;
@@ -99,6 +112,12 @@ public:
 		}
 		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_A)) {
 			return A_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_Q)) {
+			return Q_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_E)) {
+			return E_Command;
 		}
 		return nullptr;
 	}

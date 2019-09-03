@@ -65,7 +65,14 @@ void Enemy::RandomMove() {
 }
 
 void Enemy::Draw() {
-	
+	//•`‰æ
+
+	//ƒ[ƒ‹ƒhÀ•W•ÏŠ·Œã•`‰æ‚·‚é
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, m_Matrix);
 	CFileLoader::GetInstance()->Draw(CFileLoader::FileList::AirPlane);
+}
+
+void Enemy::HitFunction() {
+	//”í’eˆ—
+	Character::HitFunction();
 }

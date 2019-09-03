@@ -1,11 +1,12 @@
 #pragma once
-#include <d3d11.h>
+
 #include <DirectXMath.h>
 #include "Observer.h"
 #include "Command.h"
+#include "Interface.h"
 
 using namespace DirectX;
-class Character {
+class Character : public IHit{
 private:
 protected:
 	int m_HP;
@@ -24,7 +25,8 @@ public:
 	void Move(bool KeyInput);
 	virtual void Draw() {};
 	virtual void UnInit() {};
-	virtual void Hit();
+
+	virtual void HitFunction();
 
 	void SetTransform(XMFLOAT3 Pos);
 	void SetMatrixFromQt(XMFLOAT4 _Mat);
@@ -34,7 +36,7 @@ public:
 };
 
 
-class Player : public Character,public PlayerableObject{
+class Player : public Character, public PlayerableObject {
 private:
 
 
@@ -51,12 +53,13 @@ public:
 	virtual void Down();
 	virtual void Right();
 	virtual void Left();
+	virtual void Act();
 	//----------------------
 
 	PlayerableObject* getInstanceAtPlayerableObject() {
-		static PlayerableObject* instance = new Player;
-		return instance;
+		return this;
 	};
+
 };
 
 class Enemy : public Character {
@@ -83,4 +86,7 @@ public:
 	virtual void Update();
 	virtual void Draw();
 	virtual void UnInit();
+
+	virtual void HitFunction();
+
 };

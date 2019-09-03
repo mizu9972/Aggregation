@@ -83,7 +83,7 @@ void Character::Move(bool KeyInput) {
 
 }
 
-void Character::Hit() {
+void Character::HitFunction() {
 	m_HP -= 1;
 }
 

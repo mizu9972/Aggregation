@@ -46,3 +46,8 @@ void Player::Left() {
 	m_Angle.x = 0.0f;
 	m_Angle.y = -1.0f;
 }
+
+void Player::Act() {
+	//ƒAƒNƒVƒ‡ƒ“
+	//UŒ‚
+}

@@ -7,6 +7,7 @@
 #include "ObjectSetting.h"
 #include "ScreenPosJudger.h"
 #include "Command.h"
+//ゲームプレイシーンの処理
 
 //モデルファイル
 constexpr auto STAGE_MODEL_NAME = "assets/model/Ground.x.dat";
@@ -20,23 +21,23 @@ void GameScene::Init() {
 	if (StageModel == nullptr) {
 		StageModel = new CModel;
 	}
-	if (SkyDome == nullptr) {
-		SkyDome = new CModel;
+	if (SkyDome    == nullptr) {
+		SkyDome    = new CModel;
 	}
-	if (CockPit == nullptr) {
-		CockPit = new CModel;
+	if (CockPit    == nullptr) {
+		CockPit    = new CModel;
 	}
-	if (Site == nullptr) {
-		Site = new Draw2D;
+	if (Site       == nullptr) {
+		Site       = new Draw2D;
 	}
 	if (ActiveSite == nullptr) {
 		ActiveSite = new Draw2D;
 	}
 
 	//x.datモデル読み込み
-	StageModel->Init(STAGE_MODEL_NAME, "Shader/vs.fx", "Shader/MaterialColor_ps.fx");
-	SkyDome->Init(SKYDOME_MODEL_NAME, "Shader/vs.fx", "Shader/psskydome.fx");
-	CockPit->Init(COCKPIT_MODEL_NAME, "Shader/vs.fx", "Shader/psCockPit.fx");
+	StageModel->Init(STAGE_MODEL_NAME,   "Shader/vs.fx", "Shader/MaterialColor_ps.fx");
+	SkyDome->Init(	 SKYDOME_MODEL_NAME, "Shader/vs.fx", "Shader/psskydome.fx");
+	CockPit->Init(	 COCKPIT_MODEL_NAME, "Shader/vs.fx", "Shader/psCockPit.fx");
 
 	//テクスチャ読み込み
 	Site->Init(SCREEN_X / 2, SCREEN_Y / 2, 0, SITE_SIZE, SITE_SIZE, XMFLOAT4(1, 1, 1, 1), "assets/textures/Site.png");
@@ -51,7 +52,7 @@ void GameScene::Init() {
 	//エネミー初期位置
 	//エネミーの数と同じだけ用意する
 	XMFLOAT3 EnemyInitPos[] = {
-		{ 0.0f,0.0f,100.0f }
+		{ 0.0f,0.0f,100.0f } //1
 	};
 
 	//エネミーの初期化
@@ -137,6 +138,23 @@ void GameScene::UnInit() {
 	delete SkyDome;
 	delete CockPit;
 	delete Site;
+}
+
+void GameScene::ObjectHitJudge() {
+	//当たり判定
+	//エネミー
+	IHit* JudgeObject;
+	for (int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
+		if (ScreenPosComputer::GetInstance()->JudgeSiteIn(m_CharacterList[EnemyNum]->GetPos())) {
+			//#TODO
+			//標準サイト内のすべてのエネミーに当たっている
+			//Z軸ベクトルの数値で判定するなどして一番手前のエネミーのみ処理するようにしたい
+			m_CharacterList[EnemyNum]->HitFunction();
+		}
+	}
+
+	
+	//障害物の当たり判定
 }
 
 SceneBase* GameScene::NextScene() {

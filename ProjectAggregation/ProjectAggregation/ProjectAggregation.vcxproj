@@ -170,6 +170,7 @@
     <ClInclude Include="Souce\Exception.h" />
     <ClInclude Include="Souce\FbxModel.h" />
     <ClInclude Include="Souce\FileLoader.h" />
+    <ClInclude Include="Souce\Interface.h" />
     <ClInclude Include="Souce\Memory.h" />
     <ClInclude Include="Souce\NonCopyable.h" />
     <ClInclude Include="Souce\ObjectSetting.h" />

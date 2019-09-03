@@ -254,6 +254,9 @@
     <ClInclude Include="Souce\Command.h">
       <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\Interface.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Text\PMX仕様.txt">
