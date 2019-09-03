@@ -5,6 +5,7 @@
 #include "definer.h"
 #include "CEffectiveObject.h"
 #include "Observer.h"
+#include "CParticle.h"
 
 class SceneBase;
 
@@ -17,6 +18,9 @@ private:
 	//シーン
 	SceneBase* m_NowScene;
 	std::vector<CEffectiveObject*> m_EffectList;
+	std::vector<ParticleSystem*> m_ParticleList;
+
+
 public:
 
 	CGameMain(const CGameMain&) = delete;
@@ -37,6 +41,7 @@ public:
 	void Update();//更新
 	void Render();//描画
 
+	void ParticleStart(XMFLOAT3 Pos_);
 	void FeedInStart(float MaxTime, XMFLOAT4 StartColor, XMFLOAT4 EndColor);
 	void Exit();//終了処理
 

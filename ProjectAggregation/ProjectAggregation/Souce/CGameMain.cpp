@@ -76,6 +76,13 @@ void CGameMain::Update() {
 
 	m_NowScene->Update();//シーン毎の更新
 
+	for (unsigned int ParticleNo = 0; ParticleNo < m_ParticleList.size(); ParticleNo++) {
+		if (m_ParticleList[ParticleNo]->GetSystemActivate() == false) {
+			continue;
+		}
+		m_ParticleList[ParticleNo]->Update();
+	}
+
 	for (unsigned int EffectNo = 0; EffectNo < m_EffectList.size(); EffectNo++) {
 		m_EffectList[EffectNo]->Update();
 	}
@@ -103,6 +110,12 @@ void CGameMain::Render() {
 
 	m_NowScene->Render();
 
+	XMFLOAT4X4 ParticleMat;
+	DX11MatrixIdentity(ParticleMat);
+	for (unsigned int ParticleNo = 0; ParticleNo < m_ParticleList.size(); ParticleNo++) {
+		m_ParticleList[ParticleNo]->Draw();
+	}
+
 	for (unsigned int EffectNo = 0; EffectNo < m_EffectList.size();EffectNo++) {
 		m_EffectList[EffectNo]->Draw();
 	}
@@ -115,6 +128,15 @@ void CGameMain::Exit() {
 	DX11SetTransform::GetInstance()->Uninit();
 	delete m_NowScene;
 	DX11Uninit();
+}
+
+void CGameMain::ParticleStart(XMFLOAT3 Pos_) {
+	ParticleSystem* SetParticle = new ParticleSystem;
+	SetParticle->FInState("ParticleData/ExplosionData.txt", "assets/textures/NomalParticle.png");
+
+	SetParticle->SetPos(Pos_.x, Pos_.y, Pos_.z);
+	SetParticle->Start();
+	m_ParticleList.emplace_back(SetParticle);
 }
 
 void CGameMain::FeedInStart(float MaxTime, XMFLOAT4 StartColor, XMFLOAT4 EndColor) {

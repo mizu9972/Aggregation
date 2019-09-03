@@ -124,10 +124,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Souce\CBillBoard.cpp" />
     <ClCompile Include="Souce\CDirectXGraphics.cpp" />
     <ClCompile Include="Souce\CGameMain.cpp" />
     <ClCompile Include="Souce\Character.cpp" />
     <ClCompile Include="Souce\CModel.cpp" />
+    <ClCompile Include="Souce\CParticle.cpp" />
     <ClCompile Include="Souce\CScene.cpp" />
     <ClCompile Include="Souce\DatFile.cpp" />
     <ClCompile Include="Souce\DatFileLoader.cpp" />
@@ -149,6 +151,7 @@
     <ClCompile Include="Souce\WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Souce\CBillBoard.h" />
     <ClInclude Include="Souce\CCamera.h" />
     <ClInclude Include="Souce\CDirectInput.h" />
     <ClInclude Include="Souce\CDirectxGraphics.h" />
@@ -158,7 +161,9 @@
     <ClInclude Include="Souce\CLight.h" />
     <ClInclude Include="Souce\CModel.h" />
     <ClInclude Include="Souce\Command.h" />
+    <ClInclude Include="Souce\CParticle.h" />
     <ClInclude Include="Souce\CScene.h" />
+    <ClInclude Include="Souce\CTimer.h" />
     <ClInclude Include="Souce\DatFile.h" />
     <ClInclude Include="Souce\DatFileLoader.h" />
     <ClInclude Include="Souce\definer.h" />

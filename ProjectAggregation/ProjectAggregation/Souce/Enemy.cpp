@@ -3,6 +3,7 @@
 #include "WindowSetting.h"
 #include "DX11Settransform.h"
 #include "FileLoader.h"
+#include "CGameMain.h"
 
 void Enemy::Init() {
 	Character::Init();
@@ -75,4 +76,6 @@ void Enemy::Draw() {
 void Enemy::HitFunction() {
 	//”í’eŽžˆ—
 	Character::HitFunction();
+	CGameMain::GetInstance()->ParticleStart(XMFLOAT3(m_Matrix._41, m_Matrix._42, m_Matrix._43));
+	
 }
