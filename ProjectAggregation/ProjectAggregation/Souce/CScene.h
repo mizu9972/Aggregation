@@ -14,6 +14,7 @@ public:
 	virtual void Update() = 0;//更新
 	virtual void Render() = 0;//描画
 	virtual void UnInit() = 0;
+	virtual void ObjectHitJudge() {};
 	virtual SceneBase* NextScene() = 0;//次のシーンへの遷移
 };
 
@@ -29,6 +30,7 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void UnInit();
+
 	virtual SceneBase* NextScene();
 	virtual void OnNotify();//通知受け取り
 };
@@ -81,7 +83,7 @@ public:
 class SceneInstance {
 private:
 public:
-	static TitleScene Title;
-	static GameScene Game;
-	static ResultScene Result;
+	static TitleScene* Title;
+	static GameScene* Game;
+	static ResultScene* Result;
 };

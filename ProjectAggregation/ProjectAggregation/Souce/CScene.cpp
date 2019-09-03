@@ -20,7 +20,7 @@ void TitleScene::Init() {
 }
 
 void TitleScene::Update() {
-	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN)) {
+	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_SPACE)) {
 		CGameMain::GetInstance()->FeedInStart(1.0f, XMFLOAT4(0, 0, 0, 0), XMFLOAT4(1, 1, 1, 1));
 		CGameMain::GetInstance()->AddObsever(this);
 	}

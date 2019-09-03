@@ -40,7 +40,7 @@ void GameScene::Init() {
 	CockPit->Init(	 COCKPIT_MODEL_NAME, "Shader/vs.fx", "Shader/psCockPit.fx");
 
 	//テクスチャ読み込み
-	Site->Init(SCREEN_X / 2, SCREEN_Y / 2, 0, SITE_SIZE, SITE_SIZE, XMFLOAT4(1, 1, 1, 1), "assets/textures/Site.png");
+	Site->Init(		 SCREEN_X / 2, SCREEN_Y / 2, 0, SITE_SIZE, SITE_SIZE, XMFLOAT4(1, 1, 1, 1), "assets/textures/Site.png");
 	ActiveSite->Init(SCREEN_X / 2, SCREEN_Y / 2, 0, SITE_SIZE, SITE_SIZE, XMFLOAT4(1, 1, 1, 1), "assets/textures/ActiveSite.png");
 	
 	//キャラクター設定
@@ -69,6 +69,7 @@ void GameScene::Init() {
 	CGameMain::GetInstance()->AddObsever(this);
 	CGameMain::GetInstance()->FeedInStart(1.0f, XMFLOAT4(1, 1, 1, 1), XMFLOAT4(0, 0, 0, 0));
 	isControlActive = false;
+
 }
 
 void GameScene::Update() {

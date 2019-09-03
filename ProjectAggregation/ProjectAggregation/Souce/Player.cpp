@@ -1,5 +1,6 @@
 #include "Character.h"
-
+#include "CGameMain.h"
+#include "CScene.h"
 void Player::Init() {
 	Character::Init();
 
@@ -50,4 +51,7 @@ void Player::Left() {
 void Player::Act() {
 	//アクション
 	//攻撃
+
+	//当たり判定する処理呼び出し
+	CGameMain::GetInstance()->getNowScene()->ObjectHitJudge();
 }

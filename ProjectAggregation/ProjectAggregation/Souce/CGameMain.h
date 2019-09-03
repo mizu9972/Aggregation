@@ -40,6 +40,8 @@ public:
 	void FeedInStart(float MaxTime, XMFLOAT4 StartColor, XMFLOAT4 EndColor);
 	void Exit();//終了処理
 
+	//シーンオブジェクト取得
+	SceneBase* getNowScene() { return m_NowScene; };
 	//オブザーバーオーバーライド
 	virtual void OnNotify();
 };
