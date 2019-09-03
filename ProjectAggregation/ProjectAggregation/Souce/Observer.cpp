@@ -8,6 +8,12 @@ void Subject::Notify() {
 	}
 }
 
+void Subject::Notify(Subject* subject_) {
+	for (unsigned int ObserverNum = 0; ObserverNum < m_ObserverList.size(); ObserverNum++) {
+		m_ObserverList[ObserverNum]->OnNotify(subject_);
+	}
+}
+
 void Subject::AddObsever(Observer* observer_) {
 	//オブザーバ追加
 	m_ObserverList.emplace_back(observer_);

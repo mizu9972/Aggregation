@@ -2,8 +2,11 @@
 #include <vector>
 #include "Observer.h"
 #include "Character.h"
+#include "CParticle.h"
 //シーン管理クラスヘッダーファイル
 
+//共有ワールド行列
+extern XMFLOAT4X4 CommonWorldMat;
 //シーン基礎クラス
 class SceneBase {
 private:
@@ -24,6 +27,7 @@ class TitleScene : public SceneBase ,public Observer{
 private:
 	bool isTitleEnd;
 	Draw2D* m_TitleTex = nullptr;
+	ParticleSystem* TitleParticle;
 public:
 	TitleScene() { isTitleEnd = false; };
 	virtual void Init();
@@ -53,15 +57,17 @@ class CModel;
 //ゲームシーンクラス
 class GameScene : public SceneBase , public Observer {
 private:
-	CModel* SkyDome = nullptr;
 	CModel* StageModel = nullptr;
-	CModel* CockPit = nullptr;
+	CModel* CockPit    = nullptr;
 
-	Draw2D* Site = nullptr;
+	Draw2D* Site       = nullptr;
 	Draw2D* ActiveSite = nullptr;
 
-	Player* m_Player = nullptr;
+	Player* m_Player   = nullptr;
+
 	std::vector<Character*> m_CharacterList;
+	std::vector<ParticleSystem*> m_ParticleList;
+
 	bool isControlActive;
 public:
 	GameScene();
@@ -72,7 +78,10 @@ public:
 
 	void ObjectHitJudge();//エネミーや障害物の当たり判定処理
 
-	virtual void OnNotify();//通知受け取り
+	//オブザーバーオーバーライド
+	//通知受け取り
+	virtual void OnNotify();
+	virtual void OnNotify(Subject* subject_);
 	virtual SceneBase* NextScene();
 
 };
@@ -83,7 +92,7 @@ public:
 class SceneInstance {
 private:
 public:
-	static TitleScene* Title;
-	static GameScene* Game;
-	static ResultScene* Result;
+	static TitleScene Title;
+	static GameScene Game;
+	static ResultScene Result;
 };

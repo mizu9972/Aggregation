@@ -6,7 +6,7 @@
 #include "Interface.h"
 
 using namespace DirectX;
-class Character : public IHit{
+class Character : public IHit , public Subject{
 private:
 protected:
 	int m_HP;
@@ -33,12 +33,13 @@ public:
 
 	XMFLOAT4X4 GetMatrix() { return m_Matrix; };
 	XMFLOAT3 GetPos() { return XMFLOAT3(m_Matrix._41, m_Matrix._42, m_Matrix._43); };
+
 };
 
 
 class Player : public Character, public PlayerableObject {
 private:
-
+	XMFLOAT3 LookAtPoint;
 
 public:
 	//オーバーライド-----------
@@ -62,7 +63,7 @@ public:
 
 };
 
-class Enemy : public Character {
+class Enemy : public Character{
 private:
 	//行動リスト
 	typedef enum {

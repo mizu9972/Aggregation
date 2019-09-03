@@ -19,6 +19,8 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 	bool		sts;
 	m_NowScene = new TitleScene;//開始シーン設定 基本はタイトルシーンから始める
 
+	//SceneBase* temp = &SceneInstance::Game;//インスタンスを利用して上書きの例
+	
 	// DX11初期処理
 	sts = DX11Init(hwnd, width, height, fullscreen);
 	if (!sts) {
@@ -30,6 +32,7 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 	// DIRECTINPUT初期化
 	CDirectInput::GetInstance().Init(hinst, hwnd, width, height);
 	DX11MatrixIdentity(g_testmat);
+	DX11MatrixIdentity(CommonWorldMat);
 
 	// プロジェクション変換行列初期化
 	XMFLOAT3 eye    = { 0.0f, 0.0f, -3.25f };			// 視点
@@ -76,13 +79,6 @@ void CGameMain::Update() {
 
 	m_NowScene->Update();//シーン毎の更新
 
-	for (unsigned int ParticleNo = 0; ParticleNo < m_ParticleList.size(); ParticleNo++) {
-		if (m_ParticleList[ParticleNo]->GetSystemActivate() == false) {
-			continue;
-		}
-		m_ParticleList[ParticleNo]->Update();
-	}
-
 	for (unsigned int EffectNo = 0; EffectNo < m_EffectList.size(); EffectNo++) {
 		m_EffectList[EffectNo]->Update();
 	}
@@ -108,13 +104,8 @@ void CGameMain::Render() {
 	//ワールド変換行列をセット
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, g_testmat);
 
-	m_NowScene->Render();
 
-	XMFLOAT4X4 ParticleMat;
-	DX11MatrixIdentity(ParticleMat);
-	for (unsigned int ParticleNo = 0; ParticleNo < m_ParticleList.size(); ParticleNo++) {
-		m_ParticleList[ParticleNo]->Draw();
-	}
+	m_NowScene->Render();
 
 	for (unsigned int EffectNo = 0; EffectNo < m_EffectList.size();EffectNo++) {
 		m_EffectList[EffectNo]->Draw();
@@ -128,15 +119,6 @@ void CGameMain::Exit() {
 	DX11SetTransform::GetInstance()->Uninit();
 	delete m_NowScene;
 	DX11Uninit();
-}
-
-void CGameMain::ParticleStart(XMFLOAT3 Pos_) {
-	ParticleSystem* SetParticle = new ParticleSystem;
-	SetParticle->FInState("ParticleData/ExplosionData.txt", "assets/textures/NomalParticle.png");
-
-	SetParticle->SetPos(Pos_.x, Pos_.y, Pos_.z);
-	SetParticle->Start();
-	m_ParticleList.emplace_back(SetParticle);
 }
 
 void CGameMain::FeedInStart(float MaxTime, XMFLOAT4 StartColor, XMFLOAT4 EndColor) {

@@ -4,6 +4,7 @@
 //外部から読み込んだデータを一括管理するクラス
 class CFileLoader {
 private:
+	CModel* SkyDome;
 	CModel* AirPlane;
 
 	CFileLoader() {};
@@ -21,6 +22,7 @@ public:
 
 	enum class FileList {
 		AirPlane,
+		SkyDome,
 	};
 
 	void Init();//初期化

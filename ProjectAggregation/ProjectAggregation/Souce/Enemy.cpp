@@ -76,6 +76,5 @@ void Enemy::Draw() {
 void Enemy::HitFunction() {
 	//”í’eŽžˆ—
 	Character::HitFunction();
-	CGameMain::GetInstance()->ParticleStart(XMFLOAT3(m_Matrix._41, m_Matrix._42, m_Matrix._43));
 	
 }

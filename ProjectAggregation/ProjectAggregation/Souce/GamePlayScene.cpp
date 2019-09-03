@@ -1,4 +1,5 @@
 
+#include "CCamera.h"
 #include "CScene.h"
 #include "CModel.h"
 #include "CGameMain.h"
@@ -7,6 +8,7 @@
 #include "ObjectSetting.h"
 #include "ScreenPosJudger.h"
 #include "Command.h"
+#include "FileLoader.h"
 //ゲームプレイシーンの処理
 
 //モデルファイル
@@ -21,9 +23,6 @@ void GameScene::Init() {
 	if (StageModel == nullptr) {
 		StageModel = new CModel;
 	}
-	if (SkyDome    == nullptr) {
-		SkyDome    = new CModel;
-	}
 	if (CockPit    == nullptr) {
 		CockPit    = new CModel;
 	}
@@ -36,7 +35,6 @@ void GameScene::Init() {
 
 	//x.datモデル読み込み
 	StageModel->Init(STAGE_MODEL_NAME,   "Shader/vs.fx", "Shader/MaterialColor_ps.fx");
-	SkyDome->Init(	 SKYDOME_MODEL_NAME, "Shader/vs.fx", "Shader/psskydome.fx");
 	CockPit->Init(	 COCKPIT_MODEL_NAME, "Shader/vs.fx", "Shader/psCockPit.fx");
 
 	//テクスチャ読み込み
@@ -52,7 +50,13 @@ void GameScene::Init() {
 	//エネミー初期位置
 	//エネミーの数と同じだけ用意する
 	XMFLOAT3 EnemyInitPos[] = {
-		{ 0.0f,0.0f,10.0f } //1
+		//     x       y       z     No
+		{   0.0f,   0.0f,  60.0f }, //1
+		{  10.0f,   0.0f,  70.0f }, //2
+		{   0.0f,  20.0f,  70.0f }, //3
+		{  20.0f,  10.0f,  80.0f }, //4
+		{ -20.0f, -10.0f,  90.0f }  //5
+
 	};
 
 	//エネミーの初期化
@@ -62,7 +66,7 @@ void GameScene::Init() {
 		//初期化
 		SetEnemy->Init();
 		SetEnemy->SetTransform(EnemyInitPos[EnemyInitNum]);
-		
+		SetEnemy->AddObsever(this);
 		//リスト追加
 		m_CharacterList.emplace_back(SetEnemy);
 	}
@@ -90,18 +94,35 @@ void GameScene::Update() {
 	for (int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
 		m_CharacterList[CharacterNum]->Update();
 	}
+
+	//パーティクル更新
+	for (int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
+		if (m_ParticleList[ParticleNum]->GetSystemActivate() == false) {
+			continue;
+		}
+		m_ParticleList[ParticleNum]->Update();
+	}
+
+	//カメラ更新
+	XMFLOAT4X4 CameraMatrix = CCamera::GetInstance()->GetCameraMatrix();
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::VIEW, CameraMatrix);
 }
 
 void GameScene::Render() {
 	//描画
-	SkyDome->Draw();
-	CockPit->Draw();
+
+	//スカイドーム->キャラクター等のオブジェクト->UI等の順に描画
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, CommonWorldMat);
+	CFileLoader::GetInstance()->Draw(CFileLoader::FileList::SkyDome);
 
 	//キャラクター描画
 	m_Player->Draw();
 	for (int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
 		m_CharacterList[CharacterNum]->Draw();
 	}
+
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, CommonWorldMat);
+	CockPit->Draw();
 
 	//標準サイト描画
 	//サイト内にエネミーが入っているかどうか判定して描画を変える
@@ -111,6 +132,12 @@ void GameScene::Render() {
 			isAnyScreenIn = true;
 		}
 	}
+
+	//パーティクル描画
+	for (int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
+		m_ParticleList[ParticleNum]->Draw();
+	}
+
 	if (isAnyScreenIn == true) {
 		ActiveSite->Draw();
 	}
@@ -123,7 +150,6 @@ void GameScene::Render() {
 void GameScene::UnInit() {
 	//終了処理
 	StageModel->Uninit();
-	SkyDome->Uninit();
 	CockPit->Uninit();
 	Site->Uninit();
 
@@ -135,8 +161,14 @@ void GameScene::UnInit() {
 	m_CharacterList.clear();
 	m_CharacterList.shrink_to_fit();
 
+	//パーティクル終了処理
+	for (int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
+		m_ParticleList[ParticleNum]->UnInit();
+	}
+	m_ParticleList.clear();
+	m_ParticleList.shrink_to_fit();
+
 	delete StageModel;
-	delete SkyDome;
 	delete CockPit;
 	delete Site;
 }
@@ -144,13 +176,24 @@ void GameScene::UnInit() {
 void GameScene::ObjectHitJudge() {
 	//当たり判定
 	//エネミー
-	IHit* JudgeObject;
 	for (int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
 		if (ScreenPosComputer::GetInstance()->JudgeSiteIn(m_CharacterList[EnemyNum]->GetPos())) {
 			//#TODO
 			//標準サイト内のすべてのエネミーに当たっている
 			//Z軸ベクトルの数値で判定するなどして一番手前のエネミーのみ処理するようにしたい
+
+			//パーティクル生成
+			ParticleSystem* SetParticle = new ParticleSystem;
+			SetParticle->FInState("ParticleData/ExplosionData.txt", "assets/textures/NomalParticle.png");
+			XMFLOAT3 SetPos = m_CharacterList[EnemyNum]->GetPos();
+			SetParticle->SetPos(SetPos.x, SetPos.y, SetPos.z);
+			SetParticle->Start();
+
+			m_ParticleList.emplace_back(SetParticle);//リストに追加
+
 			m_CharacterList[EnemyNum]->HitFunction();
+
+
 		}
 	}
 
@@ -159,11 +202,24 @@ void GameScene::ObjectHitJudge() {
 }
 
 SceneBase* GameScene::NextScene() {
+	if (m_CharacterList.size() <= 0) {
+		return new ResultScene;
+	}
 	return NULL;
 }
 
 void GameScene::OnNotify() {
 	isControlActive = true;
 	CGameMain::GetInstance()->RemoveObserver(this);
+}
+
+void GameScene::OnNotify(Subject* subject_) {
+	//エネミー死亡通知受け取り
+	for (int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
+		if (m_CharacterList[EnemyNum] == subject_) {
+			m_CharacterList.erase(m_CharacterList.begin() + EnemyNum);
+		}
+	}
+	m_CharacterList.shrink_to_fit();
 }
 //--------------------------------------------

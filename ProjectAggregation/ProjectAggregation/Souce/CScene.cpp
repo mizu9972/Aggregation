@@ -3,10 +3,13 @@
 #include "CDirectInput.h"
 #include "Draw2D.h"
 #include "WindowSetting.h"
+#include "FileLoader.h"
 
 //各シーン処理ファイル
 //ゲームメインシーン処理は"GamePlayScene"ファイル
 
+//ワールド行列
+XMFLOAT4X4 CommonWorldMat;
 //テクスチャファイル
 constexpr auto TITLE_TEXTURE = "assets/textures/Title.png";
 constexpr auto RESULT_TEXTURE = "assets/textures/Result.png";
@@ -17,6 +20,11 @@ void TitleScene::Init() {
 		m_TitleTex = new Draw2D;
 	}
 	m_TitleTex->Init(SCREEN_X / 2, SCREEN_Y / 2, 0, SCREEN_X, SCREEN_Y, XMFLOAT4(1, 1, 1, 1), TITLE_TEXTURE);
+
+	TitleParticle = new ParticleSystem;
+	TitleParticle->FInState("ParticleData/ExplosionData.txt", "assets/textures/NomalParticle.png");
+	TitleParticle->SetPos(0, 0, 0);
+	TitleParticle->Start();
 }
 
 void TitleScene::Update() {
@@ -24,14 +32,24 @@ void TitleScene::Update() {
 		CGameMain::GetInstance()->FeedInStart(1.0f, XMFLOAT4(0, 0, 0, 0), XMFLOAT4(1, 1, 1, 1));
 		CGameMain::GetInstance()->AddObsever(this);
 	}
+	if (TitleParticle->GetSystemActivate() == false) {
+		TitleParticle->Start();
+	}
+	TitleParticle->Update();
 }
 
 void TitleScene::Render() {
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, CommonWorldMat);
+	CFileLoader::GetInstance()->Draw(CFileLoader::FileList::SkyDome);
+	TitleParticle->Draw();
 	m_TitleTex->Draw();
+
+
 }
 
 void TitleScene::UnInit() {
 	m_TitleTex->Uninit();
+	TitleParticle->UnInit();
 }
 
 SceneBase* TitleScene::NextScene(){

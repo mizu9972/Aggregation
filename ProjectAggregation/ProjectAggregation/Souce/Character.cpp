@@ -85,6 +85,10 @@ void Character::Move(bool KeyInput) {
 
 void Character::HitFunction() {
 	m_HP -= 1;
+
+	if (m_HP <= 0) {
+		Notify(this);
+	}
 }
 
 void Character::SetTransform(XMFLOAT3 Pos) {
