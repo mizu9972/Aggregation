@@ -262,6 +262,9 @@
     <Text Include="Text\PMX仕様.txt">
       <Filter>リソース ファイル\Text</Filter>
     </Text>
+    <Text Include="..\..\バグ修正履歴.txt">
+      <Filter>リソース ファイル\Text</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\psvscommon.fx">

@@ -197,6 +197,7 @@
     <ClInclude Include="Souce\WindowSetting.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\..\バグ修正履歴.txt" />
     <Text Include="Text\PMX仕様.txt" />
   </ItemGroup>
   <ItemGroup>
