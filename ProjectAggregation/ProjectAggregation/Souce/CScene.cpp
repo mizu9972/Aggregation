@@ -71,6 +71,7 @@ void ResultScene::Update() {
 }
 
 void ResultScene::Render() {
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, CommonWorldMat);
 	m_ResultTex->Draw();
 }
 

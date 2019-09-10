@@ -108,12 +108,6 @@
     <ClCompile Include="Souce\CDirectXGraphics.cpp">
       <Filter>ソース ファイル\Utility\DirectXUtil</Filter>
     </ClCompile>
-    <ClCompile Include="Souce\WICTextureLoader.cpp">
-      <Filter>ヘッダー ファイル\FileLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="Souce\DDSTextureLoader.cpp">
-      <Filter>ヘッダー ファイル\FileLoader</Filter>
-    </ClCompile>
     <ClCompile Include="Souce\PmdLoader.cpp">
       <Filter>ソース ファイル\class\File\Pmd</Filter>
     </ClCompile>
@@ -160,6 +154,12 @@
       <Filter>ソース ファイル\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Souce\CBillBoard.cpp">
+      <Filter>ソース ファイル\class\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\DDSTextureLoader.cpp">
+      <Filter>ソース ファイル\class\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\WICTextureLoader.cpp">
       <Filter>ソース ファイル\class\File</Filter>
     </ClCompile>
   </ItemGroup>
@@ -264,12 +264,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shader\fbxtest.fx">
-      <Filter>リソース ファイル\Text</Filter>
-    </FxCompile>
     <FxCompile Include="Shader\psvscommon.fx">
       <Filter>リソース ファイル\PreShader</Filter>
     </FxCompile>
@@ -302,6 +296,9 @@
     </FxCompile>
     <FxCompile Include="Shader\psCockPit.fx">
       <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\fbxtest.fx">
+      <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

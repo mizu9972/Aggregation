@@ -9,6 +9,7 @@
 #include "ScreenPosJudger.h"
 #include "Command.h"
 #include "FileLoader.h"
+
 //ゲームプレイシーンの処理
 
 //モデルファイル
@@ -17,6 +18,7 @@ constexpr auto SKYDOME_MODEL_NAME = "assets/model/skydome.x.dat";
 //ゲームシーン----------------------------------
 GameScene::GameScene() {
 }
+
 void GameScene::Init() {
 	//初期化
 	if (StageModel == nullptr) {
@@ -117,11 +119,10 @@ void GameScene::Render() {
 	CFileLoader::GetInstance()->Draw(CFileLoader::FileList::SkyDome);
 
 	//キャラクター描画
-	m_Player->Draw();
 	for (unsigned int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
 		m_CharacterList[CharacterNum]->Draw();
 	}
-
+	m_Player->Draw();
 
 	//標準サイト描画
 	//サイト内にエネミーが入っているかどうか判定して描画を変える
@@ -179,6 +180,10 @@ void GameScene::ObjectHitJudge() {
 			//標準サイト内のすべてのエネミーに当たっている
 			//Z軸ベクトルの数値で判定するなどして一番手前のエネミーのみ処理するようにしたい
 
+			//#TODO
+			//新しくパーティクルを生成する際に、ファイル読み込みから初期化するのではなくて
+			//複製などもっと簡易的な処理にできないか
+
 			//パーティクル生成
 			ParticleSystem* SetParticle = new ParticleSystem;
 			SetParticle->FInState("ParticleData/ExplosionData.txt", "assets/textures/NomalParticle.png");
@@ -195,7 +200,7 @@ void GameScene::ObjectHitJudge() {
 	}
 
 	
-	//障害物の当たり判定
+	//障害物への攻撃当たり判定
 }
 
 SceneBase* GameScene::NextScene() {

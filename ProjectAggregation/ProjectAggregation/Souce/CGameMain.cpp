@@ -11,7 +11,6 @@
 #include "ObjectSetting.h"
 #include <time.h>
 
-XMFLOAT4X4 g_testmat;
 //-----------------------------------------------
 //ゲームメイン処理クラス
 //-----------------------------------------------
@@ -32,7 +31,6 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 	
 	// DIRECTINPUT初期化
 	CDirectInput::GetInstance().Init(hinst, hwnd, width, height);
-	DX11MatrixIdentity(g_testmat);
 	DX11MatrixIdentity(CommonWorldMat);
 
 	// プロジェクション変換行列初期化
@@ -101,10 +99,6 @@ void CGameMain::Render() {
 	// プロジェクション変換行列セット
 	mat = CCamera::GetInstance()->GetProjectionMatrix();
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::PROJECTION, mat);
-
-	//ワールド変換行列をセット
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, g_testmat);
-
 
 	m_NowScene->Render();
 
