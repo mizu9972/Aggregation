@@ -83,7 +83,7 @@ public:
 		unsigned int numElements = ARRAYSIZE(layout);
 		// 頂点シェーダーオブジェクトを生成、同時に頂点レイアウトも生成
 		bool sts = CreateVertexShader(m_dev,
-			"Shader/vstriangle.fx",
+			"shader/vstriangle.fx",
 			"main",
 			"vs_4_0",
 			layout,
@@ -99,7 +99,7 @@ public:
 		// ピクセルシェーダーを生成
 		sts = CreatePixelShader(			// ピクセルシェーダーオブジェクトを生成
 			m_dev,							// デバイスオブジェクト
-			"Shader/psbillboard.fx", 
+			"shader/psbillboard.fx", 
 			"main", 
 			"ps_4_0",
 			&m_pPixelShader);

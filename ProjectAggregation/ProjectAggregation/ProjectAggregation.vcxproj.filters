@@ -120,12 +120,6 @@
     <ClCompile Include="Souce\FileLoader.cpp">
       <Filter>ソース ファイル\class\File</Filter>
     </ClCompile>
-    <ClCompile Include="Souce\FbxModel.cpp">
-      <Filter>ソース ファイル\class\File\Fbx</Filter>
-    </ClCompile>
-    <ClCompile Include="Souce\Utility.cpp">
-      <Filter>ソース ファイル\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Souce\CScene.cpp">
       <Filter>ソース ファイル\class\main</Filter>
     </ClCompile>
@@ -156,9 +150,6 @@
     <ClCompile Include="Souce\CParticle.cpp">
       <Filter>ソース ファイル\class\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Souce\CBillBoard.cpp">
-      <Filter>ソース ファイル\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Souce\Enemy.cpp">
       <Filter>ソース ファイル\class\main</Filter>
     </ClCompile>
@@ -167,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Souce\Shader.cpp">
       <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\CBillBoard.cpp">
+      <Filter>ソース ファイル\class\File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,18 +199,6 @@
     </ClInclude>
     <ClInclude Include="Souce\PmdLoader.h">
       <Filter>ヘッダー ファイル\class\File\Pmd</Filter>
-    </ClInclude>
-    <ClInclude Include="Souce\FileLoader.h">
-      <Filter>ヘッダー ファイル\class\File</Filter>
-    </ClInclude>
-    <ClInclude Include="Souce\Element.h">
-      <Filter>ヘッダー ファイル\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Souce\FbxModel.h">
-      <Filter>ヘッダー ファイル\class\File\Fbx</Filter>
-    </ClInclude>
-    <ClInclude Include="Souce\Utility.h">
-      <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Souce\CScene.h">
       <Filter>ヘッダー ファイル\class\main</Filter>
@@ -260,9 +242,6 @@
     <ClInclude Include="Souce\Interface.h">
       <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Souce\CBillBoard.h">
-      <Filter>ヘッダー ファイル\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Souce\CParticle.h">
       <Filter>ヘッダー ファイル\class\Effect</Filter>
     </ClInclude>
@@ -271,6 +250,12 @@
     </ClInclude>
     <ClInclude Include="Souce\Draw2D.h">
       <Filter>ヘッダー ファイル\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\FileLoader.h">
+      <Filter>ヘッダー ファイル\FileLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\CBillBoard.h">
+      <Filter>ヘッダー ファイル\class\File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

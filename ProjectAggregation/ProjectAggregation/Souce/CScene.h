@@ -27,7 +27,6 @@ class TitleScene : public SceneBase ,public Observer{
 private:
 	bool isTitleEnd;
 	Draw2D* m_TitleTex = nullptr;
-	ParticleSystem* TitleParticle;
 public:
 	TitleScene() { isTitleEnd = false; };
 	virtual void Init();
@@ -58,7 +57,6 @@ class CModel;
 class GameScene : public SceneBase , public Observer {
 private:
 	CModel* StageModel = nullptr;
-	CModel* CockPit    = nullptr;
 
 	Draw2D* Site       = nullptr;
 	Draw2D* ActiveSite = nullptr;

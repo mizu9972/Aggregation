@@ -6,6 +6,8 @@
 //変更する場合GameSceneクラスのInit内のエネミー初期位置設定する部分も追加・削除する
 #define ENEMY_START_NUM 5
 
+#define PLAYER_CAMERAPOS_Z -3.25f
+
 #define CHARACTER_HP 5 //体力
 #define CHARACTER_SPEED 0.5f //初期移動速度
 

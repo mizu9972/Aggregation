@@ -39,8 +39,8 @@ public:
 
 class Player : public Character, public PlayerableObject {
 private:
-	XMFLOAT3 LookAtPoint;
 
+	void CameraMove();//カメラを操作
 public:
 	//オーバーライド-----------
 	//Characterクラス
@@ -54,6 +54,8 @@ public:
 	virtual void Down();
 	virtual void Right();
 	virtual void Left();
+	virtual void R_Turn();
+	virtual void L_Turn();
 	virtual void Act();
 	//----------------------
 

@@ -6,7 +6,8 @@ class CFileLoader {
 private:
 	CModel* SkyDome;
 	CModel* AirPlane;
-
+	CModel* CockPit;
+	
 	CFileLoader() {};
 	~CFileLoader() = default;
 public:
@@ -23,6 +24,7 @@ public:
 	enum class FileList {
 		AirPlane,
 		SkyDome,
+		CockPit,
 	};
 
 	void Init();//èâä˙âª

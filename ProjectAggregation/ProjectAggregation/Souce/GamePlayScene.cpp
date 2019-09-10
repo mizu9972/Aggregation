@@ -14,7 +14,6 @@
 //モデルファイル
 constexpr auto STAGE_MODEL_NAME = "assets/model/Ground.x.dat";
 constexpr auto SKYDOME_MODEL_NAME = "assets/model/skydome.x.dat";
-constexpr auto COCKPIT_MODEL_NAME = "assets/model/CockPit.x.dat";
 //ゲームシーン----------------------------------
 GameScene::GameScene() {
 }
@@ -22,9 +21,6 @@ void GameScene::Init() {
 	//初期化
 	if (StageModel == nullptr) {
 		StageModel = new CModel;
-	}
-	if (CockPit    == nullptr) {
-		CockPit    = new CModel;
 	}
 	if (Site       == nullptr) {
 		Site       = new Draw2D;
@@ -35,7 +31,6 @@ void GameScene::Init() {
 
 	//x.datモデル読み込み
 	StageModel->Init(STAGE_MODEL_NAME,   "Shader/vs.fx", "Shader/MaterialColor_ps.fx");
-	CockPit->Init(	 COCKPIT_MODEL_NAME, "Shader/vs.fx", "Shader/psCockPit.fx");
 
 	//テクスチャ読み込み
 	Site->Init(		 SCREEN_X / 2, SCREEN_Y / 2, 0, SITE_SIZE, SITE_SIZE, XMFLOAT4(1, 1, 1, 1), "assets/textures/Site.png");
@@ -82,21 +77,27 @@ void GameScene::Update() {
 	}
 
 	//操作受付
-	Command* GetCommand;
-	GetCommand = InputHundler::getInstance()->GetInputKey();
-	if (GetCommand != nullptr) {
-		GetCommand->Action(m_Player->getInstanceAtPlayerableObject());
+	Command* FirstCommand;
+	Command* SecondCommand;
+	FirstCommand = InputHundler::getInstance()->GetInputKey();
+	SecondCommand = InputHundler::getInstance()->GetInputSecondKey(FirstCommand);
+
+	if (FirstCommand != nullptr) {//押されたキー処理
+		FirstCommand->Action(m_Player->getInstanceAtPlayerableObject());
+		if (SecondCommand != nullptr) {//同時押しキー処理
+			SecondCommand->Action(m_Player->getInstanceAtPlayerableObject());
+		}
 	}
 
 	m_Player->Update();
 
 	//キャラクター更新
-	for (int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
+	for (unsigned int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
 		m_CharacterList[CharacterNum]->Update();
 	}
 
 	//パーティクル更新
-	for (int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
+	for (unsigned int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
 		if (m_ParticleList[ParticleNum]->GetSystemActivate() == false) {
 			continue;
 		}
@@ -117,24 +118,22 @@ void GameScene::Render() {
 
 	//キャラクター描画
 	m_Player->Draw();
-	for (int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
+	for (unsigned int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
 		m_CharacterList[CharacterNum]->Draw();
 	}
 
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, CommonWorldMat);
-	CockPit->Draw();
 
 	//標準サイト描画
 	//サイト内にエネミーが入っているかどうか判定して描画を変える
 	bool isAnyScreenIn = false;
-	for (int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
+	for (unsigned int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
 		if (ScreenPosComputer::GetInstance()->JudgeSiteIn(m_CharacterList[EnemyNum]->GetPos())) {
 			isAnyScreenIn = true;
 		}
 	}
 
 	//パーティクル描画
-	for (int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
+	for (unsigned int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
 		m_ParticleList[ParticleNum]->Draw();
 	}
 
@@ -150,33 +149,31 @@ void GameScene::Render() {
 void GameScene::UnInit() {
 	//終了処理
 	StageModel->Uninit();
-	CockPit->Uninit();
 	Site->Uninit();
 
 	//キャラクター終了処理
 	m_Player->UnInit();
-	for (int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
+	for (unsigned int CharacterNum = 0; CharacterNum < m_CharacterList.size(); CharacterNum++) {
 		m_CharacterList[CharacterNum]->UnInit();
 	}
 	m_CharacterList.clear();
 	m_CharacterList.shrink_to_fit();
 
 	//パーティクル終了処理
-	for (int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
+	for (unsigned int ParticleNum = 0; ParticleNum < m_ParticleList.size(); ParticleNum++) {
 		m_ParticleList[ParticleNum]->UnInit();
 	}
 	m_ParticleList.clear();
 	m_ParticleList.shrink_to_fit();
 
 	delete StageModel;
-	delete CockPit;
 	delete Site;
 }
 
 void GameScene::ObjectHitJudge() {
 	//当たり判定
 	//エネミー
-	for (int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
+	for (unsigned int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
 		if (ScreenPosComputer::GetInstance()->JudgeSiteIn(m_CharacterList[EnemyNum]->GetPos())) {
 			//#TODO
 			//標準サイト内のすべてのエネミーに当たっている
@@ -215,7 +212,7 @@ void GameScene::OnNotify() {
 
 void GameScene::OnNotify(Subject* subject_) {
 	//エネミー死亡通知受け取り
-	for (int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
+	for (unsigned int EnemyNum = 0; EnemyNum < m_CharacterList.size(); EnemyNum++) {
 		if (m_CharacterList[EnemyNum] == subject_) {
 			m_CharacterList.erase(m_CharacterList.begin() + EnemyNum);
 		}

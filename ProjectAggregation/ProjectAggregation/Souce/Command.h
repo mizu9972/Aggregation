@@ -9,7 +9,10 @@ public:
 	virtual void Down() = 0;
 	virtual void Right() = 0;
 	virtual void Left() = 0;
+	virtual void R_Turn() = 0;
+	virtual void L_Turn() = 0;
 	virtual void Act() = 0;
+
 };
 
 //キー操作に対応して動作させる動きのインターフェースとなる基底クラス
@@ -58,6 +61,21 @@ public:
 	}
 };
 
+class R_TurnCommand : public Command {
+	//右回転
+public:
+	virtual void Action(PlayerableObject* Object) {
+		Object->R_Turn();
+	}
+};
+
+class L_TurnCommand : public Command {
+	//左回転
+public:
+	virtual void Action(PlayerableObject* Object) {
+		Object->L_Turn();
+	}
+};
 class ActCommand : public Command {
 	//行動キー
 public:
@@ -72,12 +90,14 @@ private:
 
 	InputHundler() {
 		//コマンドそれぞれ初期設定
+		//オーバーライドしなおすとキー設定の変更可能
 		W_Command = new UpCommand;
 		S_Command = new DownCommand;
 		D_Command = new RightConmmand;
 		A_Command = new LeftCommand;
-		Q_Command = new ActCommand;
-		E_Command = new ActCommand;
+		Q_Command = new L_TurnCommand;
+		E_Command = new R_TurnCommand;
+		SPACE_Command = new ActCommand;
 	};
 	~InputHundler() = default;
 
@@ -88,6 +108,7 @@ private:
 	Command* A_Command;
 	Command* Q_Command;
 	Command* E_Command;
+	Command* SPACE_Command;
 public:
 	InputHundler(const InputHundler&) = delete;
 	InputHundler(InputHundler&&) = delete;
@@ -118,6 +139,35 @@ public:
 		}
 		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_E)) {
 			return E_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_SPACE)) {
+			return SPACE_Command;
+		}
+		return nullptr;
+	}
+
+	//同時押しされているキー取得
+	Command* GetInputSecondKey(Command* FirstCommand) {
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_W) && FirstCommand != W_Command) {
+			return W_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_S) && FirstCommand != S_Command) {
+			return S_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_D) && FirstCommand != D_Command) {
+			return D_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_A) && FirstCommand != A_Command) {
+			return A_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_Q) && FirstCommand != Q_Command) {
+			return Q_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_E) && FirstCommand != E_Command) {
+			return E_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_SPACE) && FirstCommand != SPACE_Command) {
+			return SPACE_Command;
 		}
 		return nullptr;
 	}

@@ -70,6 +70,7 @@ void Character::Move(bool KeyInput) {
 
 		SetMatrixFromQt(tempqt3);
 	}
+
 	//é©ìÆëOêi---------------------------------------
 	NowPos.x += m_Matrix._31 * m_Speed;
 	NowPos.y += m_Matrix._32 * m_Speed;

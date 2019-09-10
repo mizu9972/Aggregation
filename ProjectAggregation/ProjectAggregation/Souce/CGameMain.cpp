@@ -8,6 +8,7 @@
 #include "DX11Settransform.h"
 #include "CScene.h"
 #include "FileLoader.h"
+#include "ObjectSetting.h"
 #include <time.h>
 
 XMFLOAT4X4 g_testmat;
@@ -35,7 +36,7 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 	DX11MatrixIdentity(CommonWorldMat);
 
 	// プロジェクション変換行列初期化
-	XMFLOAT3 eye    = { 0.0f, 0.0f, -3.25f };			// 視点
+	XMFLOAT3 eye    = { 0.0f, 0.0f,  0.0f };			// 視点
 	XMFLOAT3 lookat = {	0.0f, 0.0f, 10.0f };			// 注視点
 	XMFLOAT3 up     = { 0.0f, 1.0f,  0.0f };			// 上向きベクトル
 
@@ -134,7 +135,7 @@ void CGameMain::OnNotify() {
 	//エフェクト終了通知受け取り
 
 	//エフェクトリストから削除
-	for (int ListNum = 0; ListNum < m_EffectList.size(); ListNum++) {
+	for (unsigned int ListNum = 0; ListNum < m_EffectList.size(); ListNum++) {
 		if (m_EffectList[ListNum]->GetActive() == false) {
 			m_EffectList[ListNum]->RemoveObserver(CGameMain::GetInstance());//オブザーバ削除
 			m_EffectList.erase(m_EffectList.begin() + ListNum);
