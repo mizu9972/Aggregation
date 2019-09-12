@@ -8,6 +8,8 @@
 
 #define PLAYER_CAMERAPOS_Z -3.25f
 
+#define LOOKAT_LIMIT_ANGLE 50 //Ž‹“_ˆÚ“®‚ÌŒÀŠEŠp“x
+
 #define CHARACTER_HP 5 //‘Ì—Í
 #define CHARACTER_SPEED 0.5f //‰ŠúˆÚ“®‘¬“x
 

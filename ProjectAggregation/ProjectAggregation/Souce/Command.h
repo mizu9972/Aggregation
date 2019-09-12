@@ -13,6 +13,11 @@ public:
 	virtual void L_Turn() = 0;
 	virtual void Act() = 0;
 
+	virtual void SubUp() = 0;
+	virtual void SubDown() = 0;
+	virtual void SubRight() = 0;
+	virtual void SubLeft() = 0;
+
 };
 
 //キー操作に対応して動作させる動きのインターフェースとなる基底クラス
@@ -84,6 +89,37 @@ public:
 	}
 };
 
+class SubUpCommand :public Command {
+	//サブ上
+public:
+	virtual void Action(PlayerableObject* Object) {
+		Object->SubUp();
+	}
+};
+
+class SubDownCommand :public Command {
+	//サブ下
+public:
+	virtual void Action(PlayerableObject* Object) {
+		Object->SubDown();
+	}
+};
+
+class SubRightCommand :public Command {
+	//サブ右
+public:
+	virtual void Action(PlayerableObject* Object) {
+		Object->SubRight();
+	}
+};
+
+class SubLeftCommand :public Command {
+	//サブ左
+public:
+	virtual void Action(PlayerableObject* Object) {
+		Object->SubLeft();
+	}
+};
 //入力情報を返すシングルトンクラス
 class InputHundler {
 private:
@@ -98,6 +134,11 @@ private:
 		Q_Command = new L_TurnCommand;
 		E_Command = new R_TurnCommand;
 		SPACE_Command = new ActCommand;
+
+		Up_Command = new SubUpCommand;
+		Down_Command = new SubDownCommand;
+		Right_Command = new SubRightCommand;
+		Left_Command = new SubLeftCommand;
 	};
 	~InputHundler() = default;
 
@@ -109,6 +150,10 @@ private:
 	Command* Q_Command;
 	Command* E_Command;
 	Command* SPACE_Command;
+	Command* Up_Command;
+	Command* Down_Command;
+	Command* Right_Command;
+	Command* Left_Command;
 public:
 	InputHundler(const InputHundler&) = delete;
 	InputHundler(InputHundler&&) = delete;
@@ -143,6 +188,18 @@ public:
 		if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_SPACE)) {
 			return SPACE_Command;
 		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP)) {
+			return Up_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN)) {
+			return Down_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RIGHT)) {
+			return Right_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT)) {
+			return Left_Command;
+		}
 		return nullptr;
 	}
 
@@ -168,6 +225,18 @@ public:
 		}
 		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_SPACE) && FirstCommand != SPACE_Command) {
 			return SPACE_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) && FirstCommand != Up_Command) {
+			return Up_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) && FirstCommand != Down_Command) {
+			return Down_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RIGHT) && FirstCommand != Right_Command) {
+			return Right_Command;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT) && FirstCommand != Left_Command) {
+			return Left_Command;
 		}
 		return nullptr;
 	}

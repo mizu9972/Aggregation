@@ -17,27 +17,38 @@ void Player::UnInit() {
 
 void Player::Update() {
 
+	//角度初期化関数
+	auto AngleReset = [](XMFLOAT3& Angle_) { 
+		Angle_.x = 0.0f;
+		Angle_.y = 0.0f;
+		Angle_.z = 0.0f;
+	};
+
+
 	Character::Move(true);//移動(キー操作があったら引数をtrue)
 
 	//カメラ操作
 	CameraMove();
 
 	// 角度設定リセット
-	m_Angle.x = 0.0f;
-	m_Angle.y = 0.0f;
-	m_Angle.z = 0.0f;
+	AngleReset(m_Angle);
 }
 
 void Player::CameraMove() {
-	//カメラ操作
+	//カメラの操作
+	
+	//角度をラジアンに変換関数
+	auto ToRadian = [](float Angle) { return (Angle * XM_PI) / 180.0; };
+	
 	XMFLOAT3 Eye_;
 	XMFLOAT3 Up_;
 	XMFLOAT3 LookAt_;
-	
+
+	float r = 5.0f + sinf(ToRadian(m_CameraAngle.y));
 	//視点をやや前方に
-	LookAt_.x = m_Matrix._41 + m_Matrix._31 * 5.0f;
-	LookAt_.y = m_Matrix._42 + m_Matrix._32 * 5.0f;
-	LookAt_.z = m_Matrix._43 + m_Matrix._33 * 5.0f;
+	LookAt_.x = m_Matrix._41 + /*m_Matrix._31 **/r * cosf(ToRadian(m_CameraAngle.x));
+	LookAt_.y = m_Matrix._42 + 5.0f * cosf(ToRadian(m_CameraAngle.y));
+	LookAt_.z = m_Matrix._43 + /*m_Matrix._33 **/ r * sinf(ToRadian(m_CameraAngle.x));
 
 	//位置・傾きはプレイヤーにあわせる
 	//カメラはずらさずモデルをずらす
@@ -104,4 +115,29 @@ void Player::Act() {
 
 	//当たり判定する処理呼び出し
 	CGameMain::GetInstance()->getNowScene()->ObjectHitJudge();
+}
+
+//カメラ操作
+void Player::SubUp() {
+if (m_CameraAngle.y >= LOOKAT_LIMIT_ANGLE) {
+		m_CameraAngle.y -= 1.0f;
+	}
+}
+
+void Player::SubDown() {
+	if (m_CameraAngle.y <= 180 - LOOKAT_LIMIT_ANGLE) {
+		m_CameraAngle.y += 1.0f;
+	}	
+}
+
+void Player::SubRight() {
+	if (m_CameraAngle.x >= LOOKAT_LIMIT_ANGLE) {
+		m_CameraAngle.x -= 1.0f;
+	}
+}
+
+void Player::SubLeft() {
+	if (m_CameraAngle.x <= 180 - LOOKAT_LIMIT_ANGLE) {
+		m_CameraAngle.x += 1.0f;
+	}
 }

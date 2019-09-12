@@ -39,7 +39,8 @@ public:
 
 class Player : public Character, public PlayerableObject {
 private:
-
+	XMFLOAT3 m_CameraAngle;
+	XMFLOAT4X4 m_CameraMatrix;
 	void CameraMove();//カメラを操作
 public:
 	//オーバーライド-----------
@@ -57,6 +58,10 @@ public:
 	virtual void R_Turn();
 	virtual void L_Turn();
 	virtual void Act();
+	virtual void SubUp();
+	virtual void SubDown();
+	virtual void SubRight();
+	virtual void SubLeft();
 	//----------------------
 
 	PlayerableObject* getInstanceAtPlayerableObject() {
