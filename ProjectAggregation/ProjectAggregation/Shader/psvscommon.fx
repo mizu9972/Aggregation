@@ -38,6 +38,12 @@ cbuffer ConstantBufferColor : register(b5)
     float4 ColorMaterial; //指定色
 }
 
+cbuffer ConstantBufferTime : register(b6)
+{
+    double iTime;
+    double Padding;
+};
+
 //--------------------------------------------------------------------------------------
 // 構造体定義
 //--------------------------------------------------------------------------------------

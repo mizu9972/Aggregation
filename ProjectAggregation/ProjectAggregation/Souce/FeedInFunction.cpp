@@ -77,7 +77,7 @@ void CFeedIn::Draw() {
 
 	//定数バッファ適用
 	CDirectXGraphics::GetInstance()->GetImmediateContext()->PSSetConstantBuffers(
-		6,//レジスタ6
+		7,//レジスタ6
 		1,
 		&m_ConstantBuffer_Color
 	);

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "CModel.h"
+#include "Shader.h"
+
 //外部から読み込んだデータを一括管理するクラス
 class CFileLoader {
 private:
@@ -8,6 +10,15 @@ private:
 	CModel* AirPlane;
 	CModel* CockPit;
 	
+	struct ConstantBufferTime {
+		double iTime;
+		double Padding;
+	};
+
+	ID3D11Buffer* m_ConstantBufferTime;
+	ID3D11ShaderResourceView** m_StarsSRV;
+	ConstantBufferTime m_CurrentTime;
+
 	CFileLoader() {};
 	~CFileLoader() = default;
 public:

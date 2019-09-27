@@ -3,12 +3,16 @@
 #include "CScene.h"
 #include "CCamera.h"
 #include "DX11Settransform.h"
+#include "dx11mathutil.h"
 #include "FileLoader.h"
 #include "ObjectSetting.h"
 
 void Player::Init() {
 	Character::Init();
 
+	m_CameraAngle.x = 90.0f;
+	m_CameraAngle.y = 90.0f;
+	m_CameraAngle.z = 0.0f;
 }
 
 void Player::UnInit() {
@@ -44,12 +48,8 @@ void Player::CameraMove() {
 	XMFLOAT3 Up_;
 	XMFLOAT3 LookAt_;
 
-	float r = 5.0f + sinf(ToRadian(m_CameraAngle.y));
-	//視点をやや前方に
-	LookAt_.x = m_Matrix._41 + /*m_Matrix._31 **/r * cosf(ToRadian(m_CameraAngle.x));
-	LookAt_.y = m_Matrix._42 + 5.0f * cosf(ToRadian(m_CameraAngle.y));
-	LookAt_.z = m_Matrix._43 + /*m_Matrix._33 **/ r * sinf(ToRadian(m_CameraAngle.x));
-
+	
+	
 	//位置・傾きはプレイヤーにあわせる
 	//カメラはずらさずモデルをずらす
 	Eye_.x = m_Matrix._41;
@@ -59,8 +59,31 @@ void Player::CameraMove() {
 	Up_.y  = m_Matrix._22;
 	Up_.z  = m_Matrix._23;
 
+	//回転座標取得
+	float HorizonAgnle = CCamera::GetInstance()->GetHorizonAngle(&Eye_, &LookAt_);
+	float VerticalAngle = CCamera::GetInstance()->GetVerticalAngle(&Eye_, &LookAt_);
+
+	//視点移動量加算
+	HorizonAgnle += m_CameraAngle.x;
+	VerticalAngle += m_CameraAngle.y;
+	XMFLOAT3 SetAngle = { HorizonAgnle,VerticalAngle,0.0f };
+
+	float r = 5.0f + sinf(ToRadian(VerticalAngle));
+	//視点をやや前方に
+	LookAt_.x = m_Matrix._41 + m_Matrix._31 * 5.0f;
+	LookAt_.y = m_Matrix._42 + m_Matrix._32 * 5.0f;
+	LookAt_.z = m_Matrix._43 + m_Matrix._33 * 5.0f;
+
+	//XMFLOAT4X4 LookMat;
+	//DX11MakeWorldMatrix(LookMat, SetAngle, LookAt_);
+
+	//LookAt_.x = LookMat._41;
+	//LookAt_.y = LookMat._42;
+	//LookAt_.z = LookMat._43;
+
 	CCamera::GetInstance()->SetCamera(Eye_, LookAt_, Up_);
 	XMFLOAT4X4  mat = CCamera::GetInstance()->GetCameraMatrix();
+	   
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::VIEW, mat);
 }
 
@@ -119,25 +142,25 @@ void Player::Act() {
 
 //カメラ操作
 void Player::SubUp() {
-if (m_CameraAngle.y >= LOOKAT_LIMIT_ANGLE) {
-		m_CameraAngle.y -= 1.0f;
+if (1/*m_CameraAngle.y >= LOOKAT_LIMIT_ANGLE*/) {
+		m_CameraAngle.y -= 10.0f;
 	}
 }
 
 void Player::SubDown() {
-	if (m_CameraAngle.y <= 180 - LOOKAT_LIMIT_ANGLE) {
-		m_CameraAngle.y += 1.0f;
+	if (1/*m_CameraAngle.y <= 180 - LOOKAT_LIMIT_ANGLE*/) {
+		m_CameraAngle.y += 10.0f;
 	}	
 }
 
 void Player::SubRight() {
-	if (m_CameraAngle.x >= LOOKAT_LIMIT_ANGLE) {
-		m_CameraAngle.x -= 1.0f;
+	if (1/*m_CameraAngle.x >= LOOKAT_LIMIT_ANGLE*/) {
+		m_CameraAngle.x -= 10.0f;
 	}
 }
 
 void Player::SubLeft() {
-	if (m_CameraAngle.x <= 180 - LOOKAT_LIMIT_ANGLE) {
-		m_CameraAngle.x += 1.0f;
+	if (1/*m_CameraAngle.x <= 180 - LOOKAT_LIMIT_ANGLE*/) {
+		m_CameraAngle.x += 10.0f;
 	}
 }

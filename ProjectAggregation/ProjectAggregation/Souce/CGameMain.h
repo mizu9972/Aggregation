@@ -6,7 +6,6 @@
 #include "CEffectiveObject.h"
 #include "Observer.h"
 
-
 class SceneBase;
 
 //ゲーム進行のメインを司るシングルトンクラス

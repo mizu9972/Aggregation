@@ -96,6 +96,64 @@ public:
 
 	}
 
+	float GetHorizonAngle(XMFLOAT3* Eye,XMFLOAT3* LookAt) {
+		//水平方向の回転角度を計算し返す
+
+		//注視点への向きベクトルを求める
+		XMFLOAT3 Direct;
+		Direct.x = LookAt->x - Eye->x;
+		Direct.y = LookAt->y - Eye->y;
+		Direct.z = LookAt->z - Eye->z;
+
+		//XZ平面での角度を求める
+		float deg = atan2f(-Direct.z, Direct.x);
+		deg = XMConvertToDegrees(deg);//ラジアンから度数法へ
+
+		deg += 90.0f;//角度を調整
+
+		//-180~180の間におさめる
+		if (deg > 180.0f) {
+			deg -= 360.0f;
+		}
+		else if (deg < -180.0f) {
+			deg += 360.0f;
+		}
+
+		return deg;
+	}
+
+	float GetVerticalAngle(XMFLOAT3* Eye, XMFLOAT3* LookAt) {
+		//垂直方向の回転角度を計算し返す
+
+		//注視点への向きベクトルを求める
+		XMFLOAT3 Direct;
+		Direct.x = LookAt->x - Eye->x;
+		Direct.y = LookAt->y - Eye->y;
+		Direct.z = LookAt->z - Eye->z;
+
+		float fFront;
+		{
+			//カメラの前方方向の値
+			XMFLOAT3 vFront;
+			vFront.x = Direct.x;
+			vFront.y = 0;
+			vFront.z = Direct.z;
+			fFront = sqrtf(vFront.x * vFront.x + vFront.z * vFront.z);
+		}
+
+		float deg = atan2f(Direct.y, fFront);
+
+		//-90~90の間におさめる
+		if (deg > 90.0f) {
+			deg = 180.0f - deg;
+		}
+		else if(deg < -90.0f){
+			deg = -180.0f - deg;
+		}
+
+		return deg;
+	}
+
 	const XMFLOAT4X4& GetCameraMatrix() {
 		return m_Camera;
 	}

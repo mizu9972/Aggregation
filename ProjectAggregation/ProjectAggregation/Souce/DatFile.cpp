@@ -39,7 +39,6 @@ bool DatFile::Load(const char *filename, ID3D11Device* device11, ID3D11DeviceCon
 		MessageBox(NULL, "CreateBuffer(vertex buffer) error", "Error", MB_OK);
 		return false;
 	}
-
 	// インデックスバッファ作成
 	sts = CreateIndexBuffer(
 		device11,

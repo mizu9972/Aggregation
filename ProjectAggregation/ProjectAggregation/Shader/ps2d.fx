@@ -1,6 +1,6 @@
 #include	"psvscommon2.fx"
 
-cbuffer ConstantBuffer2DColor : register(b6)
+cbuffer ConstantBuffer2DColor : register(b7)
 {
     float4 Color;
 };

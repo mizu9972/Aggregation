@@ -45,7 +45,6 @@ bool CGameMain::Init(HINSTANCE hinst, HWND hwnd, int width, int height, bool ful
 
 	// ファイル管理クラス初期化
 	CFileLoader::GetInstance()->Init();
-
 	
 	m_NowScene->Init();
 	return true;
@@ -65,6 +64,7 @@ void CGameMain::Input() {
 
 void CGameMain::Update() {
 	
+
 	//シーン遷移
 	SceneBase* Next_ = m_NowScene->NextScene();//シーン遷移先を設定
 	if (Next_ != NULL) {
