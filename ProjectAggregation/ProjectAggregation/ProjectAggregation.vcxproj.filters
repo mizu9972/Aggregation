@@ -303,6 +303,9 @@
     <FxCompile Include="Shader\fbxtest.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Shader\vsskydome.fx">
+      <Filter>リソース ファイル\VertexShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Title.png">

@@ -17,7 +17,7 @@ void CFileLoader::Init() {
 	CockPit = new CModel;
 
 	AirPlane->Init(AIRPLANE_MODEL_NAME, "Shader/vs.fx", "Shader/ps.fx");
-	SkyDome->Init(SKYDOME_MODEL_NAME, "Shader/vs.fx", "Shader/psskydome.fx");
+	SkyDome->Init(SKYDOME_MODEL_NAME, "Shader/vsskydome.fx", "Shader/psskydome.fx");
 	CockPit->Init(COCKPIT_MODEL_NAME, "Shader/vs.fx", "Shader/psCockPit.fx");
 
 	//時間を流す定数バッファ作成
@@ -27,7 +27,10 @@ void CFileLoader::Init() {
 		&m_ConstantBufferTime
 	);
 	STS_ifERROR_FUNCTION
-	m_CurrentTime.Padding = 0;
+	m_CurrentTime.Padding[0] = 0;
+	m_CurrentTime.Padding[1] = 0;
+	m_CurrentTime.Padding[2] = 0;
+
 
 	//重ねる画像のシェーダーリソースビュー作成
 	m_StarsSRV = new ID3D11ShaderResourceView*;
@@ -66,8 +69,7 @@ void CFileLoader::Draw(FileList File_) {
 
 	case FileList::SkyDome:
 		//現在時間をピクセルシェーダーに流す
-		m_CurrentTime.iTime = static_cast<double>(timeGetTime());
-
+		m_CurrentTime.iTime = static_cast<float>(timeGetTime());
 
 		CDirectXGraphics::GetInstance()->GetImmediateContext()->UpdateSubresource(
 			m_ConstantBufferTime,

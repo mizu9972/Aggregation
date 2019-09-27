@@ -40,8 +40,8 @@ cbuffer ConstantBufferColor : register(b5)
 
 cbuffer ConstantBufferTime : register(b6)
 {
-    double iTime;
-    double Padding;
+    float iTime;
+    float3 Padding;
 };
 
 //--------------------------------------------------------------------------------------

@@ -11,8 +11,8 @@ private:
 	CModel* CockPit;
 	
 	struct ConstantBufferTime {
-		double iTime;
-		double Padding;
+		float iTime;
+		float Padding[3];
 	};
 
 	ID3D11Buffer* m_ConstantBufferTime;
