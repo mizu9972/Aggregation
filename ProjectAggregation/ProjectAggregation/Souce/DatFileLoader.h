@@ -13,6 +13,13 @@ namespace X{
 		DirectX::XMFLOAT2 m_Tex;		// テクスチャ座標
     };
 
+	struct VertexMultiTex {
+		DirectX::XMFLOAT3 m_Pos;		// 位置
+		DirectX::XMFLOAT3 m_Normal;		// 法線
+		DirectX::XMFLOAT2 m_Tex;		// テクスチャ座標
+		DirectX::XMFLOAT2 m_SubTex;		// サブテクスチャ座標
+	};
+
 	typedef	int32_t IndexSuu;     // インデックスの数。
 	typedef	uint32_t Index;       // インデックス。
 

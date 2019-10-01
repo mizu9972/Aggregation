@@ -86,8 +86,13 @@ void CFileLoader::Draw(FileList File_) {
 			&m_ConstantBufferTime
 		);
 
-		//重ねる画像をピクセルシェーダーにセット
+		//重ねる画像をシェーダーにセット
 		CDirectXGraphics::GetInstance()->GetImmediateContext()->PSSetShaderResources(
+			1,
+			1,
+			m_StarsSRV
+		);
+		CDirectXGraphics::GetInstance()->GetImmediateContext()->VSSetShaderResources(
 			1,
 			1,
 			m_StarsSRV

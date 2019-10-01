@@ -2,6 +2,8 @@
 // vs.fx
 //--------------------------------------------------------------------------------------
 #include	"psvscommon.fx"
+Texture2D g_SubTex : register(t1); // テクスチャ
+
 //--------------------------------------------------------------------------------------
 // 頂点シェーダー
 //--------------------------------------------------------------------------------------
@@ -15,7 +17,10 @@ VS_OUTPUT main(float4 Pos		:	POSITION,
 	output.WPos = output.Pos;
 	output.Pos = mul(output.Pos, View);
 	output.Pos = mul(output.Pos, Projection);
-	output.Tex = Tex;
+
+    float4 subtex = g_Tex.Sample(g_SamplerLinear, output.Tex);
+    subtex = mul(subtex, 0.5);
+    output.Tex = Tex;
 
 	float4 N = Normal;
 	N.w = 0.0f;					// 法線はベクトルなのでＷの値を０にする。
