@@ -34,7 +34,7 @@ void CFileLoader::Init() {
 
 	//重ねる画像のシェーダーリソースビュー作成
 	m_StarsSRV = new ID3D11ShaderResourceView*;
-	sts = CreatetSRVfromTGAFile("assets/textures/Stars.tga", CDirectXGraphics::GetInstance()->GetDXDevice(), m_StarsSRV);
+	sts = CreatetSRVfromTGAFile("assets/textures/alonestar.tga", CDirectXGraphics::GetInstance()->GetDXDevice(), m_StarsSRV);
 	STS_ifERROR_FUNCTION
 
 }
