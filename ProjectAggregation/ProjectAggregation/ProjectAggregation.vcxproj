@@ -144,6 +144,7 @@
     <ClCompile Include="Souce\CGameMain.cpp" />
     <ClCompile Include="Souce\Character.cpp" />
     <ClCompile Include="Souce\CModel.cpp" />
+    <ClCompile Include="Souce\ConstantBuffer.cpp" />
     <ClCompile Include="Souce\CParticle.cpp" />
     <ClCompile Include="Souce\CScene.cpp" />
     <ClCompile Include="Souce\DatFile.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Souce\CLight.h" />
     <ClInclude Include="Souce\CModel.h" />
     <ClInclude Include="Souce\Command.h" />
+    <ClInclude Include="Souce\ConstantBuffer.h" />
     <ClInclude Include="Souce\CParticle.h" />
     <ClInclude Include="Souce\CScene.h" />
     <ClInclude Include="Souce\CTimer.h" />

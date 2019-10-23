@@ -162,6 +162,9 @@
     <ClCompile Include="Souce\WICTextureLoader.cpp">
       <Filter>ソース ファイル\class\File</Filter>
     </ClCompile>
+    <ClCompile Include="Souce\ConstantBuffer.cpp">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="Souce\CBillBoard.h">
       <Filter>ヘッダー ファイル\class\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Souce\ConstantBuffer.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

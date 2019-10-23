@@ -1,6 +1,7 @@
 #include "FileLoader.h"
 #include "CDirectxGraphics.h"
 #include "Shader.h"
+#include "ConstantBuffer.h"
 
 #define STS_ifERROR_FUNCTION 	if (!sts) { MessageBox(NULL, "AnyFunction is Error", "Error", MB_OK); return;}
 
@@ -20,21 +21,11 @@ void CFileLoader::Init() {
 	SkyDome->Init(SKYDOME_MODEL_NAME, "Shader/vsskydome.fx", "Shader/psskydome.fx");
 	CockPit->Init(COCKPIT_MODEL_NAME, "Shader/vs.fx", "Shader/psCockPit.fx");
 
-	//時間を流す定数バッファ作成
-	bool sts = CreateConstantBuffer(
-		CDirectXGraphics::GetInstance()->GetDXDevice(),
-		sizeof(ConstantBufferTime),
-		&m_ConstantBufferTime
-	);
-	STS_ifERROR_FUNCTION
-	m_CurrentTime.Padding[0] = 0;
-	m_CurrentTime.Padding[1] = 0;
-	m_CurrentTime.Padding[2] = 0;
-
+	ConstantBufferManager::GetInstance()->Init();
 
 	//重ねる画像のシェーダーリソースビュー作成
 	m_StarsSRV = new ID3D11ShaderResourceView*;
-	sts = CreatetSRVfromTGAFile("assets/textures/alonestar.tga", CDirectXGraphics::GetInstance()->GetDXDevice(), m_StarsSRV);
+	bool sts = CreatetSRVfromTGAFile("assets/textures/alonestar.tga", CDirectXGraphics::GetInstance()->GetDXDevice(), m_StarsSRV);
 	STS_ifERROR_FUNCTION
 
 }
@@ -68,23 +59,8 @@ void CFileLoader::Draw(FileList File_) {
 		break;
 
 	case FileList::SkyDome:
-		//現在時間をピクセルシェーダーに流す
-		m_CurrentTime.iTime = static_cast<float>(timeGetTime());
 
-		CDirectXGraphics::GetInstance()->GetImmediateContext()->UpdateSubresource(
-			m_ConstantBufferTime,
-			0,
-			NULL,
-			&m_CurrentTime,
-			0,
-			0
-		);
-
-		CDirectXGraphics::GetInstance()->GetImmediateContext()->PSSetConstantBuffers(
-			6,
-			1,
-			&m_ConstantBufferTime
-		);
+		ConstantBufferManager::GetInstance()->UpdateConstantBuffer(ConstantBufferManager::RegistarList::Time);
 
 		//重ねる画像をシェーダーにセット
 		CDirectXGraphics::GetInstance()->GetImmediateContext()->PSSetShaderResources(

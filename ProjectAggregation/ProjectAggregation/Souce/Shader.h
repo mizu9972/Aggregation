@@ -9,6 +9,12 @@
 #include	"DDSTextureLoader.h"
 #include	"directXtex.h"
 
+#ifndef ALIGN16
+// 16バイトにアラインメントする。
+#define ALIGN16 _declspec(align(16))
+
+#endif
+
 using namespace DirectX;
 
 HRESULT CompileShaderFromFile(
