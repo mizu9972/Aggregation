@@ -1,23 +1,15 @@
 #pragma once
 
+#include <unordered_map>
 #include "CModel.h"
 #include "Shader.h"
 
 //外部から読み込んだデータを一括管理するクラス
 class CFileLoader {
 private:
-	CModel* SkyDome;
-	CModel* AirPlane;
-	CModel* CockPit;
-	
-	struct ConstantBufferTime {
-		float iTime;
-		float Padding[3];
-	};
+	std::unordered_map<std::string, CModel*> m_ModelCollection;//モデルリスト
 
-	ID3D11Buffer* m_ConstantBufferTime;
 	ID3D11ShaderResourceView** m_StarsSRV;
-	ConstantBufferTime m_CurrentTime;
 
 	CFileLoader() {};
 	~CFileLoader() = default;
@@ -41,6 +33,5 @@ public:
 	void Init();//初期化
 	void UnInit();
 
-	void Draw();//動かないオブジェクトの描画
 	void Draw(FileList File_);
 };

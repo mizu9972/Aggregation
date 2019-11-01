@@ -312,6 +312,9 @@
     <FxCompile Include="Shader\vsskydome.fx">
       <Filter>リソース ファイル\VertexShader</Filter>
     </FxCompile>
+    <FxCompile Include="Shader\psNumber.fx">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Title.png">
