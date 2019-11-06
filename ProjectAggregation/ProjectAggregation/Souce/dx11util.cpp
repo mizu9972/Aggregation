@@ -6,6 +6,7 @@
 #include	"memory.h"
 #include	"CLight.h"
 #include	"DX11Settransform.h"
+#include	"CDirectInput.h"
 
 // 定数バッファ定義
 ID3D11Buffer*       g_pConstantBuffer1 = nullptr;	// コンスタントバッファ1
@@ -121,4 +122,38 @@ void TurnOnZBuffer() {
 		rtvtable,								// ビューテーブル
 		CDirectXGraphics::GetInstance()->GetDepthStencilView()			// 深度バッファなし
 	);
+}
+
+//----------------------------------
+// ゲームパッドのコールバック関数
+//----------------------------------
+BOOL CALLBACK EnumJoysticksCallback(const DIDEVICEINSTANCE *pdidInstance, VOID *pContext) {
+	HRESULT hr;
+
+	hr =CDirectInput::GetInstance().m_dinput->CreateDevice(pdidInstance->guidInstance, &CDirectInput::GetInstance().m_dijoypad, NULL);
+
+	if (FAILED(hr)) {
+		return DIENUM_CONTINUE;
+	}
+
+	return DIENUM_STOP;
+}
+//=============================================================================
+//Axes CallBack
+//=============================================================================
+BOOL CALLBACK EnumAxesCallback(const DIDEVICEOBJECTINSTANCE *PDIDOL, void *pContext) {
+	HRESULT hr;
+	DIPROPRANGE diprg;
+
+	diprg.diph.dwSize = sizeof(DIPROPRANGE);
+	diprg.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+	diprg.diph.dwHow = DIPH_BYID;
+	diprg.lMin = 0 - 1000;
+	diprg.lMax = 0 + 1000;
+
+	hr = CDirectInput::GetInstance().m_dijoypad->SetProperty(DIPROP_RANGE, &diprg.diph);
+
+	if (FAILED(hr)) return DIENUM_STOP;
+
+	return DIENUM_CONTINUE;
 }

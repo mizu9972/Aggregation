@@ -165,6 +165,12 @@
     <ClCompile Include="Souce\ConstantBuffer.cpp">
       <Filter>ソース ファイル\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Souce\CPanel.cpp">
+      <Filter>ソース ファイル\class\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Souce\Command.cpp">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Souce\WindowSetting.h">
@@ -263,6 +269,9 @@
     <ClInclude Include="Souce\ConstantBuffer.h">
       <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Souce\CPanel.h">
+      <Filter>ヘッダー ファイル\class\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Text\PMX仕様.txt">
@@ -314,6 +323,9 @@
     </FxCompile>
     <FxCompile Include="Shader\psNumber.fx">
       <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\vstriangle.fx">
+      <Filter>リソース ファイル\VertexShader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

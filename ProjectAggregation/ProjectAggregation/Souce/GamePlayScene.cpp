@@ -78,18 +78,7 @@ void GameScene::Update() {
 		return;
 	}
 
-	//操作受付
-	Command* FirstCommand;
-	Command* SecondCommand;
-	FirstCommand = InputHundler::getInstance()->GetInputKey();
-	SecondCommand = InputHundler::getInstance()->GetInputSecondKey(FirstCommand);
-
-	if (FirstCommand != nullptr) {//押されたキー処理
-		FirstCommand->Action(m_Player->getInstanceAtPlayerableObject());
-		if (SecondCommand != nullptr) {//同時押しキー処理
-			SecondCommand->Action(m_Player->getInstanceAtPlayerableObject());
-		}
-	}
+	InputState::GetInstance()->Update();
 
 	m_Player->Update();
 

@@ -1,9 +1,19 @@
 #pragma once
 #include	<dinput.h>
 
+#pragma comment(lib,"dxguid.lib")
+#pragma comment(lib,"dinput8.lib")
+
+#ifndef DIRECTINPUT_VERSION
+#define DIRECTINPUT_VERSION 0x0800
+#endif
+
+BOOL CALLBACK EnumJoysticksCallback(const DIDEVICEINSTANCE *pdidInstance, VOID *pContext);
+BOOL CALLBACK EnumAxesCallback(const DIDEVICEOBJECTINSTANCE *PDIDOL, void *pContext);
+
 class CDirectInput{
 private:
-	LPDIRECTINPUT8			m_dinput;		// DirectInput8オブジェクト
+
 	LPDIRECTINPUTDEVICE8	m_dikeyboard;	// キーボードデバイス
 	LPDIRECTINPUTDEVICE8	m_dimouse;		// マウスデバイス
 	char					m_keybuffer[256];		// キーボードバッファ
@@ -13,9 +23,18 @@ private:
 	int						m_MousePosY;		// マウスのＹ座標
 	int						m_width;			// マウスのＸ座標最大
 	int						m_height;			// マウスのＹ座標最大
+	long					m_JoypadDI_X;		// ジョイパッドX座標
+	long					m_JoypadDI_Y;		// ジョイパッドY座標
+	DIJOYSTATE				m_JoySticksState;
+	DIJOYSTATE				m_JoySticksTrigger;
+
+	DIDEVCAPS m_diDevCaps;
+
 	CDirectInput() :m_dinput(nullptr), m_dikeyboard(nullptr), m_dimouse(nullptr), m_MousePosX(0), m_MousePosY(0){
 	}
 public:
+	LPDIRECTINPUT8			m_dinput;
+	LPDIRECTINPUTDEVICE8	m_dijoypad = nullptr;		// ジョイパッド
 
 	CDirectInput(const CDirectInput&) = delete;
 	CDirectInput& operator=(const CDirectInput&) = delete;
@@ -30,6 +49,14 @@ public:
 	~CDirectInput(){
 		Exit();
 	}
+
+	enum class GamePadStick {
+		RightX,
+		RightY,
+		LeftX,
+		LeftY,
+	};
+
 
 	//----------------------------------
 	// DirectInput 初期処理
@@ -84,6 +111,8 @@ public:
 			return false;
 		}
 
+		SetGamePad(hInst, hwnd);
+
 		// デバイスの設定
 		DIPROPDWORD diprop;
 		diprop.diph.dwSize = sizeof(diprop);
@@ -114,6 +143,48 @@ public:
 
 		return true;
 	}
+
+	bool SetGamePad(HINSTANCE hInst, HWND hwnd) {
+		HRESULT hr;
+		// ジョイパッドの設定
+		hr = m_dinput->EnumDevices(DI8DEVCLASS_GAMECTRL, EnumJoysticksCallback, NULL, DIEDFL_ATTACHEDONLY);
+		if (FAILED(hr) || m_dijoypad == nullptr) {
+			return false;
+		}
+
+		// データフォーマットの設定
+		hr = m_dijoypad->SetDataFormat(&c_dfDIJoystick);
+		if (FAILED(hr)) {
+			return false;
+		}
+
+		// 協調レベルの設定
+		hr = m_dijoypad->SetCooperativeLevel(hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
+		if (FAILED(hr)) {
+			return false;
+		}
+
+		m_diDevCaps.dwSize = sizeof(DIDEVCAPS);
+		hr = m_dijoypad->GetCapabilities(&m_diDevCaps);
+		if (FAILED(hr)) {
+			return false;
+		}
+
+		hr = m_dijoypad->EnumObjects(EnumAxesCallback, (VOID*)hwnd, DIDFT_ABSAXIS);
+		if (FAILED(hr)) {
+			return false;
+		}
+
+		hr = m_dijoypad->Poll();
+		if (FAILED(hr)) {
+			hr = m_dijoypad->Acquire();
+			while (hr == DIERR_INPUTLOST) {
+				hr = m_dijoypad->Acquire();
+			}
+		}
+		return true;
+	}
+
 
 	//----------------------------------
 	// マウス状態取得処理
@@ -237,6 +308,81 @@ public:
 	}
 
 	//----------------------------------
+	//ゲームパッド入力受け取り
+	//----------------------------------
+	bool UpdateGamePad() {
+		HRESULT hr;
+		DIJOYSTATE OldJoyState;
+
+		if (m_dijoypad == nullptr) {
+			return false;
+		}
+
+		hr = m_dijoypad->Poll();
+		if (FAILED(hr)) {
+			hr = m_dijoypad->Acquire();
+			while (hr == DIERR_INPUTLOST) {
+				hr = m_dijoypad->Acquire();
+			}
+		}
+
+		hr = m_dijoypad->GetDeviceState(sizeof(DIJOYSTATE), &m_dijoypad);
+		if (FAILED(hr)) {
+			return false;
+		}
+		
+		if (SUCCEEDED(hr)) {
+			for (int cnt = 0; cnt < 32; cnt++) {
+				m_JoySticksTrigger.rgbButtons[cnt] = ((OldJoyState.rgbButtons[cnt] ^ m_JoySticksState.rgbButtons[cnt]) &m_JoySticksState.rgbButtons[cnt]);
+			}
+		}
+		else {
+			m_dijoypad->Acquire();
+		}
+
+		return true;
+
+	}
+
+	//==================================
+	//ゲームパッド入力状態取得
+	//==================================
+	long GetGamePadStick(GamePadStick DirectList) {
+		if (m_dijoypad == nullptr) {
+			return 0;
+		}
+		switch (DirectList) {
+		case GamePadStick::RightX:
+			return m_JoySticksState.lZ;
+			break;
+
+		case GamePadStick::RightY:
+			return m_JoySticksState.lRz;
+			break;
+
+		case GamePadStick::LeftX:
+			return m_JoySticksState.lX;
+			break;
+
+		case GamePadStick::LeftY:
+			return m_JoySticksState.lY;
+			break;
+
+		}
+	}
+	bool GetGamePadPress(int key) {
+		if (m_dijoypad == nullptr) {
+			return false;
+		}
+		return ((m_JoySticksState.rgbButtons[key] & 0x80) != 0);
+	}
+	bool GetGamePadTrigger(int key) {
+		if (m_dijoypad == nullptr) {
+			return false;
+		}
+		return ((m_JoySticksTrigger.rgbButtons[key] & 0x80) != 0);
+	}
+	//----------------------------------
 	// DirectInput 終了処理
 	//----------------------------------
 	void Exit(){
@@ -246,6 +392,10 @@ public:
 		if(m_dimouse!=nullptr){
 			m_dimouse->Release();
 		}
+		if (m_dijoypad != nullptr) {
+			m_dijoypad->Release();
+		}
+
 		if(m_dinput!=nullptr){
 			m_dinput->Release();
 		}

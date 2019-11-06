@@ -37,7 +37,7 @@ public:
 };
 
 
-class Player : public Character, public PlayerableObject {
+class Player : public Character {
 private:
 	XMFLOAT3 m_CameraAngle;
 	XMFLOAT4X4 m_CameraMatrix;
@@ -50,23 +50,19 @@ public:
 	virtual void Draw();
 	virtual void UnInit();
 
-	//PlayerableObject
-	virtual void Up();
-	virtual void Down();
-	virtual void Right();
-	virtual void Left();
-	virtual void R_Turn();
-	virtual void L_Turn();
-	virtual void Act();
-	virtual void SubUp();
-	virtual void SubDown();
-	virtual void SubRight();
-	virtual void SubLeft();
-	//----------------------
 
-	PlayerableObject* getInstanceAtPlayerableObject() {
-		return this;
-	};
+    void Up();
+    void Down();
+    void Right();
+    void Left();
+    void R_Turn();
+    void L_Turn();
+    void Act();
+    void SubUp();
+    void SubDown();
+    void SubRight();
+	void SubLeft();
+
 
 };
 

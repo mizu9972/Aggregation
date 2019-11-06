@@ -60,6 +60,7 @@ void CGameMain::Main() {
 
 void CGameMain::Input() {
 	CDirectInput::GetInstance().GetKeyBuffer();//ƒL[“ü—Íæ“¾
+	CDirectInput::GetInstance().UpdateGamePad();
 }
 
 void CGameMain::Update() {

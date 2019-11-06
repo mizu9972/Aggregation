@@ -8,7 +8,7 @@
 constexpr auto AIRPLANE_MODEL_NAME = "assets/model/f1.x.dat";
 constexpr auto SKYDOME_MODEL_NAME  = "assets/model/skydome.x.dat";
 constexpr auto COCKPIT_MODEL_NAME  = "assets/model/CockPit.x.dat";
-constexpr auto PANEL_MODEL_NAME	   = "assets/model/Panel.x.dat";
+constexpr auto PANEL_MODEL_NAME	   = "assets/model/panel02.x.dat";
 
 void CFileLoader::Init() {
 
@@ -16,15 +16,15 @@ void CFileLoader::Init() {
 
 	//モデルデータの登録・初期化
 	m_ModelCollection["AirPlane"] = new CModel();
-	m_ModelCollection["SkyDome"] = new CModel();
-	m_ModelCollection["CockPit"] = new CModel();
-	m_ModelCollection["Panel"] = new CModel();
+	m_ModelCollection["SkyDome"]  = new CModel();
+	m_ModelCollection["CockPit"]  = new CModel();
+	m_ModelCollection["Panel"]    = new CModel();
 
 	//									モデルディレクトリ       頂点シェーダー            ピクセルシェーダー  
 	m_ModelCollection["AirPlane"]->Init(AIRPLANE_MODEL_NAME, "Shader/vs.fx",        "Shader/ps.fx");
-	m_ModelCollection["SkyDome"]->Init( SKYDOME_MODEL_NAME,  "Shader/vsskydome.fx", "Shader/psNumber.fx");
+	m_ModelCollection["SkyDome"]->Init( SKYDOME_MODEL_NAME,  "Shader/vsskydome.fx", "Shader/psskydome.fx");
 	m_ModelCollection["CockPit"]->Init( COCKPIT_MODEL_NAME,  "Shader/vs.fx",        "Shader/psCockPit.fx");
-	m_ModelCollection["Panel"]->Init(   PANEL_MODEL_NAME,    "Shader/vs.fx",        "Shader/psNumber.fx");
+	m_ModelCollection["Panel"]->Init(   PANEL_MODEL_NAME,    "Shader/vsskydome.fx", "Shader/psNumber.fx");
 
 	ConstantBufferManager::GetInstance()->Init();
 
@@ -65,7 +65,7 @@ void CFileLoader::Draw(FileList File_) {
 	//描画するものをリストから指定して描画する
 	switch (File_) {
 	case FileList::AirPlane:
-		m_ModelCollection["AirPlane"]->Draw();
+		//m_ModelCollection["AirPlane"]->Draw();
 		break;
 
 	case FileList::SkyDome:
@@ -73,10 +73,12 @@ void CFileLoader::Draw(FileList File_) {
 		ConstantBufferManager::GetInstance()->UpdateConstantBuffer(ConstantBufferManager::RegistarList::Time);
 
 		m_ModelCollection["SkyDome"]->Draw();
+
+
 		break;
 
 	case FileList::CockPit:
-		m_ModelCollection["CockPit"]->Draw();
+		//m_ModelCollection["CockPit"]->Draw();
 		m_ModelCollection["Panel"]->Draw();
 		break;
 	}

@@ -36,6 +36,30 @@ void Player::Update() {
 
 	// 角度設定リセット
 	AngleReset(m_Angle);
+
+	//キー入力処理
+	if (InputState::GetInstance()->getInput(INPUT_W)) {
+		Up();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_S)) {
+		Down();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_D)) {
+		Right();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_A)) {
+		Left();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_E)) {
+		R_Turn();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_Q)) {
+		L_Turn();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_SPACE)) {
+		Act();
+	}
+
 }
 
 void Player::CameraMove() {
