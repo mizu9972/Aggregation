@@ -24,11 +24,11 @@ void CFileLoader::Init() {
 	m_ModelCollection["AirPlane"]->Init(AIRPLANE_MODEL_NAME, "Shader/vs.fx",        "Shader/ps.fx");
 	m_ModelCollection["SkyDome"]->Init( SKYDOME_MODEL_NAME,  "Shader/vsskydome.fx", "Shader/psskydome.fx");
 	m_ModelCollection["CockPit"]->Init( COCKPIT_MODEL_NAME,  "Shader/vs.fx",        "Shader/psCockPit.fx");
-	m_ModelCollection["Panel"]->Init(   PANEL_MODEL_NAME,    "Shader/vsskydome.fx", "Shader/psNumber.fx");
+	m_ModelCollection["Panel"]->Init(   PANEL_MODEL_NAME,    "Shader/vsskydome.fx", "Shader/psskydome.fx");
 
 	ConstantBufferManager::GetInstance()->Init();
 
-	//重ねる画像のシェーダーリソースビュー作成
+	//スカイドームに重ねる画像のシェーダーリソースビュー作成
 	m_StarsSRV = new ID3D11ShaderResourceView*;
 	bool sts = CreatetSRVfromTGAFile("assets/textures/alonestar.tga", CDirectXGraphics::GetInstance()->GetDXDevice(), m_StarsSRV);
 	ifERROR_FUNCTION(sts)

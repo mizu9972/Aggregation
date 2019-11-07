@@ -45,7 +45,7 @@ void Player::CameraMove() {
 	//カメラの操作
 	
 	//角度をラジアンに変換関数
-	auto ToRadian = [](float Angle) { return (Angle * XM_PI) / 180.0; };
+	auto ToRadian = [](float Angle) { return (float)((Angle * XM_PI) / 180.0); };
 	
 	XMFLOAT3 Eye_;
 	XMFLOAT3 Up_;
@@ -71,7 +71,7 @@ void Player::CameraMove() {
 	VerticalAngle += m_CameraAngle.y;
 	XMFLOAT3 SetAngle = { HorizonAgnle,VerticalAngle,0.0f };
 
-	float r = 5.0f + sinf(ToRadian(VerticalAngle));
+	float r = 5.0f + (float)sinf(ToRadian(VerticalAngle));
 	//視点をやや前方に
 	LookAt_.x = m_Matrix._41 + m_Matrix._31 * 5.0f;
 	LookAt_.y = m_Matrix._42 + m_Matrix._32 * 5.0f;
@@ -116,11 +116,14 @@ void Player::Playing() {
 	if (InputState::GetInstance()->getInput(INPUT_LSPIN)) {
 		L_Turn();
 	}
-	if (InputState::GetInstance()->getInput(INPUT_SPACE)) {
+	if (InputState::GetInstance()->getInputTrigger(INPUT_SPACE)) {
 		Act();
 	}
 	if (InputState::GetInstance()->getInput(INPUT_ACCEL)) {
 		Accel();
+	}
+	if (InputState::GetInstance()->getInputTrigger(INPUT_ACCEL)) {
+		CCamera::GetInstance()->StartShake(0.5f);
 	}
 	if (InputState::GetInstance()->getInput(INPUT_BRAKE)) {
 		Brake();

@@ -76,7 +76,7 @@ void CGameMain::Update() {
 
 		m_NowScene->Init();//初期化処理
 	}
-
+	CCamera::GetInstance()->Update();
 	m_NowScene->Update();//シーン毎の更新
 
 	for (unsigned int EffectNo = 0; EffectNo < m_EffectList.size(); EffectNo++) {

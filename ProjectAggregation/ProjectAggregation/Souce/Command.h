@@ -27,7 +27,9 @@
 class InputState {
 private:
 	//入力情報を１ビットずつ保存する
-	int m_InputState = 0;//保存用変数(32ビット)
+	//保存用変数(32ビット)
+	int m_InputState = 0;
+	int m_InputStateTrigger = 0;//トリガー用
 
 	//キー入力情報を挿入するビット位置
 	struct KeyStateBitPoint {
@@ -54,6 +56,9 @@ private:
 	InputState() {};
 	~InputState() = default;
 
+	void StateUpdate();
+	void TriggerUpdate();
+
 public:
 	InputState(const InputState&) = delete;
 	InputState(InputState&&) = delete;
@@ -67,4 +72,5 @@ public:
 
 	void Update();
 	bool getInput(int key);
+	bool getInputTrigger(int key);
 };
