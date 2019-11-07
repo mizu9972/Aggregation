@@ -13,6 +13,7 @@ BOOL CALLBACK EnumAxesCallback(const DIDEVICEOBJECTINSTANCE *PDIDOL, void *pCont
 
 class CDirectInput{
 private:
+	const long GamePad_DeadZone = 20000;//入力無視範囲
 
 	LPDIRECTINPUTDEVICE8	m_dikeyboard;	// キーボードデバイス
 	LPDIRECTINPUTDEVICE8	m_dimouse;		// マウスデバイス
@@ -170,7 +171,7 @@ public:
 			return false;
 		}
 
-		hr = m_dijoypad->EnumObjects(EnumAxesCallback, (VOID*)hwnd, DIDFT_ABSAXIS);
+		hr = m_dijoypad->EnumObjects(EnumAxesCallback, (VOID*)hwnd, DIDFT_AXIS);
 		if (FAILED(hr)) {
 			return false;
 		}
@@ -313,6 +314,7 @@ public:
 	bool UpdateGamePad() {
 		HRESULT hr;
 		DIJOYSTATE OldJoyState;
+		OldJoyState = m_JoySticksState;
 
 		if (m_dijoypad == nullptr) {
 			return false;
@@ -326,7 +328,7 @@ public:
 			}
 		}
 
-		hr = m_dijoypad->GetDeviceState(sizeof(DIJOYSTATE), &m_dijoypad);
+		hr = m_dijoypad->GetDeviceState(sizeof(DIJOYSTATE), &m_JoySticksState);
 		if (FAILED(hr)) {
 			return false;
 		}
@@ -347,6 +349,38 @@ public:
 	//==================================
 	//ゲームパッド入力状態取得
 	//==================================
+	bool GetStickUporRight(GamePadStick DirectList) {
+		//上入力か右入力を受け取ったらtrueを返す
+		if (DirectList == GamePadStick::RightX || DirectList == GamePadStick::LeftX) {
+			if (GetGamePadStick(DirectList) >= m_JoypadDI_X + GamePad_DeadZone) {
+				return true;
+			}
+		}
+		else if (DirectList == GamePadStick::RightY || DirectList == GamePadStick::LeftY) {
+			if (GetGamePadStick(DirectList) >= m_JoypadDI_Y + GamePad_DeadZone) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool GetStickDownorLeft(GamePadStick DirectList) {
+		//下入力か左入力を受け取ったらtrueを返す
+		if (DirectList == GamePadStick::RightX || DirectList == GamePadStick::LeftX) {
+			if (GetGamePadStick(DirectList) <= m_JoypadDI_X - GamePad_DeadZone) {
+				return true;
+			}
+		}
+		else if (DirectList == GamePadStick::RightY || DirectList == GamePadStick::LeftY) {
+			if (GetGamePadStick(DirectList) <= m_JoypadDI_Y - GamePad_DeadZone) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	long GetGamePadStick(GamePadStick DirectList) {
 		if (m_dijoypad == nullptr) {
 			return 0;
@@ -393,6 +427,7 @@ public:
 			m_dimouse->Release();
 		}
 		if (m_dijoypad != nullptr) {
+			m_dijoypad->Unacquire();
 			m_dijoypad->Release();
 		}
 

@@ -59,7 +59,7 @@ float4 main(VS_OUTPUT input) : SV_Target
 {
     float time = 0;
     float2 Position = input.Tex;
-    //Position = 1.0 - Position;
-    float3 texcol = Position.x;
+    Position = 1.0 - Position;
+    float3 texcol = JudgeLineByNumber(fmod(iTime / 1000, 10),Position);
     return float4(texcol,1.0);
 }

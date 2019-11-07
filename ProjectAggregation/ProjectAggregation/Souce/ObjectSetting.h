@@ -12,6 +12,7 @@
 
 #define CHARACTER_HP 5 //体力
 #define CHARACTER_SPEED 0.5f //初期移動速度
+#define CHARACTER_MAXSPEED 10.0f //最大速度
 
 #define SITE_SIZE 50 //標準サイトのサイズ
 //自動操縦

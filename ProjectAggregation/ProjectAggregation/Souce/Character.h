@@ -11,6 +11,7 @@ private:
 protected:
 	int m_HP;
 	float m_Speed;
+	float m_MaxSpeed;
 	XMFLOAT4X4 m_Matrix;
 
 	//À•Wî•ñ
@@ -49,7 +50,11 @@ public:
 	virtual void Update();
 	virtual void Draw();
 	virtual void UnInit();
+	//----------------------
 
+
+	//ƒL[“ü—Í‚É‘Î‚·‚é‘€ì
+	void Playing();
 
     void Up();
     void Down();
@@ -58,6 +63,8 @@ public:
     void R_Turn();
     void L_Turn();
     void Act();
+	void Accel();
+	void Brake();
     void SubUp();
     void SubDown();
     void SubRight();

@@ -6,8 +6,9 @@
 void Character::Init() {
 	DX11MatrixIdentity(m_Matrix);
 
-	m_HP      = CHARACTER_HP;
-	m_Speed   = CHARACTER_SPEED;
+	m_HP       = CHARACTER_HP;
+	m_Speed    = CHARACTER_SPEED;
+	m_MaxSpeed = CHARACTER_MAXSPEED;
 
 	m_Angle.x = 0;
 	m_Angle.y = 0;

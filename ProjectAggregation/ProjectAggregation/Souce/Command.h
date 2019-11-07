@@ -3,10 +3,10 @@
 
 //キー入力ビットシフトリスト
 //基本移動
-#define INPUT_W (1 << 0)
-#define INPUT_S (1 << 1)
-#define INPUT_D (1 << 2)
-#define INPUT_A (1 << 3)
+#define INPUT_UPTURN (1 << 0)
+#define INPUT_DOWNTURN (1 << 1)
+#define INPUT_RIGHTTURN (1 << 2)
+#define INPUT_LEFTTURN (1 << 3)
 
 #define INPUT_UP    (1 << 4)
 #define INPUT_DOWN  (1 << 5)
@@ -17,8 +17,12 @@
 #define INPUT_SPACE (1 << 8)
 
 //回転
-#define INPUT_E (1 << 9)
-#define INPUT_Q (1 << 10)
+#define INPUT_RSPIN (1 << 9)
+#define INPUT_LSPIN (1 << 10)
+
+//移動関係
+#define INPUT_ACCEL (1 << 11)
+#define INPUT_BRAKE (1 << 12)
 
 class InputState {
 private:
@@ -41,6 +45,9 @@ private:
 
 		byte Ekey = 9;
 		byte Qkey = 10;
+
+		byte RSHIFT = 11;
+		byte LSHIFT = 12;
 	};
 	KeyStateBitPoint m_keyStateBitPoint;
 

@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "ConstantBuffer.h"
 
-#define STS_ifERROR_FUNCTION 	if (!sts) { MessageBox(NULL, "AnyFunction is Error", "Error", MB_OK); return;}
+#define ifERROR_FUNCTION(sts) 	if (!sts) { MessageBox(NULL, "AnyFunction is Error", "Error", MB_OK); return;}
 
 constexpr auto AIRPLANE_MODEL_NAME = "assets/model/f1.x.dat";
 constexpr auto SKYDOME_MODEL_NAME  = "assets/model/skydome.x.dat";
@@ -31,7 +31,7 @@ void CFileLoader::Init() {
 	//重ねる画像のシェーダーリソースビュー作成
 	m_StarsSRV = new ID3D11ShaderResourceView*;
 	bool sts = CreatetSRVfromTGAFile("assets/textures/alonestar.tga", CDirectXGraphics::GetInstance()->GetDXDevice(), m_StarsSRV);
-	STS_ifERROR_FUNCTION
+	ifERROR_FUNCTION(sts)
 
 
 	//重ねる画像をシェーダーにセット
@@ -78,7 +78,7 @@ void CFileLoader::Draw(FileList File_) {
 		break;
 
 	case FileList::CockPit:
-		//m_ModelCollection["CockPit"]->Draw();
+		m_ModelCollection["CockPit"]->Draw();
 		m_ModelCollection["Panel"]->Draw();
 		break;
 	}

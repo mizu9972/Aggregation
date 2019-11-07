@@ -1,17 +1,19 @@
 #include "Command.h"
 
 void InputState::Update() {
+
+	//キー入力保存情報更新
 	m_InputState = 0;
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_W)) {
+	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_W) || CDirectInput::GetInstance().GetStickUporRight(CDirectInput::GamePadStick::LeftY)) {
 		m_InputState += 1 << m_keyStateBitPoint.Wkey;
 	}
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_S)) {
+	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_S) || CDirectInput::GetInstance().GetStickDownorLeft(CDirectInput::GamePadStick::LeftY)) {
 		m_InputState += 1 << m_keyStateBitPoint.Skey;
 	}
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_D)) {
+	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_D) || CDirectInput::GetInstance().GetStickUporRight(CDirectInput::GamePadStick::LeftX)) {
 		m_InputState += 1 << m_keyStateBitPoint.Dkey;
 	}
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_A)) {
+	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_A) || CDirectInput::GetInstance().GetStickDownorLeft(CDirectInput::GamePadStick::LeftX)) {
 		m_InputState += 1 << m_keyStateBitPoint.Akey;
 	}
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP)) {
@@ -34,6 +36,12 @@ void InputState::Update() {
 	}
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_Q)) {
 		m_InputState += 1 << m_keyStateBitPoint.Qkey;
+	}
+	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RSHIFT)) {
+		m_InputState += 1 << m_keyStateBitPoint.RSHIFT;
+	}
+	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LSHIFT)) {
+		m_InputState += 1 << m_keyStateBitPoint.LSHIFT;
 	}
 }
 

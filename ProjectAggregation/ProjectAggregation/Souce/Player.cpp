@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Character.h"
 #include "CGameMain.h"
 #include "CScene.h"
@@ -37,29 +38,7 @@ void Player::Update() {
 	// 角度設定リセット
 	AngleReset(m_Angle);
 
-	//キー入力処理
-	if (InputState::GetInstance()->getInput(INPUT_W)) {
-		Up();
-	}
-	if (InputState::GetInstance()->getInput(INPUT_S)) {
-		Down();
-	}
-	if (InputState::GetInstance()->getInput(INPUT_D)) {
-		Right();
-	}
-	if (InputState::GetInstance()->getInput(INPUT_A)) {
-		Left();
-	}
-	if (InputState::GetInstance()->getInput(INPUT_E)) {
-		R_Turn();
-	}
-	if (InputState::GetInstance()->getInput(INPUT_Q)) {
-		L_Turn();
-	}
-	if (InputState::GetInstance()->getInput(INPUT_SPACE)) {
-		Act();
-	}
-
+	Playing();
 }
 
 void Player::CameraMove() {
@@ -117,6 +96,38 @@ void Player::Draw() {
 	CFileLoader::GetInstance()->Draw(CFileLoader::FileList::CockPit);
 }
 
+void Player::Playing() {
+	//キー入力処理
+	if (InputState::GetInstance()->getInput(INPUT_UPTURN)) {
+		Up();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_DOWNTURN)) {
+		Down();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_RIGHTTURN)) {
+		Right();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_LEFTTURN)) {
+		Left();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_RSPIN)) {
+		R_Turn();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_LSPIN)) {
+		L_Turn();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_SPACE)) {
+		Act();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_ACCEL)) {
+		Accel();
+	}
+	if (InputState::GetInstance()->getInput(INPUT_BRAKE)) {
+		Brake();
+	}
+
+}
+
 //キー入力に対する処理
 void Player::Up() {
 	//上移動
@@ -154,6 +165,18 @@ void Player::R_Turn() {
 void Player::L_Turn() {
 	//左回転
 	m_Angle.z += 1.0f;
+}
+
+void Player::Accel() {
+	//加速
+	m_Speed += 0.1f;
+	m_Speed = min(m_Speed, m_MaxSpeed);
+}
+
+void Player::Brake() {
+	//減速
+	m_Speed -= 0.1f;
+	m_Speed = max(m_Speed, 0.1f);
 }
 
 void Player::Act() {
